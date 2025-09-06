@@ -1,6 +1,323 @@
-.main {
+
+/* style/boutique.css */
+
+/* Import Google Font pour cohérence */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* Container principal */
+.boutique-main {
+  min-height: calc(100vh - 100px);
+  background: linear-gradient(135deg, #f5f3f0 0%, #e8e3dc 50%, #f9f7f4 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header de la boutique */
+.boutique-header {
   text-align: center;
-  padding: 50px 20px;
-  background-color: #f4f4f4;
-  min-height: calc(100vh - 160px);
+  padding: 60px 20px 40px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Titre principal */
+.boutique-header h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 3.2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #2c6e49 0%, #4a9d6f 50%, #2c6e49 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1.5rem;
+  position: relative;
+  letter-spacing: -0.02em;
+}
+
+/* Ligne décorative sous le titre */
+.boutique-header h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, #4a9d6f, #bcaaa4);
+  border-radius: 2px;
+}
+
+.boutique-header p {
+  font-size: 1.3rem;
+  color: #6b5b57;
+  margin-bottom: 3rem;
+  font-weight: 400;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* Switch pour changer de type de produit */
+.product-type-switch {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50px;
+  padding: 6px;
+  box-shadow: 
+    0 10px 30px rgba(44, 110, 73, 0.1),
+    0 4px 15px rgba(188, 170, 164, 0.15);
+  border: 1px solid rgba(188, 170, 164, 0.2);
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.switch-button {
+  background: transparent;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  color: #6b5b57;
+  position: relative;
+  z-index: 2;
+  letter-spacing: 0.3px;
+}
+
+.switch-button.active {
+  background: linear-gradient(135deg, #4a9d6f 0%, #2c6e49 100%);
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 
+    0 8px 25px rgba(44, 110, 73, 0.3),
+    0 3px 10px rgba(44, 110, 73, 0.2);
+}
+
+.switch-button:not(.active):hover {
+  background: rgba(74, 157, 111, 0.1);
+  color: #2c6e49;
+  transform: translateY(-1px);
+}
+
+/* Contenu principal */
+.boutique-content {
+  padding: 40px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.product-category-section {
+  text-align: center;
+}
+
+.category-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2c6e49;
+  margin-bottom: 2.5rem;
+  position: relative;
+  display: inline-block;
+  padding-left: 0;
+  text-align: left;
+}
+
+.category-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #4a9d6f, #bcaaa4);
+  border-radius: 2px;
+}
+
+/* Grille de produits */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2.5rem;
+  justify-items: center;
+  margin-top: 2rem;
+}
+
+/* Message quand aucun produit */
+.no-products {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  margin: 2rem auto;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(44, 110, 73, 0.08);
+}
+
+.no-products p {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.2rem;
+  color: #8d7a75;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Animations d'apparition */
+.product-category-section {
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.product-category-section:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.product-category-section:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.product-category-section:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animation pour les cartes produits */
+.products-grid .product-card {
+  animation: slideInProduct 0.6s ease forwards;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+}
+
+.products-grid .product-card:nth-child(1) { animation-delay: 0.1s; }
+.products-grid .product-card:nth-child(2) { animation-delay: 0.15s; }
+.products-grid .product-card:nth-child(3) { animation-delay: 0.2s; }
+.products-grid .product-card:nth-child(4) { animation-delay: 0.25s; }
+.products-grid .product-card:nth-child(5) { animation-delay: 0.3s; }
+.products-grid .product-card:nth-child(6) { animation-delay: 0.35s; }
+
+@keyframes slideInProduct {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Effet de transition lors du changement de type */
+.boutique-content {
+  transition: all 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .boutique-header {
+    padding: 40px 15px 30px;
+  }
+  
+  .boutique-header h1 {
+    font-size: 2.5rem;
+  }
+  
+  .boutique-header p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .product-type-switch {
+    flex-direction: column;
+    width: 200px;
+    margin: 0 auto;
+  }
+  
+  .switch-button {
+    padding: 10px 20px;
+    margin: 2px 0;
+  }
+  
+  .boutique-content {
+    padding: 30px 15px;
+  }
+  
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 350px;
+    margin: 0 auto;
+  }
+  
+  .category-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  
+  .product-category-section {
+    margin-bottom: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .boutique-header h1 {
+    font-size: 2rem;
+  }
+  
+  .boutique-header p {
+    font-size: 1rem;
+  }
+  
+  .switch-button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+  
+  .category-title {
+    font-size: 1.6rem;
+    padding-left: 15px;
+  }
+  
+  .category-title::before {
+    width: 4px;
+    height: 30px;
+  }
+  
+  .products-grid {
+    max-width: 300px;
+  }
+}
+
+/* Animation hover pour le titre de catégorie */
+.category-title {
+  transition: all 0.3s ease;
+}
+
+.category-title:hover {
+  transform: translateX(5px);
+}
+
+/* Effet de brillance subtile sur le switch actif */
+.switch-button.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+  border-radius: 50px;
+  pointer-events: none;
 }

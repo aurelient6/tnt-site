@@ -13,7 +13,8 @@ export const servicesData = {
       equipe: "Laure (lien vers section \"Notre équipe\" de la page d'accueil)",
       gallery: [
         "/images/services/toilettage/toilettage2.jpg",
-        "/images/services/toilettage/toilettage3.jpg"
+        "/images/services/toilettage/toilettage3.jpg",
+        "/images/services/toilettage/toilettage4.jpg"
       ]
     },
     {
