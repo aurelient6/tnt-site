@@ -1,0 +1,392 @@
+/* Import Google Font pour cohérence avec services.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* Service Detail Styles */
+.service-detail {
+  background: linear-gradient(135deg, #f5f3f0 0%, #e8e3dc 50%, #f9f7f4 100%);
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* Bouton retour */
+.back-button-container {
+  margin-bottom: 2rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(135deg, #4a9d6f, #2c6e49);
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(44, 110, 73, 0.2);
+  border: none;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(44, 110, 73, 0.3);
+  color: white;
+}
+
+/* Header principal */
+.service-header {
+  display: flex;
+  gap: 3rem;
+  margin-bottom: 3rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(44, 110, 73, 0.1);
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid rgba(188, 170, 164, 0.2);
+}
+
+.service-image-main {
+  flex: 1;
+  min-width: 300px;
+}
+
+.service-image-main img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.service-info-main {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 1rem;
+}
+
+.service-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #2c6e49 0%, #4a9d6f 50%, #2c6e49 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+    transition: all 0.3s ease;
+}
+
+.service-title:hover {
+  transform: translateX(15px);
+}
+
+.service-objectif-main {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #6b5b57;
+  margin-bottom: 1rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #f9f7f4, #e8e3dc);
+  border-radius: 15px;
+  display: inline-block;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', sans-serif;
+  border: 1px solid rgba(188, 170, 164, 0.3);
+}
+
+.service-objectif-main strong {
+  color: #2c6e49;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.service-duration {
+  font-size: 1.2rem;
+  color: #6b5b57;
+  margin-top: 1rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.service-duration strong {
+  color: #2c6e49;
+}
+
+/* Contenu détaillé */
+.service-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.service-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  box-shadow: 0 5px 15px rgba(44, 110, 73, 0.08);
+  border: 1px solid rgba(188, 170, 164, 0.2);
+}
+
+.service-section h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2c6e49;
+  margin-bottom: 1rem;
+  position: relative;
+  display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.service-section h2:hover {
+  transform: translateX(10px);
+}
+
+.service-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, #4a9d6f, #bcaaa4);
+  border-radius: 2px;
+}
+
+.service-section p {
+  font-size: 1.1rem;
+  color: #6b5b57;
+  line-height: 1.6;
+  margin-top: 1rem;
+  font-family: 'Inter', sans-serif;
+}
+
+/*Carrousel*/
+/* Ajoutez ce CSS à votre fichier serviceDetail.css existant */
+
+.image-carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-button:hover {
+  background: white;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-button svg {
+  transition: transform 0.2s ease;
+}
+
+.carousel-button:hover svg {
+  transform: scale(1.1);
+}
+
+.carousel-button-prev {
+  left: 15px;
+}
+
+.carousel-button-next {
+  right: 15px;
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.carousel-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.carousel-indicator.active {
+  background: white;
+  border-color: white;
+}
+
+.carousel-indicator:hover {
+  border-color: white;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive pour les petits écrans */
+@media (max-width: 768px) {
+  .carousel-button {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .carousel-button-prev {
+    left: 10px;
+  }
+  
+  .carousel-button-next {
+    right: 10px;
+  }
+  
+  .carousel-indicators {
+    bottom: 10px;
+  }
+  
+  .carousel-indicator {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+/* Galerie */
+.service-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.gallery-item img:hover {
+  transform: scale(1.05);
+}
+
+/* Call to action */
+.service-cta {
+  text-align: center;
+  padding: 2.5rem 2rem;
+  border-radius: 20px;
+  margin-top: 1rem;
+}
+
+.cta-button {
+  background: linear-gradient(135deg, #4a9d6f 0%, #2c6e49 50%, #4a9d6f 100%);
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 25px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(44, 110, 73, 0.2);
+  margin-bottom: 1rem;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(44, 110, 73, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .service-detail {
+    padding: 1rem;
+  }
+  
+  .service-header {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1.5rem;
+  }
+  
+  .service-info-main {
+    padding-left: 0;
+    text-align: center;
+  }
+  
+  .service-title {
+    font-size: 2.2rem;
+  }
+  
+  .service-objectif-main {
+    font-size: 2rem;
+  }
+  
+  .service-section {
+    padding: 1.5rem;
+  }
+  
+  .service-gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-title {
+    font-size: 1.8rem;
+  }
+  
+  .service-objectif-main {
+    font-size: 1.6rem;
+    padding: 0.8rem 1.5rem;
+  }
+  
+  .back-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}

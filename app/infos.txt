@@ -1,0 +1,15 @@
+Couleurs utilisées:
+
+Service:
+Vert:
+#2c6e49 0%, #4a9d6f 50%, #2c6e49 100%: h1
+
+#2c6e49: h2
+
+Catégorie:
+• bien-être: toilettage/massage/physiotherapie
+• olfaction : maintraning (recherche de personnes)/ hooper (jeux, parcours)/ agility 
+• sport: hydrothérapie/ tapis de course classique
+
+• magasin de vetements
+• magasin de nourriture

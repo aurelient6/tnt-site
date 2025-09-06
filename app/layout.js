@@ -9,11 +9,11 @@ export default function Layout({ children }) {
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Mon Site Web</title>
+        <title>T&T - Votre centre canin multidisciplinaire</title>
       </head>
       <body>
         <Header />
-        <main>{children}</main> {/* Le contenu de chaque page */}
+        <main>{children}</main>
         <Footer />
       </body>
     </html>
