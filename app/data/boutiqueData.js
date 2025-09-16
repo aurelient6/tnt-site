@@ -11,6 +11,9 @@ un article :
 */
 
 // data/boutiqueData.js
+import { PRODUCT_CATEGORIES } from "../constantes/produitsCategories.js";
+import { FOOD_CATEGORIES } from "../constantes/nourritureCategories.js";
+import { MARQUES } from "../constantes/marques.js";
 
 export const boutiqueData = {
   vetements: [
@@ -20,8 +23,8 @@ export const boutiqueData = {
       photo: "/images/boutique/vetements/harnaisVert.jpg",
       prix: 45.99,
       prixSolde: null,
-      marque: "Maxizoo",
-      categorie: "Harnais",
+      marque: MARQUES.ROYALCANIN,
+      categorie: PRODUCT_CATEGORIES.HARNAIS,
       taillesDisponibles: ["S", "M", "L", "XL"],
       couleursDisponibles: [
         { nom: "Noir", hex: "#000000" },
@@ -36,8 +39,8 @@ export const boutiqueData = {
       photo: "/images/boutique/vetements/manteau-elite.jpg",
       prix: 79.99,
       prixSolde: 59.99,
-      marque: "PetStyle",
-      categorie: "Manteaux",
+      marque: MARQUES.PEDIGREE,
+      categorie: PRODUCT_CATEGORIES.MANTEAU,
       taillesDisponibles: ["XS", "S", "M", "L"],
       couleursDisponibles: [
         { nom: "Kaki", hex: "#8d6e63" },
@@ -52,8 +55,8 @@ export const boutiqueData = {
       photo: "/images/boutique/vetements/collier-cuir.jpg",
       prix: 35.00,
       prixSolde: null,
-      marque: "LeatherCraft",
-      categorie: "Colliers",
+      marque: MARQUES.ROYALCANIN,
+      categorie: PRODUCT_CATEGORIES.COLLIER,
       taillesDisponibles: ["S", "M", "L"],
       couleursDisponibles: [
         { nom: "Marron", hex: "#8d6e63" },
@@ -68,8 +71,8 @@ export const boutiqueData = {
       photo: "/images/boutique/vetements/pull-tricot.jpg",
       prix: 29.99,
       prixSolde: 19.99,
-      marque: "WarmPaws",
-      categorie: "Pulls",
+      marque: MARQUES.PURINA,
+      categorie: PRODUCT_CATEGORIES.PULL,
       taillesDisponibles: ["XS", "S", "M", "L", "XL"],
       couleursDisponibles: [
         { nom: "Beige", hex: "#f5f5dc" },
@@ -87,8 +90,8 @@ export const boutiqueData = {
       photo: "/images/boutique/nourriture/croquettes-saumon.jpg",
       prix: 24.99,
       prixSolde: null,
-      marque: "NaturalFeed",
-      categorie: "Croquettes",
+      marque: MARQUES.PEDIGREE,
+      categorie: FOOD_CATEGORIES.CROQUETTE, 
       taillesDisponibles: ["2kg", "5kg", "10kg"],
       couleursDisponibles: [], // Pas de couleurs pour la nourriture
       badge: "Bio"
@@ -99,8 +102,8 @@ export const boutiqueData = {
       photo: "/images/boutique/nourriture/friandises-dentaires.jpg",
       prix: 12.99,
       prixSolde: 9.99,
-      marque: "HealthyBites",
-      categorie: "Friandises",
+      marque: MARQUES.PURINA,
+      categorie: FOOD_CATEGORIES.FRIANDISE,
       taillesDisponibles: ["S", "M", "L"], // Tailles des friandises
       couleursDisponibles: [],
       badge: "Promo"
@@ -111,8 +114,8 @@ export const boutiqueData = {
       photo: "/images/boutique/nourriture/patee-agneau.jpg",
       prix: 18.50,
       prixSolde: null,
-      marque: "PremiumPet",
-      categorie: "Pâtées",
+      marque: MARQUES.TECKELSHOP,
+      categorie: FOOD_CATEGORIES.PATEE,
       taillesDisponibles: ["400g", "800g"],
       couleursDisponibles: [],
       badge: "Nouveau"
@@ -123,8 +126,8 @@ export const boutiqueData = {
       photo: "/images/boutique/nourriture/complement-articulations.jpg",
       prix: 32.99,
       prixSolde: 24.99,
-      marque: "VetCare",
-      categorie: "Compléments",
+      marque: MARQUES.ROYALCANIN,
+      categorie: FOOD_CATEGORIES.COMPLEMENT,
       taillesDisponibles: ["30 comprimés", "60 comprimés", "120 comprimés"],
       couleursDisponibles: [],
       badge: "Promo"

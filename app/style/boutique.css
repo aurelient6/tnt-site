@@ -1,6 +1,3 @@
-
-/* style/boutique.css */
-
 /* Import Google Font pour cohérence */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
@@ -25,7 +22,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 3.2rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #2c6e49 0%, #4a9d6f 50%, #2c6e49 100%);
+  background: linear-gradient(135deg, var(--principale) 0%, var(--secondaire) 50%, var(--principale) 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -43,7 +40,7 @@
   transform: translateX(-50%);
   width: 100px;
   height: 4px;
-  background: linear-gradient(90deg, #4a9d6f, #bcaaa4);
+  background: linear-gradient(90deg, var(--secondaire), #bcaaa4);
   border-radius: 2px;
 }
 
@@ -89,7 +86,7 @@
 }
 
 .switch-button.active {
-  background: linear-gradient(135deg, #4a9d6f 0%, #2c6e49 100%);
+  background: linear-gradient(135deg, var(--secondaire) 0%, var(--principale) 100%);
   color: white;
   transform: scale(1.05);
   box-shadow: 
@@ -99,7 +96,7 @@
 
 .switch-button:not(.active):hover {
   background: rgba(74, 157, 111, 0.1);
-  color: #2c6e49;
+  color: var(--principale);
   transform: translateY(-1px);
 }
 
@@ -118,7 +115,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 2.2rem;
   font-weight: 700;
-  color: #2c6e49;
+  color: var(--principale);
   margin-bottom: 2.5rem;
   position: relative;
   display: inline-block;
@@ -133,7 +130,7 @@
   left: 0;
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, #4a9d6f, #bcaaa4);
+  background: linear-gradient(90deg, var(--secondaire), #bcaaa4);
   border-radius: 2px;
 }
 

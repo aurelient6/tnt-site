@@ -1,6 +1,8 @@
 import '../style/services.css';
 import ServiceCard from '../components/serviceCard.js';
 import { servicesData } from '../data/servicesData.js';
+import { SERVICES_CATEGORIES } from "../constantes/servicesCategories.js";
+
 
 export default function ServicesPage() {
   return (
@@ -14,7 +16,7 @@ export default function ServicesPage() {
         </div>
 
         <div className='services'>
-          <h2>Bien-être</h2>
+          <h2>{SERVICES_CATEGORIES.BIENETRE}</h2>
           <div className="cards-container">
             {servicesData.bienEtre.map((service) => (
               <ServiceCard key={service.id} service={service} />
@@ -23,7 +25,7 @@ export default function ServicesPage() {
         </div>
 
         <div className='services'>
-          <h2>Olfaction</h2>
+          <h2>{SERVICES_CATEGORIES.OLFACTION}</h2>
           <div className="cards-container">
             {servicesData.olfaction.map((service) => (
               <ServiceCard key={service.id} service={service} />
@@ -32,7 +34,7 @@ export default function ServicesPage() {
         </div>
 
         <div className='services'>
-          <h2>Sport</h2>
+          <h2>{SERVICES_CATEGORIES.SPORT}</h2>
           <div className="cards-container">
             {servicesData.sport.map((service) => (
               <ServiceCard key={service.id} service={service} />

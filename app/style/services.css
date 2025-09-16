@@ -20,7 +20,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 3.2rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #2c6e49 0%, #4a9d6f 50%, #2c6e49 100%);
+  background: linear-gradient(135deg, var(--principale) 0%, var(--secondaire) 50%, var(--principale) 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -38,7 +38,7 @@
   transform: translateX(-50%);
   width: 100px;
   height: 4px;
-  background: linear-gradient(90deg, #4a9d6f, #bcaaa4);
+  background: linear-gradient(90deg, var(--secondaire), #bcaaa4);
   border-radius: 2px;
 }
 
@@ -75,7 +75,7 @@ a {
   font-family: 'Inter', sans-serif;
   font-size: 2.2rem;
   font-weight: 700;
-  color: #2c6e49;
+  color: var(--principale);
   margin-bottom: 3rem;
   position: relative;
   display: inline-block;
@@ -93,7 +93,7 @@ a {
   left: 0;
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, #4a9d6f, #bcaaa4);
+  background: linear-gradient(90deg, var(--secondaire), #bcaaa4);
   border-radius: 2px;
 }
 
@@ -132,7 +132,7 @@ a {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #4a9d6f, #bcaaa4, #2c6e49);
+  background: linear-gradient(90deg, var(--secondaire), #bcaaa4, var(--principale));
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -156,7 +156,7 @@ a {
   font-family: 'Inter', sans-serif;
   font-size: 1.4rem;
   font-weight: 700;
-  color: #2c6e49;
+  color: var(--principale);
   text-align: center;
   background: linear-gradient(135deg, #f9f7f4 0%, #f1ede7 100%);
   position: relative;
@@ -231,7 +231,7 @@ a {
   font-size: 1.8rem;
   font-weight: 800;
   color: white;
-  background: linear-gradient(135deg, #4a9d6f 0%, #2c6e49 50%, #4a9d6f 100%);
+  background: linear-gradient(135deg, var(--secondaire) 0%, var(--principale) 50%, var(--secondaire) 100%);
   margin: 0;
   position: relative;
   height: 80px;

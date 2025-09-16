@@ -1,20 +1,3 @@
-/*import '../style/boutique.css';
-
-export default function BoutiquePage() {
-  return (
-    <section>
-        <div>
-            <main className="main">
-              <h1>Bienvenue sur notre page boutique !</h1>
-              <p>Explorez nos produits de la boutique.</p>
-              <div>
-                BOUTON SWITCH 
-              </div>
-            </main>
-        </div>
-    </section>
-  );
-}*/
 'use client';
 
 import { useState } from 'react';
