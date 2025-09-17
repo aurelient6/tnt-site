@@ -1,13 +1,12 @@
-/* Import Google Font pour plus de style */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+/* Import Google Font pour un look professionnel */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 .main {
   text-align: center;
-  padding: 60px 20px 80px;
-  background: linear-gradient(135deg, #f5f3f0 0%, #e8e3dc 50%, #f9f7f4 100%);
+  padding: 80px 20px;
+  background: #fafafa;
   min-height: calc(100vh - 100px);
   position: relative;
-  overflow: hidden;
 }
 
 .main > div {
@@ -15,37 +14,34 @@
   z-index: 2;
 }
 
-/* Titre principal avec style premium */
+/* Titre principal épuré */
 .main h1 {
   font-family: 'Inter', sans-serif;
-  font-size: 3.2rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--principale) 0%, var(--secondaire) 50%, var(--principale) 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
   position: relative;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 
-/* Ligne décorative sous le titre */
+/* Ligne décorative minimaliste */
 .main h1::after {
   content: '';
   position: absolute;
-  bottom: -10px;
+  bottom: -12px;
   left: 50%;
   transform: translateX(-50%);
-  width: 100px;
-  height: 4px;
-  background: linear-gradient(90deg, var(--secondaire), #bcaaa4);
-  border-radius: 2px;
+  width: 60px;
+  height: 2px;
+  background: var(--principale);
+  border-radius: 1px;
 }
 
 .main p {
-  font-size: 1.3rem;
-  color: #6b5b57;
-  margin-bottom: 3rem;
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 4rem;
   font-weight: 400;
   max-width: 600px;
   margin-left: auto;
@@ -56,7 +52,7 @@
 /* Styles pour les cartes cliquables */
 .service-card {
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.3s ease;
 }
 
 /* Supprimer les styles de lien par défaut */
@@ -65,25 +61,21 @@ a {
   color: inherit;
 }
 
-/* Section services avec espacement premium */
+/* Section services avec espacement propre */
 .services {
-  margin-top: 5rem;
+  margin-top: 4rem;
   padding: 0 1rem;
 }
 
 .services h2 {
   font-family: 'Inter', sans-serif;
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: var(--principale);
-  margin-bottom: 3rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2c2c2c;
+  margin-bottom: 2.5rem;
   position: relative;
   display: inline-block;
-  transition: all 0.3s ease;
-}
-
-.services h2:hover {
-  transform: translateX(10px);
+  text-align: left;
 }
 
 .services h2::after {
@@ -91,188 +83,136 @@ a {
   position: absolute;
   bottom: -8px;
   left: 0;
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--secondaire), #bcaaa4);
-  border-radius: 2px;
+  width: 40px;
+  height: 2px;
+  background: var(--principale);
+  border-radius: 1px;
 }
 
-/* Container pour les cartes avec animation */
+/* Container pour les cartes */
 .cards-container {
-  display: flex;
-  gap: 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 300px));
+  gap: 2rem;
   margin-top: 1rem;
   justify-content: center;
-  flex-wrap: wrap;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Cartes premium avec effets avancés */
+/* Cartes professionnelles épurées */
 .service-card {
-  background: linear-gradient(145deg, #ffffff 0%, #fdfcfa 100%);
-  border-radius: 20px;
-  box-shadow: 
-    0 10px 30px rgba(44, 110, 73, 0.08),
-    0 4px 15px rgba(188, 170, 164, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.3s ease;
   cursor: pointer;
-  width: 320px;
-  height: 450px;
+  height: 400px;
   display: flex;
   flex-direction: column;
   position: relative;
-  border: 1px solid rgba(188, 170, 164, 0.2);
-}
-
-.service-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--secondaire), #bcaaa4, var(--principale));
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.service-card:hover::before {
-  opacity: 1;
+  border: 1px solid #e5e5e5;
 }
 
 .service-card:hover {
-  transform: translateY(-15px) scale(1.02);
-  box-shadow: 
-    0 25px 50px rgba(44, 110, 73, 0.15),
-    0 10px 30px rgba(188, 170, 164, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: var(--principale);
 }
 
-/* Titre de la carte avec style élégant */
+/* Titre de la carte */
 .card-title {
-  padding: 2rem 2rem 1.5rem;
+  padding: 1.5rem 1.5rem 1rem;
   margin: 0;
   font-family: 'Inter', sans-serif;
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--principale);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c2c2c;
   text-align: center;
-  background: linear-gradient(135deg, #f9f7f4 0%, #f1ede7 100%);
+  background: #ffffff;
   position: relative;
-  letter-spacing: -0.01em;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-.card-title::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 20%;
-  right: 20%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(188, 170, 164, 0.3), transparent);
-}
-
-/* Container de l'image avec style premium */
+/* Container de l'image */
 .card-image {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  background: linear-gradient(135deg, #fdfcfa 0%, #f8f5f1 100%);
+  background: #fafafa;
   position: relative;
 }
 
-.card-image::before {
+.card-image:empty::before {
   content: '';
   position: absolute;
   inset: 1rem;
-  border-radius: 12px;
-  border: 2px dashed rgba(188, 170, 164, 0.3);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.card-image:empty::before {
-  opacity: 1;
+  border-radius: 4px;
+  border: 2px dashed #ddd;
 }
 
 .card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 12px;
-  max-height: 220px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  max-height: 200px;
   transition: transform 0.3s ease;
 }
 
 .service-card:hover .card-image img {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
-/* Placeholder élégant */
+/* Placeholder discret */
 .card-image:empty::after {
   content: "🐕";
-  font-size: 4rem;
+  font-size: 3rem;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  opacity: 0.4;
+  opacity: 0.3;
 }
 
-/* Prix avec design premium beige/vert */
+/* Prix avec design professionnel */
 .card-price {
-  padding: 0;
+  padding: 1.2rem;
   text-align: center;
   font-family: 'Inter', sans-serif;
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: white;
-  background: linear-gradient(135deg, var(--secondaire) 0%, var(--principale) 50%, var(--secondaire) 100%);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--principale);
   margin: 0;
   position: relative;
-  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
-.card-price::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.2), rgba(255,255,255,0.6), rgba(255,255,255,0.2));
-}
-
-.card-price::after {
-  content: '';
-  position: absolute;
-  inset: 6px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  pointer-events: none;
-}
-
-/* Animation d'apparition pour les cartes */
+/* Animation d'apparition subtile */
 .service-card {
-  animation: fadeInUp 0.6s ease forwards;
+  animation: fadeIn 0.5s ease forwards;
 }
 
 .service-card:nth-child(2) {
   animation-delay: 0.1s;
 }
 
-@keyframes fadeInUp {
+.service-card:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -280,8 +220,51 @@ a {
   }
 }
 
+/* Responsive design */
+@media (max-width: 768px) {
+  .main {
+    padding: 60px 15px;
+  }
+  
+  .main h1 {
+    font-size: 2rem;
+  }
+  
+  .main p {
+    font-size: 1rem;
+  }
+  
+  .services h2 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  
+  .cards-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .service-card {
+    height: 350px;
+  }
+}
 
-/* Effet de brillance au survol */
-.service-card:hover {
-  background: linear-gradient(145deg, #ffffff 0%, #fdfcfa 50%, #ffffff 100%);
+@media (max-width: 480px) {
+  .main {
+    padding: 40px 10px;
+  }
+  
+  .main h1 {
+    font-size: 1.8rem;
+  }
+  
+  .card-title {
+    font-size: 1.1rem;
+    padding: 1.2rem 1rem 0.8rem;
+  }
+  
+  .card-price {
+    font-size: 1.2rem;
+    padding: 1rem;
+  }
 }

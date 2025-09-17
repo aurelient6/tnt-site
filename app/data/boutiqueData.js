@@ -1,16 +1,3 @@
-/*
-un article :
-- nom
-- photo
-- prix
-- marque
-- catégorie
-- tailles disponibles
-- couleurs disponibles
-- badge éventuel
-*/
-
-// data/boutiqueData.js
 import { PRODUCT_CATEGORIES } from "../constantes/produitsCategories.js";
 import { FOOD_CATEGORIES } from "../constantes/nourritureCategories.js";
 import { MARQUES } from "../constantes/marques.js";
@@ -47,7 +34,7 @@ export const boutiqueData = {
         { nom: "Marine", hex: "#1a237e" },
         { nom: "Orange", hex: "#ff5722" }
       ],
-      badge: "Promo"
+      badge: "%"
     },
     {
       id: 3,
@@ -79,7 +66,23 @@ export const boutiqueData = {
         { nom: "Gris", hex: "#808080" },
         { nom: "Bordeaux", hex: "#800020" }
       ],
-      badge: "Promo"
+      badge: "%"
+    },
+    {
+      id: 5,
+      nom: "Harnais confort",
+      photo: "/images/boutique/vetements/harnaisVert.jpg",
+      prix: 45.99,
+      prixSolde: null,
+      marque: MARQUES.ROYALCANIN,
+      categorie: PRODUCT_CATEGORIES.HARNAIS,
+      taillesDisponibles: ["S", "M", "L", "XL"],
+      couleursDisponibles: [
+        { nom: "Noir", hex: "#000000" },
+        { nom: "Rouge", hex: "#e74c3c" },
+        { nom: "Bleu", hex: "#3498db" }
+      ],
+      badge: "Nouveau"
     }
   ],
   
@@ -106,7 +109,7 @@ export const boutiqueData = {
       categorie: FOOD_CATEGORIES.FRIANDISE,
       taillesDisponibles: ["S", "M", "L"], // Tailles des friandises
       couleursDisponibles: [],
-      badge: "Promo"
+      badge: "%"
     },
     {
       id: 7,
@@ -128,9 +131,9 @@ export const boutiqueData = {
       prixSolde: 24.99,
       marque: MARQUES.ROYALCANIN,
       categorie: FOOD_CATEGORIES.COMPLEMENT,
-      taillesDisponibles: ["30 comprimés", "60 comprimés", "120 comprimés"],
+      taillesDisponibles: ["30 comp.", "60 comp.", "120 comp."],
       couleursDisponibles: [],
-      badge: "Promo"
+      badge: "%"
     }
   ]
 };
@@ -173,7 +176,7 @@ export const PRODUCT_TYPES = {
 // Types de badges
 export const BADGE_TYPES = {
   NOUVEAU: 'Nouveau',
-  PROMO: 'Promo'
+  PROMO: '%'
 };
 
 export const CATEGORIES = {
