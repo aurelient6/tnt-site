@@ -44,19 +44,6 @@
   position: relative; /* Pour pouvoir positionner un trait sous le titre */
 }
 
-/* Ajouter un trait sous le titre avec la couleur primaire */
-.title h1::after {
-  content: '';
-  position: absolute;
-  bottom: 20px; /* Espace entre le texte et la ligne */
-  left: 50%; /* Centrer la ligne par rapport au titre */
-  transform: translateX(-100%); /* Centrer la ligne par rapport au titre */
-  width: 80px; /* Largeur du trait */
-  height: 4px; /* Hauteur du trait */
-  background-color: var(--principale); /* La couleur primaire variable */
-  border-radius: 2px; /* Arrondir légèrement les bords du trait */
-}
-
 h2 {
   font-family: 'Inter', sans-serif;
   font-size: 1.8rem;
@@ -235,6 +222,10 @@ h2::after {
 .carteInteractive h2 {
   text-align: center;
   margin-bottom: 2rem;
+}
+
+.carteInteractive a {
+  margin-bottom: 20px;
 }
 
 .map-container {

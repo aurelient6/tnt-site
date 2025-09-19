@@ -64,13 +64,14 @@ export default function ContactPage() {
               <section className='carteInteractive'>
                 <div className="container">
                     <h2>Nous trouver</h2>
+                    <a href="https://www.google.com/maps?q=Rue+de+la+Dîme+14,+4260+Braives" target="_blank">Rue de la Dîme 14, 4260 Braives</a>
                     <div className="map-container">
-                        <iframe 
-                            src="https://www.openstreetmap.org/export/embed.html?bbox=5.091%2C50.617%2C5.097%2C50.621&layer=mapnik&marker=50.6191%2C5.0940"
-                            allowFullScreen="" 
-                            loading="lazy"
-                            title="Localisation OpenStreetMap - Rue de la Dîme 14, 4260 Braives">
-                        </iframe>
+                      <iframe 
+                        src="https://www.openstreetmap.org/export/embed.html?bbox=5.091%2C50.617%2C5.097%2C50.621&layer=mapnik&marker=50.6191%2C5.0940"
+                        allowFullScreen="" 
+                        loading="lazy"
+                        title="Localisation OpenStreetMap - Rue de la Dîme 14, 4260 Braives">
+                      </iframe>
                     </div>
                 </div>
               </section>
