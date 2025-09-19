@@ -4,7 +4,7 @@
     border-radius: 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     padding: 24px;
-    margin: 60px auto 0;
+    margin: 0 auto;
     max-width: 320px;
     text-align: center;
     border: 1px solid var(--principale);
@@ -14,6 +14,11 @@
 .actualites-card:hover {
     transform: translateY(-15px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.actualites-carousel .actualites-card {
+    margin: 0;
+    height: auto;
 }
 
 /* Suppression du rond et ajustement de l'image */

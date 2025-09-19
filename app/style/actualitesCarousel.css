@@ -1,0 +1,283 @@
+/* Section actualités */
+.actualites {
+  position: relative;
+  background-color: #7abf80;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  left: 50%;
+  right: 50%;
+  width: 99.5vw;
+  padding: 40px 20px 60px;
+}
+
+/* Header des actualités */
+.actualites-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.actualites h2 {
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  position: relative;
+  display: inline-block;
+}
+
+.actualites h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+}
+
+.actualites-header p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Container du carrousel */
+.carousel-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  padding: 0 1rem;
+}
+
+/* Boutons de navigation */
+.carousel-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  z-index: 2;
+  flex-shrink: 0; /* Important: empêche les boutons de rétrécir */
+}
+
+.carousel-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.1);
+}
+
+.carousel-btn:active {
+  transform: scale(0.95);
+}
+
+.carousel-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.carousel-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Container principal du carrousel - CORRECTION PRINCIPALE */
+.actualites-carousel {
+  flex: 1;
+  overflow: hidden;
+  max-width: 1000px; /* Largeur optimale pour 3 cartes de 300px + gaps */
+  min-width: 0; /* Important pour le flexbox */
+  position: relative;
+}
+
+/* Track qui contient toutes les pages */
+.actualites-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  width: auto; 
+}
+
+/* Chaque page du carrousel - CORRECTION IMPORTANTE */
+.actualites-page {
+  display: flex;
+  justify-content: left;
+  gap: 1.5rem; /* Réduit de 2rem à 1.5rem */
+  width: 100%;
+  flex-shrink: 0;
+  padding-top: 20px;
+  min-width: 100%; /* S'assure que chaque page fait 100% de la largeur */
+}
+
+/* Slot pour chaque actualité */
+.actualite-slot {
+  flex: 0 0 auto; /* Important: ne pas grandir/rétrécir */
+  width: 300px; /* Largeur fixe pour chaque slot */
+  display: flex;
+  justify-content: center;
+}
+
+/* Indicateurs de pages */
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator--active {
+  background: white;
+  transform: scale(1.2);
+}
+
+.indicator:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* Info page */
+.carousel-info {
+  text-align: center;
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Ajustements pour les cartes d'actualités dans le carrousel */
+.actualites-carousel .actualites-card {
+  margin: 0;
+  width: 100%;
+  max-width: 300px; /* Réduit de 320px à 300px */
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .carousel-container {
+    gap: 1rem;
+  }
+  
+  .actualites-page {
+    gap: 1rem;
+  }
+  
+  .carousel-btn {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .actualite-slot {
+    width: 280px;
+  }
+  
+  .actualites-carousel .actualites-card {
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .actualites {
+    padding: 30px 15px 50px;
+  }
+  
+  .carousel-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+  }
+  
+  .carousel-btn--prev {
+    left: 10px;
+  }
+  
+  .carousel-btn--next {
+    right: 10px;
+  }
+  
+  .actualites-carousel {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .actualites-page {
+    gap: 1rem;
+    padding: 0 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .actualites h2 {
+    font-size: 1.8rem;
+  }
+  
+  .actualites-page {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 50px;
+  }
+  
+  .actualite-slot {
+    width: 300px;
+  }
+  
+  .actualites-carousel .actualites-card {
+    max-width: 300px;
+  }
+  
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .carousel-btn--prev {
+    left: 5px;
+  }
+  
+  .carousel-btn--next {
+    right: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .actualites-page {
+    padding: 0 45px;
+  }
+  
+  .carousel-btn {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .carousel-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}

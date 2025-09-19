@@ -4,7 +4,7 @@ export const actualitesData = {
       id: 1,
       title: "Journée portes ouvertes : venez rencontrer notre équipe",
       date: "15 août 2025",
-      image: "/images/actualites/inauguration.jpg",
+      image: "/images/actualites/journees-portes-ouvertes.jpg",
       description: "Nous organisons une journée portes ouvertes pour vous permettre de rencontrer notre équipe de professionnels passionnés. Découvrez nos différents services, visitez nos installations et posez toutes vos questions sur les soins de vos animaux."
     },
     {

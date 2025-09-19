@@ -6,10 +6,11 @@ import ActualiteAccueil from './components/actualiteAccueil.js';
 import React from 'react';
 import { equipeData } from './data/equipeData.js';
 import { actualitesData } from './data/actualitesData';
-
+import ActualitesCarousel from './components/ActualitesCarousel.js';
+/*que fr pour ameliorer? reproches envers moi? valence ca change qqch? qqch que tu me caches par rappport a Tout, se voir la bas a deux ? quoi amemiorer  */
 export default function HomePage() {
-   const actualitesTriees = actualitesData.actualites.sort((a, b) => b.id - a.id);
-  return (
+    const actualitesTriees = actualitesData.actualites.sort((a, b) => b.id - a.id);
+    return (
       <main className="main">
         <section className='title'>
           <h1>T&T, centre canin multidiscipline</h1>
@@ -68,18 +69,7 @@ export default function HomePage() {
             ))}
           </div>
         </section>
-        <section className='actualites'>
-          <h2>Actualités</h2>
-          <p>Retrouvez les dernières actualités de T&T !</p>
-          <div className="actualites-grid">
-            {actualitesTriees.map((actualite) => (
-              <ActualiteAccueil
-                key={actualite.id}
-                actualite={actualite}
-              />
-            ))}
-          </div>
-        </section>
+        <ActualitesCarousel actualites={actualitesTriees} />
       </main>
   );
 }
