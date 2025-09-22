@@ -46,7 +46,7 @@ export default function ActualitesCarousel({ actualites }) {
   }
   
   return (
-    <section className='actualites'>
+    <section className='actualites' id="actualites">
       <div className="actualites-header">
         <h2>Actualités</h2>
         <p>Retrouvez les dernières actualités de T&T !</p>

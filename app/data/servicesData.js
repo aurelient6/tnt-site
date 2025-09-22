@@ -114,12 +114,26 @@ export const servicesData = {
       equipe: "Laure (lien vers section \"Notre équipe\" de la page d'accueil)",
       gallery: []
     }
+  ],
+    dressage: [
+    {
+      id: 9,
+      name: "Dressage",
+      slug: "dressage",
+      price: "Voir tableau des prix",
+      image: "/images/services/dressage/dressage.jpg",
+      description: "L'apprentissage de comportements et de tâches spécifiques qu'un chien exécute sur un ordre, visant à développer des aptitudes professionnelles ou de loisir",
+      objectif: "Améliorer l'obéissance et l'éducation de votre chien.",
+      duree: "30' à 2h",
+      remarques: "Aucune base nécéssaire, nous nous adaptons au niveau de votre chien pour le faire proresser au mieux",
+      equipe: "Laure (lien vers section \"Notre équipe\" de la page d'accueil)",
+      gallery: []
+    }
   ]
 };
 
-// Fonctions utilitaires pour travailler avec les données
 export const getAllServices = () => {
-  return [...servicesData.bienEtre, ...servicesData.olfaction, ...servicesData.sport];
+  return Object.values(servicesData).flat();
 };
 
 export const getServiceBySlug = (slug) => {

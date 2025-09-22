@@ -41,6 +41,13 @@ export const actualitesData = {
       date: "20 septembre 2025",
       image: "/images/actualites/inauguration.jpg",
       description: "Nous sommes heureux d'annoncer l'inauguration officielle de notre centre canin ! Venez découvrir nos services de toilettage, physiothérapie, dressage et bien plus encore. Des démonstrations en direct et des offres spéciales vous attendent. Ne manquez pas cet événement !"
+    },
+    {
+      id: 7,
+      title: "-30% sur notre service toilettage",
+      date: "22 septembre 2025",
+      image: "/images/actualites/reduction-toilettage.jpg",
+      description: "Pour feter notre premier mois, nous vous offrons une réduction de 30% sur tous les tarifs de toilettage ! N'attendez plus et contactez-nous pour"
     }
   ]
 };

@@ -2,12 +2,11 @@
 
 import './style/accueil.css';
 import EquipeAccueil from './components/equipeAccueil.js';
-import ActualiteAccueil from './components/actualiteAccueil.js';
+import { getAllServices } from './data/servicesData.js';
 import React from 'react';
 import { equipeData } from './data/equipeData.js';
 import { actualitesData } from './data/actualitesData';
 import ActualitesCarousel from './components/ActualitesCarousel.js';
-/*que fr pour ameliorer? reproches envers moi? valence ca change qqch? qqch que tu me caches par rappport a Tout, se voir la bas a deux ? quoi amemiorer  */
 export default function HomePage() {
     const actualitesTriees = actualitesData.actualites.sort((a, b) => b.id - a.id);
     return (
@@ -25,30 +24,11 @@ export default function HomePage() {
                 A travers différentes activités, votre chien trouvera son bonheur: bien-être, olfaction, sport, dressage,...
               </p>
               <ul className='liste-services'>
-                <li>
-                  <a href='/service/olfaction'>Massage</a>
-                </li>
-                <li>
-                  <a href='/service/toilettage'>Toilettage</a>
-                </li>
-                <li>
-                  <a href='/service/physiotherapie'>Physiothérapie</a>
-                </li>
-                <li>
-                  <a href='/service/main-training'>Main-training</a>
-                </li>
-                <li>
-                  <a href='/service/hooper'>Hooper</a>
-                </li>
-                <li>
-                  <a href='/service/agility'>Agility</a>
-                </li>
-                <li>
-                  <a href='/service/hydrotherapie'>Hydrothérapie</a>
-                </li>
-                <li>
-                  <a href='/service/tapis-de-course'>Tapis de course</a>
-                </li>
+                {getAllServices().map((service) => (
+                  <li key={service.id}>
+                    <a href={`/service/${service.slug}`}>{service.name}</a>
+                  </li>
+                ))}
               </ul>
             </div>
             
@@ -58,7 +38,7 @@ export default function HomePage() {
             
           </div>
         </section>
-        <section className='equipe'>
+        <section className='equipe' id="equipe">
           <h2>Notre équipe</h2>
           <div className="equipe-grid">
             {equipeData.equipe.map((membre) => (

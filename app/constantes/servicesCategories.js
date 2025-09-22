@@ -1,7 +1,8 @@
 export const SERVICES_CATEGORIES = {
-  BIENETRE: "Bien-être",
-  OLFACTION: "Olfaction", 
-  SPORT: "Sport"
+  bienEtre: "Bien-être",
+  olfaction: "Olfaction",
+  sport: "Sport",
+  dressage: "Dressage"
 };
 
 //Si besoin d'ajouter des infos en plus du nom
