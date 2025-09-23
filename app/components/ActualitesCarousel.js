@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import '../style/actualitesCarousel.css';
 import ActualiteAccueil from './actualiteAccueil';
+import { INFORMATIONS } from '../constantes/infos.js';
 
 export default function ActualitesCarousel({ actualites }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -49,7 +50,7 @@ export default function ActualitesCarousel({ actualites }) {
     <section className='actualites' id="actualites">
       <div className="actualites-header">
         <h2>Actualités</h2>
-        <p>Retrouvez les dernières actualités de T&T !</p>
+        <p>Retrouvez les dernières actualités de {INFORMATIONS.name} !</p>
       </div>
       
       <div className="carousel-container">

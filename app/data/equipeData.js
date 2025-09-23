@@ -22,7 +22,7 @@ export const equipeData = {
       id: 3,
       name: "Benoit",
       firstName: "Lucie",
-      job: "Masseur canin",
+      job: "Masseuse canine",
       image: "/images/equipe/benoit-lucie.jpg",
       description: "Lucie est spécialisée dans les massages thérapeutiques pour chiens, visant à réduire le stress et soulager les douleurs musculaires, tout en favorisant la détente et la circulation sanguine.",
       service: "Massage thérapeutique"

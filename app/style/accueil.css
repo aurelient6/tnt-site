@@ -10,6 +10,7 @@
   background-image: url('/images/accueil/contact.jpg');
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   height: 350px;
   display: flex;
   justify-content: center;
@@ -22,6 +23,11 @@
   right: 50%;
   width: 99.5vw;
   margin-top: -50px;
+  /* Add a fallback color while image loads */
+  background-color: #333;
+  /* Optimize for faster rendering */
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .title::after {
@@ -43,7 +49,44 @@
   padding: 20px;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
   position: relative;
+  /* Add animation for smoother appearance */
+  animation: fadeInUp 1s ease-out;
 }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add responsive background images for different screen sizes */
+@media (max-width: 768px) {
+  .title {
+    background-image: url('/images/accueil/contact-mobile.jpg'); /* Use smaller image for mobile if available */
+    height: 250px;
+  }
+  
+  .title h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    height: 200px;
+  }
+  
+  .title h1 {
+    font-size: 1.5rem;
+  }
+}
+
+/* ...existing code... */
 
 /* H2 général - centré par défaut */
 h2 {
@@ -80,53 +123,49 @@ h2::after {
   padding: 40px 0;
   margin-top: 0;
   text-align: left;
-  overflow: hidden; /* Pour éviter le débordement de l'image */
+  overflow: hidden;
 }
 
 .description-content {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 50px; /* Ajout de padding pour éviter que le texte touche l'image */
+  padding: 0 50px;
   text-align: left;
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 300px; /* Texte à gauche, espace pour image à droite */
+  grid-template-columns: 1fr 300px;
   gap: 50px;
   align-items: center;
 }
 
-/* Container du texte */
 .description-text {
   z-index: 2;
   position: relative;
 }
 
-/* Image ronde à droite */
 .description-image {
   position: relative;
   z-index: 1;
-  justify-self: center; /* Centre l'image dans sa colonne */
+  justify-self: center;
 }
 
 .description-image img {
   width: 600px;
   height: 300px;
-  border-radius: 50%; /* Rend l'image parfaitement ronde */
-  object-fit: cover; /* Recadre l'image pour remplir le cercle */
-  object-position: center; /* Centre le recadrage */
-  border: 5px solid rgba(255, 255, 255, 0.3); /* Bordure subtile */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Ombre élégante */
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  border: 5px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
 }
 
-/* Effet hover sur l'image */
 .description-image img:hover {
   transform: scale(1.1);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Styles existants pour le contenu texte */
 .description h2 {
   color: white;
   margin: 0 0 1.5rem 0;
@@ -156,7 +195,6 @@ h2::after {
   text-align: left;
 }
 
-/* Liste des services */
 .liste-services {
   list-style: none;
   padding: 0;
@@ -255,6 +293,6 @@ h2::after {
   color: white;
 }
 
-.actualites h2 ::after {
+.actualites h2::after {
   background: white;
 }

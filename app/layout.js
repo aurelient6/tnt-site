@@ -2,18 +2,20 @@
 import './style/globals.css';
 import Header from './components/header';
 import Footer from './components/footer';
+import { INFORMATIONS } from './constantes/infos';
 
-export default function Layout({ children }) {
+export const metadata = {
+  title: `${INFORMATIONS.name} - Votre centre canin multidisciplinaire`,
+  description: `Contactez ${INFORMATIONS.name} au ${INFORMATIONS.phone} - ${INFORMATIONS.address}`,
+  charset: 'UTF-8',
+};
+
+export default function RootLayout({ children }) {
   return (
     <html lang="fr">
-      <head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>T&T - Votre centre canin multidisciplinaire</title>
-      </head>
       <body>
         <Header />
-          <main>{children}</main>
+        <main>{children}</main>
         <Footer />
       </body>
     </html>
