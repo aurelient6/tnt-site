@@ -140,7 +140,7 @@ h2::after {
 .vertical-line { 
   width: 1px;
   height: 100px;
-  background-color: #ccc;
+  background-color: #ccc ;
   margin: 0 30px;
 }
 
