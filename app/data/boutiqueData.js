@@ -178,11 +178,6 @@ export const BADGE_TYPES = {
   BIO: 'Bio'
 };
 
-export const CATEGORIES = {
-  HARNAIS: 'Harnais',
-  COLLIER: 'Collier',
-  PULL: 'Pull'
-};
 
 export const ITEMS_PER_PAGE = 6;
 

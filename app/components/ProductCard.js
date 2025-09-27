@@ -7,10 +7,12 @@ export default function ProductCard({ product }) {
 
   const handleContactForProduct = () => {
     // Create a pre-filled contact message
-    const message = `
-    Bonjour, je suis intéressé(e) par le produit: ${product.nom} (${product.marque})
-    J'aimerais ... examplaires de ce produit.
+    const message = `Bonjour, je suis intéressé(e) par le produit: ${product.nom} (${product.marque})
+    J'aimerais ... examplaire(s) de ce produit.
     
+    Nom: ...
+    Numéro de téléphone: ...
+    Merci !
     `;
     const mailtoLink = `mailto:${INFORMATIONS.email}?subject=Demande produit: ${product.nom}&body=${encodeURIComponent(message)}`;
     window.location.href = mailtoLink;
@@ -97,7 +99,7 @@ export default function ProductCard({ product }) {
             <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
-            Réserver
+            Réserver ce produit
           </button>
         </div>
       </div>

@@ -1,5 +1,3 @@
-export * from './infos';
-
 export const INFORMATIONS = {
   name: "T&T",
   phone: "+32 123 45 67 89",

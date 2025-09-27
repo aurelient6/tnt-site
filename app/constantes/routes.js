@@ -1,7 +1,3 @@
-import { Contact } from 'lucide-react';
-
-export * from './routes';
-
 export const ROUTES = {
   accueil: "/",
   services: "/services",
