@@ -1,8 +1,20 @@
 import { calculateDiscount } from '../data/boutiqueData';
 import '../style/productCard.css';
+import { INFORMATIONS } from '../constantes/infos';
 
 export default function ProductCard({ product }) {
   const discountPercentage = calculateDiscount(product.prix, product.prixSolde);
+
+  const handleContactForProduct = () => {
+    // Create a pre-filled contact message
+    const message = `
+    Bonjour, je suis intéressé(e) par le produit: ${product.nom} (${product.marque})
+    J'aimerais ... examplaires de ce produit.
+    
+    `;
+    const mailtoLink = `mailto:${INFORMATIONS.email}?subject=Demande produit: ${product.nom}&body=${encodeURIComponent(message)}`;
+    window.location.href = mailtoLink;
+  };
 
   return (
     <div className="product-card">
@@ -45,36 +57,49 @@ export default function ProductCard({ product }) {
           )}
         </div>
 
-        {/* Tailles disponibles */}
-        {product.taillesDisponibles && product.taillesDisponibles.length > 0 && (
-          <div className="product-sizes">
-            <span className="options-label">Tailles :</span>
-            <div className="sizes-container">
-              {product.taillesDisponibles.map((taille, index) => (
-                <span key={index} className="size-option">
-                  {taille}
-                </span>
-              ))}
+        {/* Product details */}
+        <div className="product-details">
+          {/* Tailles disponibles */}
+          {product.taillesDisponibles && product.taillesDisponibles.length > 0 && (
+            <div className="product-sizes">
+              <span className="options-label">Tailles :</span>
+              <div className="sizes-container">
+                {product.taillesDisponibles.map((taille, index) => (
+                  <span key={index} className="size-option">
+                    {taille}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Couleurs disponibles */}
-        {product.couleursDisponibles && product.couleursDisponibles.length > 0 && (
-          <div className="product-colors">
-            <span className="options-label">Couleurs :</span>
-            <div className="colors-container">
-              {product.couleursDisponibles.map((couleur, index) => (
-                <div 
-                  key={index} 
-                  className="color-option"
-                  style={{ backgroundColor: couleur.hex }}
-                  title={couleur.nom}
-                />
-              ))}
+          {/* Couleurs disponibles */}
+          {product.couleursDisponibles && product.couleursDisponibles.length > 0 && (
+            <div className="product-colors">
+              <span className="options-label">Couleurs :</span>
+              <div className="colors-container">
+                {product.couleursDisponibles.map((couleur, index) => (
+                  <div 
+                    key={index} 
+                    className="color-option"
+                    style={{ backgroundColor: couleur.hex }}
+                    title={couleur.nom}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
+
+        {/* Action buttons */}
+        <div className="product-actions">
+          <button className="btn-contact-primary" onClick={handleContactForProduct}>
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            Réserver
+          </button>
+        </div>
       </div>
     </div>
   );

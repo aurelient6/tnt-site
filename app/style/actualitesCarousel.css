@@ -1,7 +1,7 @@
 /* Section actualités */
 .actualites {
   position: relative;
-  background-color: #7abf80;
+  background-color: var(--secondaire);
   margin-left: -50vw;
   margin-right: -50vw;
   left: 50%;

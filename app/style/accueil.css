@@ -93,7 +93,7 @@ h2 {
   font-family: 'Inter', sans-serif;
   font-size: 1.8rem;
   font-weight: 600;
-  color: #2c2c2c;
+  color: var(--text-primary);
   margin-bottom: 2.5rem;
   position: relative;
   display: inline-block;
@@ -114,7 +114,7 @@ h2::after {
 /* Section description avec image */
 .description {
   position: relative;
-  background-color: #7abf80;
+  background-color: var(--secondaire);
   margin-left: -50vw;
   margin-right: -50vw;
   left: 50%;
@@ -270,7 +270,7 @@ h2::after {
 
 .actualites {
   position: relative;
-  background-color: #7abf80;
+  background-color: var(--secondaire);
   margin-left: -50vw;
   margin-right: -50vw;
   left: 50%;

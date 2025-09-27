@@ -6,7 +6,7 @@ export const boutiqueData = {
   vetements: [
     {
       id: 1,
-      nom: "Harnais confort",
+      nom: "Harnais comfort",
       photo: "/images/boutique/vetements/harnaisVert.jpg",
       prix: 45.99,
       prixSolde: null,
@@ -18,12 +18,12 @@ export const boutiqueData = {
         { nom: "Rouge", hex: "#e74c3c" },
         { nom: "Bleu", hex: "#3498db" }
       ],
-      badge: "Nouveau"
+      badge: "New"
     },
     {
       id: 2,
       nom: "Manteau Imperméable Elite",
-      photo: "/images/boutique/vetements/manteau-elite.jpg",
+      photo: "/images/boutique/vetements/manteau-elite.png",
       prix: 79.99,
       prixSolde: 59.99,
       marque: MARQUES.PEDIGREE,
@@ -67,22 +67,6 @@ export const boutiqueData = {
         { nom: "Bordeaux", hex: "#800020" }
       ],
       badge: "%"
-    },
-    {
-      id: 5,
-      nom: "Harnais confort",
-      photo: "/images/boutique/vetements/harnaisVert.jpg",
-      prix: 45.99,
-      prixSolde: null,
-      marque: MARQUES.ROYALCANIN,
-      categorie: PRODUCT_CATEGORIES.HARNAIS,
-      taillesDisponibles: ["S", "M", "L", "XL"],
-      couleursDisponibles: [
-        { nom: "Noir", hex: "#000000" },
-        { nom: "Rouge", hex: "#e74c3c" },
-        { nom: "Bleu", hex: "#3498db" }
-      ],
-      badge: "Nouveau"
     }
   ],
   
@@ -96,7 +80,7 @@ export const boutiqueData = {
       marque: MARQUES.PEDIGREE,
       categorie: FOOD_CATEGORIES.CROQUETTE, 
       taillesDisponibles: ["2kg", "5kg", "10kg"],
-      couleursDisponibles: [], // Pas de couleurs pour la nourriture
+      couleursDisponibles: [],
       badge: "Bio"
     },
     {
@@ -107,7 +91,7 @@ export const boutiqueData = {
       prixSolde: 9.99,
       marque: MARQUES.PURINA,
       categorie: FOOD_CATEGORIES.FRIANDISE,
-      taillesDisponibles: ["S", "M", "L"], // Tailles des friandises
+      taillesDisponibles: ["S", "M", "L"],
       couleursDisponibles: [],
       badge: "%"
     },
@@ -121,7 +105,7 @@ export const boutiqueData = {
       categorie: FOOD_CATEGORIES.PATEE,
       taillesDisponibles: ["400g", "800g"],
       couleursDisponibles: [],
-      badge: "Nouveau"
+      badge: "New"
     },
     {
       id: 8,
@@ -161,6 +145,20 @@ export const getProductsByCategory = (type, category) => {
   return getProductsByType(type).filter(product => product.categorie === category);
 };
 
+// New function to get all brands for a product type
+export const getAllBrands = (type) => {
+  const products = getProductsByType(type);
+  const brands = [...new Set(products.map(product => product.marque))];
+  return brands.sort();
+};
+
+// New function to get all badges for a product type
+export const getAllBadges = (type) => {
+  const products = getProductsByType(type);
+  const badges = [...new Set(products.map(product => product.badge).filter(badge => badge !== null))];
+  return badges.sort();
+};
+
 // Fonction pour calculer le pourcentage de réduction
 export const calculateDiscount = (prix, prixSolde) => {
   if (!prixSolde) return null;
@@ -175,12 +173,44 @@ export const PRODUCT_TYPES = {
 
 // Types de badges
 export const BADGE_TYPES = {
-  NOUVEAU: 'Nouveau',
-  PROMO: '%'
+  NOUVEAU: 'New',
+  PROMO: '%',
+  BIO: 'Bio'
 };
 
 export const CATEGORIES = {
   HARNAIS: 'Harnais',
   COLLIER: 'Collier',
   PULL: 'Pull'
+};
+
+export const ITEMS_PER_PAGE = 6;
+
+export const paginateProducts = (products, page, itemsPerPage = ITEMS_PER_PAGE) => {
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  
+  return {
+    products: products.slice(startIndex, endIndex),
+    totalProducts: products.length,
+    totalPages: Math.ceil(products.length / itemsPerPage),
+    currentPage: page,
+    hasNextPage: page < Math.ceil(products.length / itemsPerPage),
+    hasPreviousPage: page > 1,
+    itemsPerPage
+  };
+};
+
+export const getPageInfo = (totalItems, currentPage, itemsPerPage = ITEMS_PER_PAGE) => {
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startItem = (currentPage - 1) * itemsPerPage + 1;
+  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+  
+  return {
+    totalPages,
+    startItem,
+    endItem,
+    hasNextPage: currentPage < totalPages,
+    hasPreviousPage: currentPage > 1
+  };
 };

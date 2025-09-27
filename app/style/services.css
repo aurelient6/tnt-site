@@ -4,7 +4,7 @@
 .main {
   text-align: center;
   padding: 80px 20px;
-  background: #fafafa;
+  background: var(--background-light);
   min-height: calc(100vh - 100px);
   position: relative;
 }
@@ -71,7 +71,7 @@ a {
   font-family: 'Inter', sans-serif;
   font-size: 1.8rem;
   font-weight: 600;
-  color: #2c2c2c;
+  color: var(--text-primary);
   margin-bottom: 2.5rem;
   position: relative;
   display: inline-block;
@@ -103,7 +103,7 @@ a {
 
 /* Cartes professionnelles épurées */
 .service-card {
-  background: #ffffff;
+  background: var(--background);
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -129,9 +129,9 @@ a {
   font-family: 'Inter', sans-serif;
   font-size: 1.2rem;
   font-weight: 600;
-  color: #2c2c2c;
+  color: var(--text-primary);
   text-align: center;
-  background: #ffffff;
+  background: var(--background);
   position: relative;
   border-bottom: 1px solid #f0f0f0;
 }
@@ -143,7 +143,7 @@ a {
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  background: #fafafa;
+  background: var(--background-light);
   position: relative;
 }
 
@@ -186,7 +186,7 @@ a {
   font-family: 'Inter', sans-serif;
   font-size: 1.4rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--background);
   background: var(--principale);
   margin: 0;
   position: relative;
