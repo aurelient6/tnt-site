@@ -137,7 +137,7 @@ h2::after {
 }
 
 /* Ligne verticale au centre */
-.vertical-line {
+.vertical-line { 
   width: 1px;
   height: 100px;
   background-color: #ccc;
