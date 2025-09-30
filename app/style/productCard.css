@@ -37,7 +37,7 @@
 }
 
 .product-badge.new {
-  background: linear-gradient(135deg, var(--secondaire), var(--principale));
+  background: var(--principale);
   color: white;
 }
 
@@ -47,7 +47,7 @@
 }
 
 .product-badge.bio {
-  background: linear-gradient(135deg, #27ae60, #229954);
+  background: var(--principale);
   color: white;
 }
 

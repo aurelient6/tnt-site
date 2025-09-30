@@ -44,7 +44,7 @@ export default function HomePage() {
                 </ul>
               </div>
               
-              <div className="description-image">
+              <div className="description-image"> 
                 <img 
                   src="/images/accueil/description.jpg" 
                   alt={`Chien heureux chez ${INFORMATIONS.name}`}

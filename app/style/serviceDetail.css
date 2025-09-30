@@ -192,7 +192,7 @@
 
 .carousel-indicator {
   width: 10px;
-  height: 10px;
+  height: 12px;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.7);
   background: transparent;
@@ -216,6 +216,7 @@
 .service-section {
   background: var(--background);
   padding: 2.5rem;
+  padding-top: 1rem;
   border-radius: 12px;
   box-shadow: var(--shadow-light);
   border: 1px solid var(--border-light);
