@@ -255,6 +255,7 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
+  font-family: Inter, sans-serif;
 }
 
 .btn-contact-primary:hover {

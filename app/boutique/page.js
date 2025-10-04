@@ -136,7 +136,7 @@ export default function BoutiquePage() {
         <p>
           Découvrez notre sélection de produits pour le bien-être de votre compagnon.
           <br/>
-          Contactez-nous pour commander ou obtenir plus d'informations !
+          Contactez-nous pour commander ou obtenir plus d&apos;informations !
         </p>
        
         {/* Switch pour changer de type */}

@@ -29,7 +29,7 @@ export default function HomePage() {
           <section className='description'>
             <div className="description-content">
               <div className="description-text">
-                <h2>{INFORMATIONS.name}, c'est quoi?</h2>
+                <h2>{INFORMATIONS.name}, c&apos;est quoi?</h2>
                 <p>
                   Nous sommes un endroit pensé pour le bien-être et le dressage de votre chien ! 
                   <br/>

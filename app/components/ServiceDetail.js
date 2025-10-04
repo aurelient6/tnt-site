@@ -212,7 +212,7 @@ export default function ServiceDetail({ service }) {
           <div className="cta-card">
             <div className="cta-card-content">
               <InfoIcon className="cta-card-icon" />
-              <h4>Plus d'informations</h4>
+              <h4>Plus d&apos;informations</h4>
               <p>Besoin de détails supplémentaires ? Contactez notre équipe.</p>
             </div>
             <Link href={ROUTES.contact} className="cta-card-button">
