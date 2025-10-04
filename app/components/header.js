@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import '../style/header.css';
 import { INFORMATIONS } from '../constantes/infos.js';
 import { ROUTES } from '../constantes/routes.js';
+import Image from 'next/image';
 
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
@@ -39,10 +40,12 @@ export default function Header() {
     <header className={`header ${isVisible ? 'header-visible' : 'header-hidden'}`}>
       <div className="container">
         <div className="logo">
-          <img
+          <Image
             src="/images/logo/logo.png"
             alt={`Logo ${INFORMATIONS.name}`}
             loading="lazy"
+            width={55}
+            height={55}
           />
           <a href={ROUTES.accueil} className="logoText" aria-label="Retour à l'accueil">
             {INFORMATIONS.name}

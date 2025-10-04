@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function ServiceCard({ service }) {
   // Convertir le nom en slug pour l'URL
@@ -17,7 +18,7 @@ export default function ServiceCard({ service }) {
         <h3 className="card-title">{service.name}</h3>
         <div className="card-image">
           {service.image ? (
-            <img src={service.image} alt={service.name} />
+            <Image src={service.image} alt={service.name} width={200} height={200} />
           ) : (
             <div className="card-image-placeholder">
               🐕

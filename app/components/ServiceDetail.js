@@ -5,6 +5,7 @@ import Link from 'next/link';
 import '../style/serviceDetail.css';
 import { equipeData } from '../data/equipeData';
 import { ROUTES } from '../constantes/routes.js';
+import Image from 'next/image';
 
 export default function ServiceDetail({ service }) {
   const allImages = [service.image, ...(service.gallery || [])].filter(Boolean);
@@ -73,10 +74,11 @@ export default function ServiceDetail({ service }) {
   );
 
   const SupportIcon = () => (
-    <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25A9.75 9.75 0 002.25 12c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 114.5 0c0 .414.336.75.75.75H16.5a9.75 9.75 0 00-4.5-9.75z" />
+    <svg width="48" height="48" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z" />
     </svg>
   );
+  
 
   return (
     <section className="service-detail">
@@ -113,10 +115,14 @@ export default function ServiceDetail({ service }) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 18L9 12L15 6" />
                 </svg>
               </button>
-              <img 
+              <Image 
                 src={allImages[currentImageIndex]} 
                 alt={`${service.name} ${currentImageIndex + 1}`}
                 className="carousel-image"
+                height={400}
+                width={400}
+                objectFit="cover"
+                loading="lazy"
               />
               <button 
                 className="carousel-button carousel-button-next" 
@@ -139,7 +145,14 @@ export default function ServiceDetail({ service }) {
               </div>
             </div>
           ) : (
-            <img src={service.image} alt={service.name} />
+            <Image
+              src={service.image}
+              alt={service.name}
+              width={400}
+              height={400}
+              objectFit="cover"
+              loading="lazy"
+            />
           )}
         </div>
         
@@ -189,9 +202,12 @@ export default function ServiceDetail({ service }) {
           {responsablePerson ? (
             <div className="team-member-profile">
               <div className="member-image">
-                <img 
+                <Image 
                   src={responsablePerson.image} 
                   alt={`${responsablePerson.firstName} ${responsablePerson.name}`}
+                  width={120}
+                  height={120}
+                  objectFit="cover"
                   loading="lazy"
                 />
               </div>

@@ -1,6 +1,7 @@
 import { calculateDiscount } from '../data/boutiqueData';
 import '../style/productCard.css';
 import { INFORMATIONS } from '../constantes/infos';
+import Image from 'next/image';
 
 export default function ProductCard({ product }) {
   const discountPercentage = calculateDiscount(product.prix, product.prixSolde);
@@ -30,7 +31,14 @@ export default function ProductCard({ product }) {
       {/* Image du produit */}
       <div className="product-image">
         {product.photo ? (
-          <img src={product.photo} alt={product.nom} />
+          <Image
+            src={product.photo}
+            alt={product.nom}
+            width={200}
+            height={200}
+            objectFit="cover"
+            loading="lazy"
+          />
         ) : (
           <div className="product-image-placeholder">
             📦

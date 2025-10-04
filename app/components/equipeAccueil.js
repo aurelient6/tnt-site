@@ -1,14 +1,19 @@
 import React from 'react';
 import '../style/equipeAccueil.css'
+import Image from 'next/image';
 
 export default function EquipeAccueil({ membre }) {
   return (
     <div className="equipe-card">
       <div className="equipe-card__image-container">
-        <img 
-          src={membre.image} 
+        <Image 
+          src={membre.image}  
           alt={`${membre.firstName} ${membre.name}`}
           className="equipe-card__image"
+          width={120}   
+          height={120}  
+          style={{ objectFit: 'cover', objectPosition: 'center' }}
+          loading="lazy"  
         />
       </div>
       

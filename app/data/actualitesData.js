@@ -4,7 +4,7 @@ export const actualitesData = {
       id: 1,
       title: "Journée portes ouvertes : venez rencontrer notre équipe",
       date: "15 août 2025",
-      image: "/images/actualites/journees-portes-ouvertes.jpg",
+      image: "/images/actualites/portes-ouvertes.jpg",
       description: "Nous organisons une journée portes ouvertes pour vous permettre de rencontrer notre équipe de professionnels passionnés. Découvrez nos différents services, visitez nos installations et posez toutes vos questions sur les soins de vos animaux."
     },
     {
@@ -46,7 +46,7 @@ export const actualitesData = {
       id: 7,
       title: "-30% sur notre service toilettage",
       date: "22 septembre 2025",
-      image: "/images/actualites/reduction-toilettage.jpg",
+      image: "/images/actualites/-30-toilettage.jpg",
       description: "Pour feter notre premier mois, nous vous offrons une réduction de 30% sur tous les tarifs de toilettage ! N'attendez plus et contactez-nous pour"
     }
   ]

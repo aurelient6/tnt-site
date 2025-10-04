@@ -83,7 +83,6 @@
 .service-image-main img,
 .carousel-image {
   width: 100%;
-  height: 400px;
   object-fit: cover;
   border-radius: 12px;
   box-shadow: var(--shadow-medium);
@@ -354,8 +353,6 @@
 }
 
 .member-image img {
-  width: 120px;
-  height: 120px;
   object-fit: cover;
   border-radius: 12px;
   border: 2px solid var(--border-light);

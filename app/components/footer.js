@@ -2,6 +2,7 @@
 import '../style/footer.css';
 import { INFORMATIONS } from '../constantes/infos.js';
 import { ROUTES } from '../constantes/routes';
+import Image from 'next/image';
 
 // Icon components
 const FacebookIcon = ({ className }) => (
@@ -19,12 +20,12 @@ const EarthIcon = ({ className }) => (
 // Data configuration
 const SOCIAL_LINKS = [
   {
-    name: 'Facebook',
+    name: 'Notre Facebook',
     href: 'https://facebook.com',
     icon: <FacebookIcon className="size-6" />,
   },
   {
-    name: 'Site Web',
+    name: 'Notre partenaire',
     href: 'https://twisterbedbug.com',
     icon: <EarthIcon className="size-6" />,
   },
@@ -80,11 +81,13 @@ const Footer = () => {
           {/* Company info section */}
           <div>
             <a href={ROUTES.accueil} className="footer-logo-link" aria-label="Retour à l'accueil">
-              <img
+              <Image
                 src="/images/logo/logo.png"
                 className="footer-logo"
                 alt={`Logo ${INFORMATIONS.name}`}
                 loading="lazy"
+                width={120}
+                height={40}
               />
               <h2 className="footer-title">{INFORMATIONS.name}</h2>
             </a>
@@ -137,7 +140,7 @@ const Footer = () => {
               <li key={name}>
                 <a
                   href={href}
-                  title={`Suivez-nous sur ${name}`}
+                  title={`${name}`}
                   className="footer-social-link"
                   target="_blank"
                   rel="noopener noreferrer"
