@@ -86,7 +86,6 @@
     text-align: left;
     flex: 1; /* Take remaining space */
     display: -webkit-box;
-    -webkit-line-clamp: 8; /* Increased from 5 to 8 lines */
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -95,7 +94,7 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .actualites-card {
-        max-width: 280px;
+        max-width: 350px;
     }
     
     .actualites-card__image-container {
@@ -121,6 +120,9 @@
 @media (max-width: 480px) {
     .actualites-card {
         max-width: 260px;
+        justify-content: center;
+        text-align: center;
+        left: 18%;
     }
     
     .actualites-card__image-container {
