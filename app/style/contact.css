@@ -1,5 +1,5 @@
 .main {
-  padding: 0 100px 50px 100px; /* Supprime le padding-top */
+  padding: 0 100px 50px 100px;
   background-color: #f4f4f4;
   min-height: calc(100vh - 160px);
 }
@@ -20,28 +20,27 @@
   left: 50%;
   right: 50%;
   width: 99.5vw;
-  margin-top: 0px; /* Remonte l'image pour compenser */
+  margin-top: 0px;
 }
 
-/* Overlay pour améliorer la lisibilité du texte */
 .title::after {
-  content: ''; /* Vide */
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Un overlay noir avec 50% de transparence */
-  z-index: -1; /* L'overlay est derrière le texte */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
 }
 
 .title h1 {
-  font-size: 3rem; /* Taille du titre */
+  font-size: 3rem;
   font-weight: bold;
-  margin: 0; /* Retirer les marges */
-  padding: 20px; /* Un peu d'espace autour du texte */
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Ombre pour améliorer la lisibilité du texte */
-  position: relative; /* Pour pouvoir positionner un trait sous le titre */
+  margin: 0;
+  padding: 20px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  position: relative;
 }
 
 h2 {
@@ -89,7 +88,6 @@ h2::after {
   text-align: left;
 }
 
-/* Colonne de gauche avec Grid pour aligner les icônes */
 .contact-left {
   display: grid;
   grid-template-columns: 1fr auto auto;
@@ -99,7 +97,7 @@ h2::after {
 }
 
 .contact-left .contact-item {
-  display: contents; /* Permet aux enfants de participer à la grille parente */
+  display: contents;
 }
 
 .contact-left .contact-item svg {
@@ -111,13 +109,18 @@ h2::after {
 
 .contact-left .contact-item a {
   grid-column: 3;
-  margin: 0 30px 0 10px; /* Marge droite fixe pour l'espacement avec la ligne */
+  margin: 0 30px 0 10px;
   text-align: right;
   font-size: 1rem;
   color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-/* Colonne de droite - style standard */
+.contact-left .contact-item a:hover {
+  color: var(--principale);
+}
+
 .contact-right .contact-item {
   display: flex;
   align-items: center;
@@ -131,20 +134,19 @@ h2::after {
   flex-shrink: 0;
 }
 
-.contact-right .contact-item a {
+.contact-right .contact-item span {
   font-size: 1rem;
   color: #333;
 }
 
-/* Ligne verticale au centre */
 .vertical-line { 
   width: 1px;
   height: 100px;
-  background-color: #ccc ;
+  background-color: #ccc;
   margin: 0 30px;
 }
 
-/*Horaires*/
+/* Horaires */
 .horaires {
   display: flex;
   flex-direction: column;
@@ -181,7 +183,6 @@ h2::after {
   padding: 0.5rem 0;
 }
 
-/* Ligne verticale pour les horaires */
 .vertical-line-horaires {
   width: 1px;
   height: 150px;
@@ -189,7 +190,6 @@ h2::after {
   margin: 0 30px;
 }
 
-/* last-day centré en bas */
 .last-day-container {
   width: 100%;
   display: flex;
@@ -201,8 +201,7 @@ h2::after {
   font-weight: 500;
 }
 
-/*carte interactive*/
-/* Section Carte Interactive */
+/* Carte interactive */
 .carteInteractive {
   display: flex;
   flex-direction: column;
@@ -226,6 +225,15 @@ h2::after {
 
 .carteInteractive a {
   margin-bottom: 20px;
+  color: var(--principale);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.carteInteractive a:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
 }
 
 .map-container {
@@ -248,7 +256,7 @@ h2::after {
   border-radius: 8px;
 }
 
-/*Infos pratiques*/
+/* Infos pratiques */
 .infosPratiques {
   display: flex;
   flex-direction: column;
@@ -299,4 +307,324 @@ h2::after {
   color: #333;
   font-weight: 400;
   line-height: 1.5;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet (1024px and below) */
+@media (max-width: 1024px) {
+  .main {
+    padding: 0 50px 40px 50px;
+  }
+  
+  .title {
+    height: 250px;
+  }
+  
+  .title h1 {
+    font-size: 2.5rem;
+  }
+  
+  h2 {
+    font-size: 1.6rem;
+  }
+  
+  .contact-container {
+    width: 90%;
+  }
+  
+  .vertical-line {
+    margin: 0 20px;
+  }
+  
+  .horaires-container {
+    width: 90%;
+  }
+  
+  .vertical-line-horaires {
+    margin: 0 20px;
+  }
+}
+
+/* Tablet Portrait and Mobile Landscape (768px and below) */
+@media (max-width: 768px) {
+  .main {
+    padding: 0 20px 30px 20px;
+  }
+  
+  .title {
+    height: 200px;
+  }
+  
+  .title h1 {
+    font-size: 2rem;
+    padding: 15px;
+  }
+  
+  h2 {
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* Contact Section - Keep two columns but smaller */
+  .contact-container {
+    width: 100%;
+    gap: 0;
+  }
+  
+  .contact-left,
+  .contact-right {
+    width: 45%;
+  }
+  
+  .contact-left {
+    grid-template-columns: auto auto;
+    gap: 0.8rem 0;
+  }
+  
+  .contact-left .contact-item svg {
+    grid-column: 1;
+    width: 50px;
+    height: 18px;
+  }
+  
+  .contact-left .contact-item a {
+    grid-column: 2;
+    margin: 0 0 0 8px;
+    font-size: 0.9rem;
+  }
+  
+  .contact-right {
+    gap: 0.8rem;
+  }
+  
+  .contact-right .contact-item {
+    gap: 8px;
+  }
+  
+  .contact-right .contact-item svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .contact-right .contact-item span {
+    font-size: 0.9rem;
+  }
+  
+  .vertical-line {
+    height: 80px;
+    margin: 0 15px;
+  }
+  
+  /* Horaires Section - Keep two columns but smaller */
+  .horaires-container {
+    width: 100%;
+    gap: 0;
+  }
+  
+  .horaires-left,
+  .horaires-right {
+    width: 45%;
+    gap: 0.3rem;
+  }
+  
+  .horaire-item {
+    font-size: 0.9rem;
+    padding: 0.3rem 0;
+  }
+  
+  .vertical-line-horaires {
+    height: 120px;
+    margin: 0 15px;
+  }
+  
+  /* Map */
+  .map-container {
+    height: 300px;
+  }
+  
+  .carteInteractive .container {
+    padding: 0 10px;
+  }
+  
+  /* Infos pratiques */
+  .infos-container {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+  
+  .info-item {
+    padding: 0.8rem 1rem;
+  }
+}
+
+/* Mobile (480px and below) */
+@media (max-width: 480px) {
+  .main {
+    padding: 0 10px 20px 10px;
+  }
+  
+  .title {
+    height: 180px;
+  }
+  
+  .title h1 {
+    font-size: 1.6rem;
+    padding: 10px;
+  }
+  
+  h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  h2::after {
+    width: 30px;
+    bottom: -6px;
+  }
+  
+  .contact,
+  .horaires,
+  .carteInteractive,
+  .infosPratiques {
+    margin-top: 1.5rem;
+  }
+  
+  /* Contact - Even smaller on mobile */
+  .contact-container {
+    width: 100%;
+  }
+  
+  .contact-left,
+  .contact-right {
+    width: 47%;
+  }
+  
+  .contact-left {
+    gap: 0.6rem 0;
+  }
+  
+  .contact-left .contact-item svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .contact-left .contact-item a {
+    margin: 0 0 0 6px;
+    font-size: 0.8rem;
+  }
+  
+  .contact-right {
+    gap: 0.6rem;
+  }
+  
+  .contact-right .contact-item {
+    gap: 6px;
+  }
+  
+  .contact-right .contact-item svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .contact-right .contact-item span {
+    font-size: 0.8rem;
+  }
+  
+  .vertical-line {
+    height: 70px;
+    margin: 0 8px;
+  }
+  
+  /* Horaires - Even smaller on mobile */
+  .horaires-container {
+    width: 100%;
+  }
+  
+  .horaires-left,
+  .horaires-right {
+    width: 47%;
+  }
+  
+  .horaire-item {
+    font-size: 0.8rem;
+    padding: 0.25rem 0;
+  }
+  
+  .vertical-line-horaires {
+    height: 100px;
+    margin: 0 8px;
+  }
+  
+  .map-container {
+    height: 250px;
+    border: 2px solid var(--text-primary);
+    padding: 4px;
+  }
+  
+  .carteInteractive a {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    text-align: center;
+    padding: 0 10px;
+  }
+  
+  .info-item {
+    gap: 10px;
+    padding: 0.7rem 0.8rem;
+  }
+  
+  .info-item svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .info-item span {
+    font-size: 0.9rem;
+  }
+}
+
+/* Extra Small Mobile (360px and below) */
+@media (max-width: 360px) {
+  .main {
+    padding: 0 8px 15px 8px;
+  }
+  
+  .title h1 {
+    font-size: 1.4rem;
+  }
+  
+  h2 {
+    font-size: 1.2rem;
+  }
+  
+  .contact-left .contact-item a {
+    font-size: 0.75rem;
+  }
+  
+  .contact-right .contact-item span {
+    font-size: 0.75rem;
+  }
+  
+  .horaire-item {
+    font-size: 0.75rem;
+  }
+  
+  .vertical-line {
+    height: 65px;
+    margin: 0 6px;
+  }
+  
+  .vertical-line-horaires {
+    height: 90px;
+    margin: 0 6px;
+  }
+  
+  .map-container {
+    height: 220px;
+  }
+  
+  .info-item span {
+    font-size: 0.85rem;
+  }
 }

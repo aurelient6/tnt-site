@@ -9,7 +9,7 @@ export default function ContactPage() {
                 <h1>Contact</h1>
               </div>
               <section className='contact'>
-                <h2>Informations</h2> 
+                <h2>Coordonnées</h2> 
                 <div className="contact-container">
                   <div className="contact-left">
                     <div className="contact-item">
@@ -46,7 +46,7 @@ export default function ContactPage() {
               <section className='horaires'>
                 <h2>Horaires</h2>
                 <div className="horaires-container">
-                  <div className="horaires-left">
+                  <div className="horaires-left"> 
                     <div className="horaire-item">Lundi: Fermé</div>
                     <div className="horaire-item">Mardi: 9h - 18h</div>
                     <div className="horaire-item">Mercredi: 10h - 18h30</div>
@@ -77,7 +77,7 @@ export default function ContactPage() {
                 </div>
               </section>
               <section className='infosPratiques'>
-              <h2>Informations pratiques</h2>
+              <h2>Informations</h2>
               <div className="infos-container">
                 <div className="info-item">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
