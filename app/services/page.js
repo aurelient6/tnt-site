@@ -2,6 +2,7 @@ import '../style/services.css';
 import ServiceCard from '../components/serviceCard.js';
 import { servicesData } from '../data/servicesData.js';
 import { SERVICES_CATEGORIES } from "../constantes/servicesCategories.js";
+import { PAGES } from '../constantes/routes.js';
 
 export default function ServicesPage() {
   return (
@@ -9,7 +10,7 @@ export default function ServicesPage() {
       <section className="main">
         <div>
           <main>
-            <h1>Nos services</h1>
+            <h1>{PAGES.services}</h1>
             <p>Découvrez tous les services que nous vous proposons.</p>
           </main>
         </div>

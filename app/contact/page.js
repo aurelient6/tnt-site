@@ -1,12 +1,13 @@
 import '../style/contact.css';
 import { INFORMATIONS } from '../constantes/infos.js';
+import { PAGES } from '../constantes/routes.js';
 
 export default function ContactPage() {
   return (
       <div>
           <main className="main">
               <div className='title'>
-                <h1>Contact</h1>
+                <h1>{PAGES.contact}</h1>
               </div>
               <section className='contact'>
                 <h2>Coordonnées</h2> 

@@ -1,7 +1,8 @@
 'use client'
 import '../style/footer.css';
 import { INFORMATIONS } from '../constantes/infos.js';
-import { ROUTES } from '../constantes/routes';
+import { ROUTES, PAGES } from '../constantes/routes';
+import { SERVICES_SECONDARY, SERVICES_PRIMARY } from '../data/servicesData.js';
 import Image from 'next/image';
 
 // Icon components
@@ -28,29 +29,14 @@ const SOCIAL_LINKS = [
     name: 'Notre partenaire',
     href: 'https://twisterbedbug.com',
     icon: <EarthIcon className="size-6" />,
-  },
-];
-
-const SERVICES_PRIMARY = [
-  { label: 'Toilettage', href: `${ROUTES.service}${ROUTES.toilettage}` },
-  { label: 'Massage', href: `${ROUTES.service}${ROUTES.massage}` },
-  { label: 'Physiothérapie', href: `${ROUTES.service}${ROUTES.physiotherapie}` },
-  { label: 'Main training', href: `${ROUTES.service}${ROUTES.mainTraining}` },
-];
-
-const SERVICES_SECONDARY = [
-  { label: 'Hooper', href: `${ROUTES.service}${ROUTES.hooper}` },
-  { label: 'Agility', href: `${ROUTES.service}${ROUTES.agility}` },
-  { label: 'Hydrothérapie', href: `${ROUTES.service}${ROUTES.hydrotherapie}` },
-  { label: 'Tapis de course', href: `${ROUTES.service}${ROUTES.tapisDeCourse}` },
-  { label: 'Dressage', href: `${ROUTES.service}${ROUTES.dressage}` },
+  }, 
 ];
 
 const QUICK_LINKS = [
-  { label: 'Boutique', href: ROUTES.boutique },
-  { label: 'Contact', href: ROUTES.contact },
-  { label: 'Notre équipe', href: ROUTES.equipe },
-  { label: 'Nos actualités', href: ROUTES.actualites },
+  { label: PAGES.boutique, href: ROUTES.boutique },
+  { label: PAGES.contact, href: ROUTES.contact },
+  { label: PAGES.equipe, href: ROUTES.equipe },
+  { label: PAGES.actualites, href: ROUTES.actualites },
 ];
 
 const CONTACT_INFO = {

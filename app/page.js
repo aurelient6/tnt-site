@@ -25,7 +25,7 @@ export default function HomePage() {
       </Head>
       <main className="main">
         <section className='title'>
-          <h1>{INFORMATIONS.name}, centre canin multidiscipline</h1>
+          <h1>{INFORMATIONS.name}, votre centre canin multidisciplinaire</h1>
         </section>
         <section className='description'>
           <div className="description-content">

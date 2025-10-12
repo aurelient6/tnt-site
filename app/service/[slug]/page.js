@@ -1,6 +1,7 @@
 import ServiceDetail from '../../components/ServiceDetail';
 import { notFound } from 'next/navigation';
 import { getServiceBySlug, getAllServices } from '../../data/servicesData';
+import { PAGES } from '../../constantes/routes.js';
 
 export default async function ServicePage({ params }) {
   const { slug } = await params;
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }) {
   }
 
   return {
-    title: `${service.name} - Nos Services`,
+    title: `${service.name} - ${PAGES.services}`,
     description: service.description,
   };
 }

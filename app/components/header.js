@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import '../style/header.css';
 import { INFORMATIONS } from '../constantes/infos.js';
 import { ROUTES } from '../constantes/routes.js';
+import { PAGES } from '../constantes/routes.js'
 import Image from 'next/image';
 
 export default function Header() {
@@ -104,16 +105,16 @@ export default function Header() {
         <nav role="navigation" aria-label="Navigation principale" className={isMenuOpen ? 'active' : ''}>
           <ul className="navList">
             <li className="navItem">
-              <a href={ROUTES.accueil} className="navLink" onClick={closeMenu}>Accueil</a>
+              <a href={ROUTES.accueil} className="navLink" onClick={closeMenu}>{PAGES.accueil}</a>
             </li>
             <li className="navItem">
-              <a href={ROUTES.services} className="navLink" onClick={closeMenu}>Nos services</a>
+              <a href={ROUTES.services} className="navLink" onClick={closeMenu}>{PAGES.services}</a>
             </li>
             <li className="navItem">
-              <a href={ROUTES.boutique} className="navLink" onClick={closeMenu}>Boutique</a>
+              <a href={ROUTES.boutique} className="navLink" onClick={closeMenu}>{PAGES.boutique}</a>
             </li>
             <li className="navItem">
-              <a href={ROUTES.contact} className="navLink" onClick={closeMenu}>Contact</a>
+              <a href={ROUTES.contact} className="navLink" onClick={closeMenu}>{PAGES.contact}</a>
             </li>
           </ul>
         </nav>

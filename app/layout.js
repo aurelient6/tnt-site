@@ -9,7 +9,7 @@ export const metadata = {
   keywords: 'centre canin, toilettage, physiothérapie, dressage, massage canin, agility',
   charset: 'UTF-8',
   openGraph: {
-    title: `${INFORMATIONS.name} - Centre canin multidisciplinaire`,
+    title: `${INFORMATIONS.name} - Votre centre canin multidisciplinaire`,
     description: `Services professionnels pour votre chien - ${INFORMATIONS.address}`,
     type: 'website',
     locale: 'fr_FR',

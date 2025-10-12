@@ -16,3 +16,12 @@ export const ROUTES = {
   tapisDeCourse: "/tapis-de-course",
   dressage: "/dressage",
 };
+
+export const PAGES = {
+  accueil: "Accueil",
+  services: "Nos services",
+  boutique: "Boutique",
+  contact: "Contact",
+  equipe: "Notre équipe",
+  actualites: "Nos actualités",
+}
