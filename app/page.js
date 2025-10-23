@@ -9,10 +9,22 @@ import { INFORMATIONS } from './constantes/infos.js';
 import { ROUTES } from './constantes/routes';
 import Head from 'next/head';
 import Image from 'next/image';
+import { neon } from '@neondatabase/serverless';
 
-export default function HomePage() {
+export default async function HomePage() {
   const actualitesTriees = actualitesData.actualites.sort((a, b) => b.id - a.id);
   
+  const sql = neon(process.env.DATABASE_URL);
+  const team = await sql`SELECT * FROM team`;
+  
+  async function create(formData) {
+    'use server';
+    
+    const sql = neon(process.env.DATABASE_URL);
+    const comment = formData.get('comment');
+    
+    await sql`INSERT INTO comments (comment) VALUES (${comment})`;
+  }
   return (
     <>
       <Head>
@@ -64,6 +76,11 @@ export default function HomePage() {
         </section>
         <section className='equipe' id="equipe">
           <h2>Notre équipe</h2>
+          <ul>
+            {team.map((t) => (
+              <li key={t.id}>{t.name} {t.first_name}</li>
+            ))}
+          </ul>
           <div className="equipe-grid">
             {equipeData.equipe.map((membre) => (
               <EquipeAccueil
