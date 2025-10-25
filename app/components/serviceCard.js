@@ -13,7 +13,7 @@ export default function ServiceCard({ service }) {
     .replace(/^-|-$/g, '');
 
   return (
-    <Link href={`/service/${slug}`}>
+    <Link href={`/services/${slug}`}>
       <div className="service-card">
         <h3 className="card-title">{service.name}</h3>
         <div className="card-image">

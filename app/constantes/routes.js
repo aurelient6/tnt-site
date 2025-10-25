@@ -5,7 +5,6 @@ export const ROUTES = {
   contact: "/contact",
   equipe: "/#equipe",
   actualites: "/#actualites",
-  service: "/service",
   toilettage: "/toilettage",
   massage: "/massage",
   physiotherapie: "/physiotherapie",

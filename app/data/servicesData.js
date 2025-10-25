@@ -159,18 +159,18 @@ export const servicesData = {
 };
 
 export const SERVICES_PRIMARY = [
-  { label: 'Toilettage', href: `${ROUTES.service}${ROUTES.toilettage}` },
-  { label: 'Massage', href: `${ROUTES.service}${ROUTES.massage}` },
-  { label: 'Physiothérapie', href: `${ROUTES.service}${ROUTES.physiotherapie}` },
-  { label: 'Main training', href: `${ROUTES.service}${ROUTES.mainTraining}` },
+  { label: 'Toilettage', href: `${ROUTES.services}${ROUTES.toilettage}` },
+  { label: 'Massage', href: `${ROUTES.services}${ROUTES.massage}` },
+  { label: 'Physiothérapie', href: `${ROUTES.services}${ROUTES.physiotherapie}` },
+  { label: 'Main training', href: `${ROUTES.services}${ROUTES.mainTraining}` },
 ];
 
 export const SERVICES_SECONDARY = [
-  { label: 'Hooper', href: `${ROUTES.service}${ROUTES.hooper}` },
-  { label: 'Agility', href: `${ROUTES.service}${ROUTES.agility}` },
-  { label: 'Hydrothérapie', href: `${ROUTES.service}${ROUTES.hydrotherapie}` },
-  { label: 'Tapis de course', href: `${ROUTES.service}${ROUTES.tapisDeCourse}` },
-  { label: 'Dressage', href: `${ROUTES.service}${ROUTES.dressage}` },
+  { label: 'Hooper', href: `${ROUTES.services}${ROUTES.hooper}` },
+  { label: 'Agility', href: `${ROUTES.services}${ROUTES.agility}` },
+  { label: 'Hydrothérapie', href: `${ROUTES.services}${ROUTES.hydrotherapie}` },
+  { label: 'Tapis de course', href: `${ROUTES.services}${ROUTES.tapisDeCourse}` },
+  { label: 'Dressage', href: `${ROUTES.services}${ROUTES.dressage}` },
 ];
 
 export const getAllServices = () => {
