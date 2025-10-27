@@ -18,7 +18,7 @@ export const servicesData = {
         "/images/services/toilettage/toilettage2.jpg",
         "/images/services/toilettage/toilettage3.jpg",
         "/images/services/toilettage/toilettage4.jpg"
-      ]
+      ],
     },
     {
       id: 2,

@@ -6,8 +6,12 @@ import '../style/serviceDetail.css';
 import { equipeData } from '../data/equipeData';
 import { ROUTES } from '../constantes/routes.js';
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
 
 export default function ServiceDetail({ service }) {
+  const params = useParams();
+  const serviceSlug = params.slug;
+
   const allImages = [service.image, ...(service.gallery || [])].filter(Boolean);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -242,8 +246,8 @@ export default function ServiceDetail({ service }) {
               <h4>Réserver une séance</h4>
               <p>Planifiez votre rendez-vous en nous contactant par mail ou par téléphone.</p>
             </div>
-            <Link href={ROUTES.contact} className="cta-card-button">
-              Réserver
+            <Link href={`${ROUTES.reserver}/${serviceSlug}`} className="cta-card-button">
+              Réserver maintenant
             </Link>
           </div>
           
