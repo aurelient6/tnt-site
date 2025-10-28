@@ -12,6 +12,7 @@ export const servicesData = {
       description: "Service complet de toilettage pour votre chien incluant bain, séchage, coupe, épilation des poils, nettoyage des oreilles et coupe des griffes.",
       objectif: "Maintenir l'hygiène et le bien-être de votre compagnon tout en lui offrant un moment de détente.",
       duree: "30 minutes à 1h selon la taille",
+      slogan: "Un moment de bonheur pour votre chien",
       remarques: "Nous utilisons uniquement des produits hypoallergéniques adaptés à chaque type de pelage.",
       equipe: "Marie Dupont",
       gallery: [

@@ -1,9 +1,10 @@
-'use client';
 
+'use client';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { getServiceBySlug } from '../../data/servicesData';
 import { serviceForms } from '../../data/serviceForm';
+import '../../style/reservationPage.css';
 
 export default function ReservationPage() {
   const { servicesSlug } = useParams();
@@ -11,12 +12,30 @@ export default function ReservationPage() {
   const [etape, setEtape] = useState(1);
   const [reponses, setReponses] = useState({});
   const forms = serviceForms[servicesSlug] || [];
-  if (!service) return <p>Service introuvable</p>;
+
+  if (!service) {
+    return (
+      <div className="reservation-page">
+        <p className="error-message">Service introuvable</p>
+      </div>
+    );
+  }
 
   const currentStep = forms.find(e => e.id === etape);
+  const progressPercentage = (etape / forms.length) * 100;
 
-  const handleChange = (value) => {
-    setReponses(prev => ({ ...prev, [currentStep.id]: value }));
+  const handleChange = (questionId, value) => {
+    setReponses(prev => ({ ...prev, [questionId]: value }));
+  };
+
+  const handleCheckboxChange = (questionId, value) => {
+    setReponses(prev => {
+      const current = prev[questionId] || [];
+      const updated = current.includes(value)
+        ? current.filter(v => v !== value)
+        : [...current, value];
+      return { ...prev, [questionId]: updated };
+    });
   };
 
   const getReponsesPourEtape = (etape) => {
@@ -25,6 +44,20 @@ export default function ReservationPage() {
       return etape.dependances[choixPrecedent] || [];
     }
     return etape.reponses || [];
+  };
+
+  const isCurrentStepComplete = () => {
+    if (currentStep.questions) {
+      return currentStep.questions.every(q => {
+        const value = reponses[q.id];
+        if (q.type === 'checkbox') {
+          return Array.isArray(value) && value.length > 0;
+        }
+        return !!value;
+      });
+    } else {
+      return !!reponses[currentStep.id];
+    }
   };
 
   const handleNext = () => {
@@ -40,71 +73,114 @@ export default function ReservationPage() {
     if (etape > 1) setEtape(prev => prev - 1);
   };
 
-  return (
-    <div className="max-w-xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-2xl">
-      <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">
-        {service.name}
-      </h1>
+  const renderQuestion = (questionData, questionId) => {
+    if (questionData.type === 'checkbox') {
+      return (
+        <div key={questionId} className="question-block">
+          <label>{questionData.question}</label>
+          <div className="checkbox-group">
+            {questionData.reponses.map((rep, i) => (
+              <div key={i} className="checkbox-item">
+                <input
+                  type="checkbox"
+                  id={`${questionId}-${i}`}
+                  checked={(reponses[questionId] || []).includes(rep.value)}
+                  onChange={(e) => handleCheckboxChange(questionId, rep.value)}
+                  className="checkbox-input"
+                />
+                <label htmlFor={`${questionId}-${i}`} className="checkbox-label">
+                  {rep.label}
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
 
-      <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
-        {/* Question */}
-        <label className="block text-lg font-semibold mb-2 text-gray-700">
-          {currentStep.question}
-        </label>
-
-        {/* Liste déroulante */}
+    // Par défaut: select (liste déroulante)
+    return (
+      <div key={questionId} className="question-block">
+        <label>{questionData.question}</label>
         <select
-          value={reponses[currentStep.id] || ""}
-          onChange={(e) => handleChange(e.target.value)}
+          value={reponses[questionId] || ""}
+          onChange={(e) => handleChange(questionId, e.target.value)}
           required
-          className="w-full border border-gray-300 rounded-lg p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="listbox"
         >
           <option value="" disabled>-- Sélectionnez une option --</option>
-          {getReponsesPourEtape(currentStep).map((rep, i) => (
+          {questionData.reponses.map((rep, i) => (
             <option key={i} value={rep.value}>{rep.label}</option>
           ))}
         </select>
+      </div>
+    );
+  };
 
-        {/* Boutons navigation */}
-        <div className="flex justify-between mt-6">
-          <button
-            type="button"
-            onClick={handlePrev}
-            disabled={etape === 1}
-            className={`px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition ${
-              etape === 1 ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          >
-            Précédent
-          </button>
+  return (
+    <section className="reservation-page">
+      <div className="header-section">
+        <h1>
+          {service.name}
+          <span className="service-slogan">{service.slogan}</span>
+        </h1>
+      </div>
 
-          <button
-            type="button"
-            onClick={handleNext}
-            disabled={!reponses[currentStep.id]}
-            className={`px-4 py-2 rounded-lg text-white transition ${
-              !reponses[currentStep.id]
-                ? "bg-blue-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
-            }`}
-          >
-            {etape < forms.length ? "Suivant" : "Terminer"}
-          </button>
-        </div>
-      </form>
-
-      {/* Barre de progression */}
-      <div className="mt-8">
-        <div className="w-full bg-gray-200 rounded-full h-3">
-          <div
-            className="bg-blue-600 h-3 rounded-full transition-all duration-500"
-            style={{ width: `${(etape / forms.length) * 100}%` }}
+      <div className="form-section">
+        <div className="progress-bar-container">
+          <div 
+            className="progress-bar" 
+            style={{ width: `${progressPercentage}%` }}
           ></div>
         </div>
-        <p className="text-sm text-gray-500 text-center mt-2">
-          Étape {etape} sur {forms.length}
-        </p>
+
+        <form onSubmit={(e) => e.preventDefault()} className="reservation-form">
+          {currentStep.questions ? (
+            currentStep.questions.map(q => renderQuestion(q, q.id))
+          ) : (
+            <div className="question-block">
+              <label>{currentStep.question}</label>
+              <select
+                value={reponses[currentStep.id] || ""}
+                onChange={(e) => handleChange(currentStep.id, e.target.value)}
+                required
+                className="listbox"
+              >
+                <option value="" disabled>-- Sélectionnez une option --</option>
+                {getReponsesPourEtape(currentStep).map((rep, i) => (
+                  <option key={i} value={rep.value}>{rep.label}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <div className="navigation-buttons">
+            <button
+              type="button"
+              onClick={handlePrev}
+              disabled={etape === 1}
+              className="prev-button"
+            >
+              Précédent
+            </button>
+
+            <div className="progression">
+              <p className="step-indicator">
+                Étape {etape} / {forms.length}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleNext}
+              disabled={!isCurrentStepComplete()}
+              className="next-button"
+            >
+              {etape < forms.length ? "Suivant" : "Terminer"}
+            </button>
+          </div>
+        </form>
       </div>
-    </div>
+    </section>
   );
 }

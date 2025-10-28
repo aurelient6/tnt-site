@@ -1,0 +1,315 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+    background: var(--background-light);
+    min-height: 100vh;
+}
+
+.reservation-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Header Section */
+.header-section {
+    text-align: center;
+    margin-bottom: 40px;
+    animation: fadeInDown 0.6s ease;
+}
+
+.reservation-page h1 {
+    color: var(--principale);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+.service-slogan {
+    display: block;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: #666;
+    font-weight: 400;
+    margin-top: 8px;
+}
+
+/* Form Section */
+.form-section {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    padding: 50px 40px;
+    border: none;
+    animation: fadeInUp 0.6s ease;
+}
+
+.reservation-form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Question Label */
+.reservation-form label {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--principale);
+    text-align: center;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+/* Select Dropdown */
+.listbox {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    background-color: var(--background-light);
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 20px;
+    padding-right: 50px;
+}
+
+.listbox:hover {
+    border-color: var(--principale);
+    background-color: #fff;
+}
+
+.listbox:focus {
+    border-color: var(--principale);
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.listbox option {
+    padding: 12px;
+    background: white;
+    color: #333;
+}
+
+.listbox option:disabled {
+    color: #999;
+}
+
+/* Navigation Buttons */
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    gap: 20px;
+}
+
+.prev-button,
+.next-button {
+    padding: 14px 32px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.prev-button {
+    background-color: #6c757d;
+    color: white;
+}
+
+.prev-button:hover:not(:disabled) {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.prev-button:disabled {
+    background-color: #e0e0e0;
+    color: #999;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.next-button {
+    background: var(--secondaire);
+    color: white;
+}
+
+.next-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: #539757;
+}
+
+.next-button:disabled {
+    background: #e0e0e0;
+    color: #999;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Progress Section */
+.progression {
+    flex: 1;
+    text-align: center;
+}
+
+.step-indicator {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #666;
+    margin: 0;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+    border-radius: 25px;
+    display: inline-block;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* Progress Bar */
+.progress-bar-container {
+    width: 100%;
+    height: 5px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--secondaire);
+    transition: width 0.4s ease;
+    border-radius: 10px;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .reservation-page {
+        padding: 30px 15px;
+    }
+
+    .reservation-page h1 {
+        font-size: 2rem;
+    }
+
+    .service-slogan {
+        font-size: 1rem;
+    }
+
+    .form-section {
+        padding: 30px 25px;
+        border-radius: 15px;
+    }
+
+    .reservation-form label {
+        font-size: 1.2rem;
+    }
+
+    .listbox {
+        padding: 14px 16px;
+        font-size: 0.95rem;
+    }
+
+    .navigation-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .prev-button,
+    .next-button {
+        width: 100%;
+        padding: 14px;
+    }
+
+    .progression {
+        order: -1;
+        width: 100%;
+    }
+
+    .step-indicator {
+        width: 100%;
+        display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    .reservation-page h1 {
+        font-size: 1.6rem;
+    }
+
+    .service-slogan {
+        font-size: 0.9rem;
+    }
+
+    .form-section {
+        padding: 25px 20px;
+    }
+
+    .reservation-form label {
+        font-size: 1.1rem;
+    }
+
+    .prev-button,
+    .next-button {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Loading State (Optional) */
+.loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--principale);
+    font-size: 1.2rem;
+}
+
+/* Error State (Optional) */
+.error-message {
+    background: #fee;
+    color: #c33;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin: 20px 0;
+    border: 2px solid #fcc;
+}

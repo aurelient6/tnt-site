@@ -2,6 +2,7 @@ export const serviceForms = {
   toilettage: [
     {
       id: 1,
+      type: "select", // Liste déroulante
       question: "Quel est le type de poil de votre chien ?",
       reponses: [
         { label: "Poil court", value: "court" },
@@ -10,6 +11,7 @@ export const serviceForms = {
     },
     {
       id: 2,
+      type: "select", // Liste déroulante
       question: "Quel soin souhaitez-vous effectuer ?",
       dependances: {
         court: [
@@ -24,11 +26,27 @@ export const serviceForms = {
     },
     {
       id: 3,
-      question: "Souhaitez-vous ajouter un soin complémentaire ?",
-      reponses: [
-        { label: "Coupe des griffes (+10€)", value: "griffes" },
-        { label: "Nettoyage des oreilles (+5€)", value: "oreilles" },
-        { label: "Non merci", value: "aucun" },
+      questions: [
+        {
+          id: "3a",
+          type: "checkbox", // Cases à cocher (choix multiples)
+          question: "Souhaitez-vous ajouter des soins complémentaires ?",
+          reponses: [
+            { label: "Coupe des griffes (+10€)", value: "griffes" },
+            { label: "Nettoyage des oreilles (+5€)", value: "oreilles" },
+            { label: "Brossage dentaire (+8€)", value: "dents" },
+          ]
+        },
+        {
+          id: "3b",
+          type: "select", // Liste déroulante
+          question: "Quand souhaitez-vous prendre rendez-vous ?",
+          reponses: [
+            { label: "Cette semaine", value: "semaine" },
+            { label: "Le mois prochain", value: "mois" },
+            { label: "Pas de préférence", value: "aucune" },
+          ]
+        }
       ]
     }
   ]
