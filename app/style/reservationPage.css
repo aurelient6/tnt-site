@@ -6,7 +6,7 @@ body {
 }
 
 .reservation-page {
-    max-width: 800px;
+    max-width: 1400px; /* ⚠️ Augmenté pour accueillir la sidebar */
     margin: 0 auto;
     padding: 40px 20px;
     font-family: 'Inter', sans-serif;
@@ -36,29 +36,59 @@ body {
     margin-top: 8px;
 }
 
-/* Form Section */
+/* Progress Bar (avant le grid) */
+.progress-bar-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 30px auto; /* ⚠️ Centré et avant le grid */
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--secondaire);
+    transition: width 0.4s ease;
+    border-radius: 10px;
+}
+
+/* Form Section - GRID LAYOUT */
 .form-section {
+    display: grid;
+    grid-template-columns: 1fr 380px; /* ⚠️ Formulaire + Sidebar */
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start; /* ⚠️ Important pour le sticky */
+}
+
+/* ⚠️ Le formulaire prend tout l'espace à gauche */
+.reservation-form {
     background: white;
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-    padding: 50px 40px;
-    border: none;
+    padding: 40px;
     animation: fadeInUp 0.6s ease;
-}
-
-.reservation-form {
     display: flex;
     flex-direction: column;
     gap: 30px;
 }
 
+/* Question Block */
+.question-block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 /* Question Label */
 .reservation-form label {
-    font-size: 1.4rem;
+    font-size: 1.2rem; /* ⚠️ Réduit légèrement */
     font-weight: 600;
     color: var(--principale);
-    text-align: center;
-    margin-bottom: 10px;
+    text-align: left; /* ⚠️ Aligné à gauche pour plus de clarté */
     line-height: 1.4;
 }
 
@@ -102,6 +132,80 @@ body {
 
 .listbox option:disabled {
     color: #999;
+}
+
+/* Text Input */
+.text-input {
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-light);
+    transition: all 0.3s ease;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.text-input:hover {
+    border-color: var(--principale);
+    background-color: #fff;
+}
+
+.text-input:focus {
+    border-color: var(--principale);
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+/* Checkbox Group */
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.checkbox-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--principale);
+    flex-shrink: 0;
+}
+
+.checkbox-item label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    background-color: var(--background-light);
+    transition: all 0.3s ease;
+    flex: 1;
+    text-align: left;
+    margin: 0;
+}
+
+.checkbox-item label:hover {
+    border-color: var(--principale);
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.checkbox-item input[type="checkbox"]:checked + label {
+    border-color: var(--principale);
+    background-color: rgba(74, 144, 226, 0.05);
+    color: var(--principale);
+    font-weight: 600;
 }
 
 /* Navigation Buttons */
@@ -181,21 +285,118 @@ body {
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
 }
 
-/* Progress Bar */
-.progress-bar-container {
-    width: 100%;
-    height: 5px;
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 20px;
+.step-indicator .step-numbers {
+    white-space: nowrap; /* ⚠️ Les chiffres ne se séparent jamais */
 }
 
-.progress-bar {
-    height: 100%;
-    background: var(--secondaire);
-    transition: width 0.4s ease;
-    border-radius: 10px;
+
+/* =================== */
+/* SIDEBAR PRIX (STICKY) */
+/* =================== */
+.price-summary {
+    position: sticky;
+    top: 2rem; /* ⚠️ Distance du haut quand on scroll */
+    height: fit-content; /* ⚠️ Important pour le sticky */
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    animation: fadeInUp 0.6s ease 0.2s both;
+    box-sizing: border-box; 
+    width: 100%;
+}
+
+.price-summary h3 {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--principale);
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e0e0e0;
+    word-wrap: break-word;
+}
+
+.price-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #e0e0e0;
+    width: 100%; 
+    box-sizing: border-box;
+}
+
+.price-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    color: #555;
+    padding: 0.5rem 0;
+}
+
+.price-item span:first-child {
+    flex: 1;
+    font-weight: 500;
+}
+
+.price-item span:last-child {
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.price-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+}
+
+.price-total span:first-child {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.total-amount {
+    color: var(--secondaire);
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* État vide */
+.price-summary.empty {
+    opacity: 0.7;
+}
+
+.price-summary.empty .price-details {
+    display: none;
+}
+
+.price-summary.empty p {
+    color: #999;
+    font-size: 0.95rem;
+    text-align: center;
+    margin: 2rem 0;
+    font-style: italic;
+}
+
+/* Animation du prix */
+.total-amount {
+    transition: all 0.3s ease;
+}
+
+.total-amount.updated {
+    animation: priceUpdate 0.5s ease;
+}
+
+@keyframes priceUpdate {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
 }
 
 /* Animations */
@@ -221,8 +422,91 @@ body {
     }
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Loading & Error States */
+.loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--principale);
+    font-size: 1.2rem;
+}
+
+.error-message {
+    background: #fee;
+    color: #c33;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin: 20px 0;
+    border: 2px solid #fcc;
+}
+
+/* =================== */
+/* RESPONSIVE DESIGN */
+/* =================== */
+
+/* Tablette */
+@media (max-width: 1024px) {
+    .form-section {
+        grid-template-columns: 1fr 320px;
+        gap: 2rem;
+        padding: 0 15px;
+    }
+    
+    .reservation-form {
+        padding: 30px 25px;
+    }
+    
+    .price-summary {
+        padding: 20px;
+    }   
+}
+
+@media (max-width: 890px) {
+    .reservation-page {
+        padding: 30px 10px; /* ⚠️ Padding minimal */
+    }
+    
+    .form-section {
+        grid-template-columns: 1fr 280px; /* ⚠️ Sidebar très compacte */
+        gap: 1rem;
+        padding: 0 10px;
+        max-width: 100%; /* ⚠️ Utilise toute la largeur */
+    }
+    
+    .reservation-form {
+        padding: 25px 20px;
+    }
+    
+    .price-summary {
+        padding: 18px 15px; /* ⚠️ Padding très réduit */
+    }
+    
+    .price-summary h3 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.8rem;
+    }
+    
+    .price-item {
+        font-size: 0.9rem;
+        gap: 8px;
+    }
+    
+    .price-item span:last-child {
+        font-size: 1rem;
+    }
+    
+    .price-total span:first-child {
+        font-size: 1.1rem;
+    }
+    
+    .total-amount {
+        font-size: 1.5rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 795px) {
     .reservation-page {
         padding: 30px 15px;
     }
@@ -235,16 +519,30 @@ body {
         font-size: 1rem;
     }
 
+    /* ⚠️ IMPORTANT : Passer en une seule colonne */
     .form-section {
-        padding: 30px 25px;
-        border-radius: 15px;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    /* ⚠️ Le récap passe en premier sur mobile */
+    .price-summary {
+        order: -1;
+        position: relative; /* ⚠️ Plus sticky sur mobile */
+        top: auto;
+    }
+
+    .reservation-form {
+        padding: 25px 20px;
+        order: 1;
     }
 
     .reservation-form label {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
-    .listbox {
+    .listbox,
+    .text-input {
         padding: 14px 16px;
         font-size: 0.95rem;
     }
@@ -268,9 +566,22 @@ body {
     .step-indicator {
         width: 100%;
         display: block;
+        box-sizing: border-box;
+        padding: 10px 20px;
+    }
+    
+    .checkbox-item label {
+        font-size: 0.95rem;
+        padding: 10px 14px;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
     }
 }
 
+/* Petit mobile */
 @media (max-width: 480px) {
     .reservation-page h1 {
         font-size: 1.6rem;
@@ -280,12 +591,12 @@ body {
         font-size: 0.9rem;
     }
 
-    .form-section {
-        padding: 25px 20px;
+    .reservation-form {
+        padding: 20px 15px;
     }
 
     .reservation-form label {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 
     .prev-button,
@@ -293,23 +604,26 @@ body {
         padding: 12px;
         font-size: 0.9rem;
     }
-}
+    
+    .price-summary {
+        padding: 20px;
+    }
+    
+    .price-summary h3 {
+        font-size: 1.2rem;
+    }
+    
+    .total-amount {
+        font-size: 1.6rem;
+    }
+    
+    .checkbox-item label {
+        font-size: 0.9rem;
+        padding: 10px 12px;
+    }
 
-/* Loading State (Optional) */
-.loading {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--principale);
-    font-size: 1.2rem;
-}
-
-/* Error State (Optional) */
-.error-message {
-    background: #fee;
-    color: #c33;
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-    margin: 20px 0;
-    border: 2px solid #fcc;
+    .checkbox-item input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+    }
 }

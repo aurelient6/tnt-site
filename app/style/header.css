@@ -140,7 +140,7 @@ body.menu-open {
 }
 
 /* Mobile responsiveness */
-@media (max-width: 768px) {
+@media (max-width: 795px) {
   body {
     padding-top: 75px;
     overflow-x: hidden; /* Prevent horizontal scroll on body */
