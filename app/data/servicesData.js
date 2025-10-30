@@ -1,5 +1,27 @@
 import { ROUTES } from '../constantes/routes.js';
 
+export const getAllServices = () => {
+  return Object.values(servicesData).flat();
+};
+
+const getServiceNameBySlug = (slug) => {
+  const service = getAllServices().find(s => s.slug === slug);
+  return service ? service.name : slug;
+};
+
+export const getServiceBySlug = (slug) => {
+  return getAllServices().find(service => service.slug === slug);
+};
+
+export const getServiceById = (id) => {
+  return getAllServices().find(service => service.id === id);
+};
+
+export const getServicesByCategory = (category) => {
+  return servicesData[category] || [];
+};
+
+
 export const servicesData = {
   bienEtre: [
     {
@@ -160,32 +182,16 @@ export const servicesData = {
 };
 
 export const SERVICES_PRIMARY = [
-  { label: 'Toilettage', href: `${ROUTES.services}${ROUTES.toilettage}` },
-  { label: 'Massage', href: `${ROUTES.services}${ROUTES.massage}` },
-  { label: 'Physiothérapie', href: `${ROUTES.services}${ROUTES.physiotherapie}` },
-  { label: 'Main training', href: `${ROUTES.services}${ROUTES.mainTraining}` },
+  { label: getServiceNameBySlug('toilettage'), href: `${ROUTES.services}/toilettage` },
+  { label: getServiceNameBySlug('massage'), href: `${ROUTES.services}/massage` },
+  { label: getServiceNameBySlug('physiotherapie'), href: `${ROUTES.services}/physiotherapie` },
+  { label: getServiceNameBySlug('main-training'), href: `${ROUTES.services}/main-training` },
 ];
 
 export const SERVICES_SECONDARY = [
-  { label: 'Hooper', href: `${ROUTES.services}${ROUTES.hooper}` },
-  { label: 'Agility', href: `${ROUTES.services}${ROUTES.agility}` },
-  { label: 'Hydrothérapie', href: `${ROUTES.services}${ROUTES.hydrotherapie}` },
-  { label: 'Tapis de course', href: `${ROUTES.services}${ROUTES.tapisDeCourse}` },
-  { label: 'Dressage', href: `${ROUTES.services}${ROUTES.dressage}` },
+  { label: getServiceNameBySlug('hooper'), href: `${ROUTES.services}/hooper` },
+  { label: getServiceNameBySlug('agility'), href: `${ROUTES.services}/agility` },
+  { label: getServiceNameBySlug('hydrotherapie'), href: `${ROUTES.services}/hydrotherapie` },
+  { label: getServiceNameBySlug('tapis-de-course'), href: `${ROUTES.services}/tapis-de-course` },
+  { label: getServiceNameBySlug('dressage'), href: `${ROUTES.services}/dressage` },
 ];
-
-export const getAllServices = () => {
-  return Object.values(servicesData).flat();
-};
-
-export const getServiceBySlug = (slug) => {
-  return getAllServices().find(service => service.slug === slug);
-};
-
-export const getServiceById = (id) => {
-  return getAllServices().find(service => service.id === id);
-};
-
-export const getServicesByCategory = (category) => {
-  return servicesData[category] || [];
-};

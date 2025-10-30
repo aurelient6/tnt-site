@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { getServiceBySlug } from '../../data/servicesData';
 import { serviceForms } from '../../data/serviceForm';
+import Link from 'next/link';
+import { ROUTES } from '../../constantes/routes';
 import '../../style/reservationPage.css';
 
 export default function ReservationPage() {
@@ -270,7 +272,7 @@ export default function ReservationPage() {
             ).map((rep, i) => (
               <option key={i} value={rep.value}>
                 {rep.label}
-                {rep.prix !== undefined && rep.prix > 0 ? ` (+${rep.prix}€)` : ''}
+                {rep.prix !== undefined && rep.prix > 0 ? `  (+${rep.prix}€)` : ''}
               </option>
             ))}
           </select>
@@ -310,9 +312,26 @@ export default function ReservationPage() {
     return null;
   };
 
-// Modification de la structure JSX
 return (
   <section className="reservation-page">
+    <nav className="breadcrumb">
+        <Link href={ROUTES.services}>Services</Link>
+        <span>›</span>
+        <Link href={`${ROUTES.services}/${servicesSlug}`}>{servicesSlug}</Link>
+        <span>›</span>
+        <span>Réservation</span>
+      </nav>
+
+      {/* Back Button */}
+      <div className="back-button-container">
+        <Link href={`${ROUTES.services}/${servicesSlug}`} className="back-button">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 12H5m0 0l7 7m-7-7l7-7" />
+          </svg>
+          {`Retour au ${servicesSlug}`}
+        </Link>
+      </div>
+
     <div className="header-section">
       <h1>
         {service.name}
