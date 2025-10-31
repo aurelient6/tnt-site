@@ -1,0 +1,235 @@
+/* Time Slot Selector Styles */
+.time-slot-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1.5rem;
+    background: var(--background-light);
+    border-radius: 12px;
+    border: 2px solid #e0e0e0;
+}
+
+.slot-step {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.slot-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--principale);
+    display: block;
+}
+
+.date-select,
+.time-select {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.date-select:hover,
+.time-select:hover {
+    border-color: var(--principale);
+}
+
+.date-select:focus,
+.time-select:focus {
+    border-color: var(--principale);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+/* Slot Confirmation */
+.slot-confirmation {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.1) 0%, rgba(61, 139, 219, 0.05) 100%);
+    border: 2px solid var(--principale);
+    border-radius: 12px;
+    animation: slideIn 0.3s ease;
+}
+
+.confirmation-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--secondaire);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.confirmation-text {
+    flex: 1;
+}
+
+.confirmation-text strong {
+    display: block;
+    color: var(--principale);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.confirmation-text p {
+    margin: 0.25rem 0;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.confirmation-time {
+    font-size: 1.3rem !important;
+    font-weight: 700;
+    color: var(--principale) !important;
+    margin-top: 0.5rem !important;
+}
+
+/* Loading State */
+.time-slot-loading {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 1rem;
+    border: 4px solid #e0e0e0;
+    border-top: 4px solid var(--principale);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.time-slot-loading p {
+    color: #666;
+    font-size: 1rem;
+}
+
+/* Error State */
+.time-slot-error {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: #fee;
+    border: 2px solid #fcc;
+    border-radius: 12px;
+}
+
+.time-slot-error p {
+    color: #c33;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.retry-button {
+    padding: 10px 24px;
+    background: var(--principale);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.retry-button:hover {
+    background: var(--secondaire);
+    transform: translateY(-2px);
+}
+
+/* Empty State */
+.time-slot-empty {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background: var(--background-light);
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+}
+
+.time-slot-empty p {
+    font-size: 1.1rem;
+    color: #666;
+    margin: 0.5rem 0;
+}
+
+.empty-hint {
+    font-size: 0.95rem !important;
+    color: #999 !important;
+    font-style: italic;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .time-slot-selector {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+
+    .slot-label {
+        font-size: 1rem;
+    }
+
+    .date-select,
+    .time-select {
+        padding: 12px 16px;
+        font-size: 0.95rem;
+    }
+
+    .slot-confirmation {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .confirmation-text strong {
+        font-size: 1rem;
+    }
+
+    .confirmation-time {
+        font-size: 1.2rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .confirmation-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+    }
+
+    .date-select,
+    .time-select {
+        font-size: 0.9rem;
+    }
+}

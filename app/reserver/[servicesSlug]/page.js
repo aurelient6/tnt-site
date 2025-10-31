@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { getServiceBySlug } from '../../data/servicesData';
 import { serviceForms } from '../../data/serviceForm';
+import TimeSlotSelector from '../../components/TimeSlotSelector';
 import Link from 'next/link';
 import { ROUTES } from '../../constantes/routes';
 import '../../style/reservationPage.css';
@@ -149,6 +150,12 @@ export default function ReservationPage() {
       return currentStep.questions.every(q => {
         if (!q.required) return true;
         const response = reponses[q.id];
+        
+        // Pour les timeslots, vérifier que slotId existe
+        if (q.type === 'timeslot') {
+          return response && response.slotId;
+        }
+        
         if (q.type === 'checkbox') return true;
         return response && response !== '';
       });
@@ -173,55 +180,43 @@ export default function ReservationPage() {
     setIsSubmitting(true);
 
     try {
+      // Récupérer l'ID du créneau sélectionné
+      const timeSlotData = reponses.creneau;
+      if (!timeSlotData || !timeSlotData.slotId) {
+        throw new Error('Veuillez sélectionner un créneau horaire');
+      }
+
       // 1. Créer la réservation en base
       const bookingResponse = await fetch('/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           service_slug: servicesSlug,
-          service_nom: service.name,
-          form_answers: reponses,
-          detail_prix: detailPrix,
-          prix_total: prixTotal,
-          // Infos client extraites des réponses
-          nom: reponses.nom,
-          prenom: reponses.prenom,
-          email: reponses.email,
-          telephone: reponses.telephone,
-          race_chien: reponses.race_chien
+          time_slot_id: timeSlotData.slotId,
+          client_name: reponses.nom,
+          client_firstname: reponses.prenom,
+          client_email: reponses.email,
+          client_phone: reponses.telephone,
+          dog_breed: reponses.race_chien,
+          form_responses: reponses,
+          total_price: prixTotal,
+          price_details: detailPrix
         })
       });
 
       if (!bookingResponse.ok) {
-        throw new Error('Erreur lors de la création de la réservation');
+        const errorData = await bookingResponse.json();
+        throw new Error(errorData.error || 'Erreur lors de la création de la réservation');
       }
 
       const booking = await bookingResponse.json();
 
-      // 2. Créer la session Stripe
-      const checkoutResponse = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          booking_id: booking.id,
-          amount: prixTotal,
-          service_name: service.name,
-          customer_email: reponses.email
-        })
-      });
-
-      if (!checkoutResponse.ok) {
-        throw new Error('Erreur lors de la création de la session de paiement');
-      }
-
-      const { url } = await checkoutResponse.json();
-
-      // 3. Rediriger vers Stripe
-      window.location.href = url;
+      // 2. Rediriger vers une page de confirmation
+      router.push(`/confirmation?bookingId=${booking.id}`);
 
     } catch (error) {
       console.error('Erreur lors de la finalisation:', error);
-      alert('Une erreur est survenue. Veuillez réessayer.');
+      alert(error.message || 'Une erreur est survenue. Veuillez réessayer.');
       setIsSubmitting(false);
     }
   };
@@ -232,6 +227,20 @@ export default function ReservationPage() {
 
   const renderQuestion = (questionData, questionId) => {
     const { type, question, reponses: options, required } = questionData;
+
+    // Time slot selector
+    if (type === 'timeslot') {
+      return (
+        <div className="question-block" key={questionId}>
+          <TimeSlotSelector
+            serviceSlug={servicesSlug}
+            onSlotSelect={(slotId, date, time) => {
+              handleChange(questionId, { slotId, date, time });
+            }}
+          />
+        </div>
+      );
+    }
 
     // Input text, email, tel
     if (['text', 'email', 'tel'].includes(type)) {
@@ -378,7 +387,7 @@ return (
             disabled={!isCurrentStepComplete() || isSubmitting}
             className="next-button"
           >
-            {isSubmitting ? 'Chargement...' : etape < forms.length ? "Suivant" : "Payer"}
+            {isSubmitting ? 'Chargement...' : etape < forms.length ? "Suivant" : "Confirmer la réservation"}
           </button>
         </div>
       </form>

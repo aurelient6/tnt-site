@@ -3,6 +3,12 @@ export const coordonneesClientForm = {
   id: 'coordonnees',
   questions: [
     {
+      id: 'creneau',
+      type: 'timeslot',
+      question: 'Choisissez votre créneau',
+      required: true
+    },
+    {
       id: 'nom',
       type: 'text',
       question: 'Votre nom',
