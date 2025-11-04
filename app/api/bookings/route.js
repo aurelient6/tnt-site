@@ -1,7 +1,5 @@
 ﻿import { NextResponse } from 'next/server';
-import { neon } from '@neondatabase/serverless';
-
-const sql = neon(process.env.DATABASE_URL);
+import { sql } from '@/lib/db/client';
 
 export async function POST(request) {
   try {
@@ -22,13 +20,13 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const serviceResult = await sql`SELECT id FROM services WHERE slug = `;
+    const serviceResult = await sql`SELECT id FROM services WHERE slug = ${service_slug}`;
     if (serviceResult.length === 0) {
       return NextResponse.json({ error: 'Service not found' }, { status: 404 });
     }
 
     const serviceId = serviceResult[0].id;
-    const slotResult = await sql`SELECT id, slot_date, slot_time, is_available FROM time_slots WHERE id =  AND service_id =  AND is_available = true`;
+    const slotResult = await sql`SELECT id, slot_date, slot_time, is_available FROM time_slots WHERE id = ${time_slot_id} AND service_id = ${serviceId} AND is_available = true`;
     
     if (slotResult.length === 0) {
       return NextResponse.json({ error: 'Time slot not available' }, { status: 400 });
@@ -36,9 +34,9 @@ export async function POST(request) {
 
     const slot = slotResult[0];
     const bookingResult = await sql`
-      WITH updated_slot AS (UPDATE time_slots SET is_available = false WHERE id =  RETURNING id)
+      WITH updated_slot AS (UPDATE time_slots SET is_available = false WHERE id = ${time_slot_id} RETURNING id)
       INSERT INTO bookings (service_id, time_slot_id, client_name, client_firstname, client_email, client_phone, dog_breed, booking_date, booking_time, form_responses, total_price, price_details, status)
-      VALUES (, , , , , , , , , , , , 'confirmed')
+      VALUES (${serviceId}, ${time_slot_id}, ${client_name}, ${client_firstname}, ${client_email}, ${client_phone}, ${dog_breed}, ${slot.slot_date}, ${slot.slot_time}, ${JSON.stringify(form_responses)}, ${total_price}, ${JSON.stringify(price_details)}, 'confirmed')
       RETURNING id, created_at
     `;
 

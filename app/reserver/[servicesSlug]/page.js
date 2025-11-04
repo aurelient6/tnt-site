@@ -234,9 +234,10 @@ export default function ReservationPage() {
         <div className="question-block" key={questionId}>
           <TimeSlotSelector
             serviceSlug={servicesSlug}
-            onSlotSelect={(slotId, date, time) => {
-              handleChange(questionId, { slotId, date, time });
+            onSlotSelect={(slotData) => {
+              handleChange(questionId, slotData);
             }}
+            selectedSlot={reponses[questionId]}
           />
         </div>
       );

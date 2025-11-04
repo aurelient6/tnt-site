@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
-import { neon } from '@neondatabase/serverless';
-
-const sql = neon(process.env.DATABASE_URL);
+import { sql } from '@/lib/db/client';
 
 // Générer des créneaux pour un service
 export async function POST(request) {

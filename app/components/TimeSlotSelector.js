@@ -50,6 +50,7 @@ export default function TimeSlotSelector({ serviceSlug, onSlotSelect, selectedSl
 
   const handleSlotSelection = (slot) => {
     onSlotSelect({
+      slotId: slot.id,
       id: slot.id,
       date: selectedDate,
       time: slot.slot_time,

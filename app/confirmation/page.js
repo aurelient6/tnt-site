@@ -131,7 +131,7 @@ export default function ConfirmationPage() {
 
         <div className="action-buttons">
           <Link href={ROUTES.accueil} className="btn-secondary">
-            Retour à l'accueil
+            Retour à l&apos;accueil
           </Link>
           <Link href={ROUTES.services} className="btn-primary">
             Voir nos autres services

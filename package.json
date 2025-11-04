@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed": "node lib/db/seed.js",
+    "generate-slots": "node scripts/generate-slots.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
