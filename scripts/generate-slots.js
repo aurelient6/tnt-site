@@ -1,14 +1,49 @@
 /**
  * Script pour générer les créneaux horaires initiaux
- * À exécuter une seule fois au déploiement initial
+ * Génère directement dans la base de données
  * 
  * Usage: node scripts/generate-slots.js
  */
 
+import { neon } from '@neondatabase/serverless';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+// Charger manuellement les variables d'environnement depuis .env.local
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const envPath = join(__dirname, '..', '.env.local');
+
+try {
+  const envFile = readFileSync(envPath, 'utf-8');
+  const envVars = envFile.split('\n')
+    .filter(line => line && !line.startsWith('#'))
+    .reduce((acc, line) => {
+      const [key, ...values] = line.split('=');
+      if (key && values.length) {
+        acc[key.trim()] = values.join('=').trim();
+      }
+      return acc;
+    }, {});
+  
+  Object.assign(process.env, envVars);
+} catch (error) {
+  console.error('⚠️  Impossible de charger .env.local:', error.message);
+}
+
+const databaseUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+if (!databaseUrl) {
+  console.error('❌ DATABASE_URL non défini');
+  process.exit(1);
+}
+
+const sql = neon(databaseUrl);
+
 const servicesConfig = [
   {
     slug: 'toilettage',
-    duration: 60, // minutes
+    duration: 60,
     slots: ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00']
   },
   {
@@ -54,47 +89,77 @@ const servicesConfig = [
 ];
 
 async function generateSlots() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  
-  // Générer pour les 60 prochains jours
-  const startDate = new Date();
-  const endDate = new Date();
-  endDate.setDate(endDate.getDate() + 60);
-
-  console.log('🚀 Génération des créneaux horaires...');
-  console.log(`📅 Période: ${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`);
-  
-  for (const service of servicesConfig) {
-    console.log(`\n📋 Service: ${service.slug}`);
+  try {
+    console.log('🚀 Génération des créneaux horaires...');
+    console.log(`📡 Connexion à: ${databaseUrl.split('@')[1]?.split('/')[0]}\n`);
     
-    try {
-      const response = await fetch(`${baseUrl}/api/slots/generate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          serviceSlug: service.slug,
-          startDate: startDate.toISOString().split('T')[0],
-          endDate: endDate.toISOString().split('T')[0],
-          timeSlots: service.slots,
-          excludeWeekends: true // Optionnel: exclure les week-ends
-        })
-      });
+    // Générer pour les 60 prochains jours
+    const startDate = new Date();
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + 60);
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log(`   ✅ ${data.count} créneaux générés`);
-      } else {
-        const error = await response.json();
-        console.error(`   ❌ Erreur: ${error.error}`);
+    console.log(`📅 Période: ${startDate.toLocaleDateString('fr-FR')} - ${endDate.toLocaleDateString('fr-FR')}\n`);
+    
+    for (const serviceConfig of servicesConfig) {
+      console.log(`📋 Service: ${serviceConfig.slug}`);
+      
+      try {
+        // Récupérer l'ID du service
+        const serviceResult = await sql`
+          SELECT id FROM services WHERE slug = ${serviceConfig.slug}
+        `;
+
+        if (serviceResult.length === 0) {
+          console.log(`   ⚠️  Service non trouvé en base`);
+          continue;
+        }
+
+        const serviceId = serviceResult[0].id;
+        let slotsCreated = 0;
+
+        // Générer les créneaux
+        for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
+          // Exclure les week-ends
+          const dayOfWeek = date.getDay();
+          if (dayOfWeek === 0 || dayOfWeek === 6) {
+            continue; // Skip dimanche (0) et samedi (6)
+          }
+
+          const dateStr = date.toISOString().split('T')[0];
+
+          for (const time of serviceConfig.slots) {
+            try {
+              const result = await sql`
+                INSERT INTO time_slots (service_id, slot_date, slot_time, is_available)
+                VALUES (${serviceId}, ${dateStr}, ${time}, true)
+                ON CONFLICT (service_id, slot_date, slot_time) DO NOTHING
+                RETURNING id
+              `;
+
+              if (result.length > 0) {
+                slotsCreated++;
+              }
+            } catch (error) {
+              // Ignorer les erreurs de conflit
+            }
+          }
+        }
+
+        console.log(`   ✅ ${slotsCreated} créneaux générés`);
+      } catch (error) {
+        console.error(`   ❌ Erreur: ${error.message}`);
       }
-    } catch (error) {
-      console.error(`   ❌ Erreur réseau: ${error.message}`);
     }
-  }
 
-  console.log('\n✨ Génération terminée !');
+    console.log('\n✨ Génération terminée !');
+    console.log('\n📝 Vous pouvez maintenant:');
+    console.log('   1. Visiter http://localhost:3000/reserver/toilettage');
+    console.log('   2. Tester une réservation complète');
+
+  } catch (error) {
+    console.error('❌ Erreur fatale:', error);
+    process.exit(1);
+  }
 }
 
 // Exécution

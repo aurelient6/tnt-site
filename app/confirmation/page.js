@@ -59,7 +59,8 @@ export default function ConfirmationPage() {
   }
 
   const formatDate = (dateStr) => {
-    const date = new Date(dateStr);
+    const [year, month, day] = dateStr.split('T')[0].split('-');
+    const date = new Date(year, month - 1, day);
     return date.toLocaleDateString('fr-FR', {
       weekday: 'long',
       year: 'numeric',

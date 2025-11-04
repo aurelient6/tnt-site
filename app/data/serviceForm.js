@@ -9,15 +9,15 @@ export const coordonneesClientForm = {
       required: true
     },
     {
-      id: 'nom',
-      type: 'text',
-      question: 'Votre nom',
-      required: true
-    },
-    {
       id: 'prenom',
       type: 'text',
       question: 'Votre prénom',
+      required: true
+    },
+    {
+      id: 'nom',
+      type: 'text',
+      question: 'Votre nom',
       required: true
     },
     {

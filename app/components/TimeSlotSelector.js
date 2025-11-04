@@ -39,7 +39,9 @@ export default function TimeSlotSelector({ serviceSlug, onSlotSelect, selectedSl
   };
 
   const formatDate = (dateStr) => {
-    const date = new Date(dateStr);
+    // Parser la date en UTC pour éviter le décalage de fuseau horaire
+    const [year, month, day] = dateStr.split('T')[0].split('-');
+    const date = new Date(year, month - 1, day);
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return date.toLocaleDateString('fr-FR', options);
   };
@@ -105,7 +107,7 @@ export default function TimeSlotSelector({ serviceSlug, onSlotSelect, selectedSl
         >
           {availableDates.map(date => (
             <option key={date} value={date}>
-              {formatDate(date)} - {availableSlots[date].length} créneau(x) disponible(s)
+              {formatDate(date)} - {availableSlots[date].length} créneau{availableSlots[date].length > 1 ? 'x' : ''} disponible{availableSlots[date].length > 1 ? 's' : ''}
             </option>
           ))}
         </select>

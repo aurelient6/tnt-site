@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server';
 
 export async function GET(request, { params }) {
   try {
-    const { id } = params;
+    // Await params (requis par Next.js 15+)
+    const { id } = await params;
 
     const result = await sql`
       SELECT 
