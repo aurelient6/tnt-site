@@ -118,14 +118,18 @@ async function generateSlots() {
         let slotsCreated = 0;
 
         // Générer les créneaux
-        for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
+        const totalDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+        for (let i = 0; i <= totalDays; i++) {
+          const currentDate = new Date(startDate);
+          currentDate.setDate(startDate.getDate() + i);
+          
           // Exclure uniquement le dimanche (0)
-          const dayOfWeek = date.getDay();
+          const dayOfWeek = currentDate.getDay();
           if (dayOfWeek === 0) {
             continue; // Skip dimanche uniquement
           }
 
-          const dateStr = date.toISOString().split('T')[0];
+          const dateStr = currentDate.toISOString().split('T')[0];
 
           for (const time of serviceConfig.slots) {
             try {

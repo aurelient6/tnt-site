@@ -21,10 +21,26 @@ export default function TimeSlotSelector({ serviceSlug, onSlotSelect, selectedSl
       }
 
       const data = await response.json();
-      setAvailableSlots(data.slotsByDate || {});
+      
+      // Filtrer les dates passées côté client
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      const filteredSlots = {};
+      Object.keys(data.slotsByDate || {}).forEach(dateStr => {
+        const [year, month, day] = dateStr.split('T')[0].split('-');
+        const slotDate = new Date(year, month - 1, day);
+        slotDate.setHours(0, 0, 0, 0);
+        
+        if (slotDate >= today) {
+          filteredSlots[dateStr] = data.slotsByDate[dateStr];
+        }
+      });
+      
+      setAvailableSlots(filteredSlots);
       
       // Sélectionner automatiquement la première date disponible
-      const firstDate = Object.keys(data.slotsByDate || {})[0];
+      const firstDate = Object.keys(filteredSlots)[0];
       if (firstDate) {
         setSelectedDate(firstDate);
       }

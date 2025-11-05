@@ -35,8 +35,8 @@ export async function POST(request) {
     for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
       // Exclure les week-ends si demandé
       const dayOfWeek = date.getDay();
-      if (excludeWeekends && (dayOfWeek === 0 || dayOfWeek === 6)) {
-        continue; // Skip dimanche (0) et samedi (6)
+      if (excludeWeekends && (dayOfWeek === 0 )) {
+        continue; // Skip dimanche (0)
       }
 
       const dateStr = date.toISOString().split('T')[0];

@@ -18,6 +18,7 @@ export default function ReservationPage() {
   const [prixTotal, setPrixTotal] = useState(0);
   const [detailPrix, setDetailPrix] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [touchedFields, setTouchedFields] = useState({});
   const forms = serviceForms[servicesSlug] || [];
 
   // Calculer le prix en temps réel
@@ -123,6 +124,57 @@ export default function ReservationPage() {
 
   const handleChange = (questionId, value) => {
     setReponses(prev => ({ ...prev, [questionId]: value }));
+  };
+
+  const handleBlur = (questionId) => {
+    setTouchedFields(prev => ({ ...prev, [questionId]: true }));
+  };
+
+  const isFieldInvalid = (questionId, value, type) => {
+    if (!touchedFields[questionId] || !value) return false;
+
+    const regexNomPrenom = /^[a-zA-ZÀ-ÿ\s\-']+$/;
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const regexTelephone = /^[0-9\s\+\-\(\)]+$/;
+
+    if (questionId === 'nom' || questionId === 'prenom' || questionId === 'race_chien') {
+      return !regexNomPrenom.test(value);
+    }
+    if (type === 'email') {
+      return !regexEmail.test(value);
+    }
+    if (type === 'tel' || questionId === 'telephone') {
+      return !regexTelephone.test(value);
+    }
+    return false;
+  };
+
+  const getInputPattern = (questionId, type) => {
+    // Retourner le pattern HTML5 approprié selon le champ
+    if (questionId === 'nom' || questionId === 'prenom' || questionId === 'race_chien') {
+      return "[a-zA-ZÀ-ÿ\\s\\-']+";
+    }
+    if (type === 'tel' || questionId === 'telephone') {
+      return "[0-9]";
+    }
+    return null;
+  };
+
+  const getInputTitle = (questionId, type) => {
+    // Message d'aide pour l'utilisateur
+    if (questionId === 'nom' || questionId === 'prenom') {
+      return "Lettres, espaces, tirets et apostrophes uniquement";
+    }
+    if (questionId === 'race_chien') {
+      return "Lettres, espaces, tirets et apostrophes uniquement";
+    }
+    if (type === 'tel' || questionId === 'telephone') {
+      return "Chiffres uniquement";
+    }
+    if (type === 'email') {
+      return "Format: exemple@domaine.com";
+    }
+    return "";
   };
 
   const handleCheckboxChange = (questionId, value) => {
@@ -245,6 +297,9 @@ export default function ReservationPage() {
 
     // Input text, email, tel
     if (['text', 'email', 'tel'].includes(type)) {
+      const fieldValue = reponses[questionId] || '';
+      const isInvalid = isFieldInvalid(questionId, fieldValue, type);
+      
       return (
         <div className="question-block" key={questionId}>
           <label>
@@ -253,11 +308,29 @@ export default function ReservationPage() {
           </label>
           <input
             type={type}
-            value={reponses[questionId] || ''}
+            value={fieldValue}
             onChange={(e) => handleChange(questionId, e.target.value)}
+            onBlur={() => handleBlur(questionId)}
             required={required}
-            className="text-input"
+            className={`text-input ${isInvalid ? 'input-error' : ''}`}
+            pattern={getInputPattern(questionId, type)}
+            title={getInputTitle(questionId, type)}
+            style={isInvalid ? {
+              borderColor: '#dc3545',
+              borderWidth: '2px',
+              outline: 'none'
+            } : {}}
           />
+          {isInvalid && (
+            <small style={{ color: '#dc3545', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block', fontWeight: '500' }}>
+              ⚠️ {getInputTitle(questionId, type)}
+            </small>
+          )}
+          {!isInvalid && getInputTitle(questionId, type) && (
+            <small style={{ color: '#666', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block' }}>
+              {getInputTitle(questionId, type)}
+            </small>
+          )}
         </div>
       );
     }
