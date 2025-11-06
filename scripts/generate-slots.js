@@ -1,6 +1,7 @@
 /**
  * Script pour générer les créneaux horaires initiaux
  * Génère directement dans la base de données
+ * Exclut automatiquement les dimanches et les jours fériés français
  * 
  * Usage: node scripts/generate-slots.js
  */
@@ -9,6 +10,7 @@ import { neon } from '@neondatabase/serverless';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { shouldExcludeDate, getHolidayName } from '../lib/utils/holidays.js';
 
 // Charger manuellement les variables d'environnement depuis .env.local
 const __filename = fileURLToPath(import.meta.url);
@@ -116,6 +118,8 @@ async function generateSlots() {
 
         const serviceId = serviceResult[0].id;
         let slotsCreated = 0;
+        let daysExcluded = 0;
+        let excludedReasons = { sundays: 0, holidays: 0 };
 
         // Générer les créneaux
         const totalDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
@@ -123,10 +127,23 @@ async function generateSlots() {
           const currentDate = new Date(startDate);
           currentDate.setDate(startDate.getDate() + i);
           
-          // Exclure uniquement le dimanche (0)
-          const dayOfWeek = currentDate.getDay();
-          if (dayOfWeek === 0) {
-            continue; // Skip dimanche uniquement
+          // Vérifier si la date doit être exclue (dimanche ou jour férié)
+          if (shouldExcludeDate(currentDate)) {
+            daysExcluded++;
+            
+            // Tracker la raison de l'exclusion
+            const dayOfWeek = currentDate.getDay();
+            if (dayOfWeek === 0) {
+              excludedReasons.sundays++;
+            } else {
+              excludedReasons.holidays++;
+              const holidayName = getHolidayName(currentDate);
+              if (holidayName) {
+                console.log(`   ⏭️  ${currentDate.toLocaleDateString('fr-FR')} - ${holidayName}`);
+              }
+            }
+            
+            continue; // Skip cette date
           }
 
           const dateStr = currentDate.toISOString().split('T')[0];
@@ -150,6 +167,7 @@ async function generateSlots() {
         }
 
         console.log(`   ✅ ${slotsCreated} créneaux générés`);
+        console.log(`   ⏭️  ${daysExcluded} jours exclus (${excludedReasons.sundays} dimanches, ${excludedReasons.holidays} jours fériés)`);
       } catch (error) {
         console.error(`   ❌ Erreur: ${error.message}`);
       }

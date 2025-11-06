@@ -11,9 +11,13 @@ export default function TimeSlotSelector({ serviceSlug, onSlotSelect, selectedSl
     fetchAvailableSlots();
   }, [serviceSlug]);
 
-  const fetchAvailableSlots = async () => {
+  const fetchAvailableSlots = async (retryCount = 0) => {
+    const maxRetries = 3;
+    
     try {
       setLoading(true);
+      setError(null);
+      
       const response = await fetch(`/api/slots/available?service=${serviceSlug}`);
       
       if (!response.ok) {
@@ -48,6 +52,16 @@ export default function TimeSlotSelector({ serviceSlug, onSlotSelect, selectedSl
       setError(null);
     } catch (err) {
       console.error('Error fetching slots:', err);
+      
+      // Retry automatique si timeout
+      if (retryCount < maxRetries) {
+        console.log(`Retry ${retryCount + 1}/${maxRetries}...`);
+        setTimeout(() => {
+          fetchAvailableSlots(retryCount + 1);
+        }, 1000 * (retryCount + 1)); // Délai progressif: 1s, 2s, 3s
+        return;
+      }
+      
       setError('Impossible de charger les créneaux disponibles');
     } finally {
       setLoading(false);
