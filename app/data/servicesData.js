@@ -4,7 +4,7 @@ export const getAllServices = () => {
   return Object.values(servicesData).flat();
 };
 
-const getServiceNameBySlug = (slug) => {
+export const getServiceNameBySlug = (slug) => {
   const service = getAllServices().find(s => s.slug === slug);
   return service ? service.name : slug;
 };
@@ -21,6 +21,7 @@ export const getServicesByCategory = (category) => {
   return servicesData[category] || [];
 };
 
+export const slots = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'];
 
 export const servicesData = {
   bienEtre: [
