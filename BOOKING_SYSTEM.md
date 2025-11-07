@@ -20,27 +20,44 @@ Le système de réservation permet aux clients de réserver des créneaux horair
    - Détails de la réservation (`time_slot_id`, `total_price`, `form_responses`)
    - Statut (`pending`, `confirmed`, `cancelled`, `completed`)
 
-## 🔄 Flux de réservation
+## 🚀 Installation et Configuration
 
-1. **Client remplit le formulaire de service** (questions spécifiques)
-2. **Sélection du créneau** via `TimeSlotSelector`
-   - Affiche les dates disponibles pour les 30 prochains jours
-   - Sélection de la date → affichage des horaires disponibles
-3. **Coordonnées client** (nom, prénom, email, téléphone, race du chien)
-4. **Confirmation** → création de la réservation + marquage du créneau comme indisponible
-5. **Page de confirmation** avec récapitulatif
+### Étape 1 : Configuration de la base de données
 
-## 🚀 Déploiement initial
+1. **Créer un fichier `.env.local` à la racine du projet** :
+```bash
+# Base de données (utilisez celle fournie par Vercel/Neon)
+DATABASE_URL=postgresql://...
+# URL de base
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+```
+
+2. **Exécuter le schéma SQL** :
+   - Connectez-vous à votre base de données Neon/Vercel
+   - Exécutez le contenu de `/lib/db/schema.sql`
+
+### Étape 2 : Initialiser les données
+
+```powershell
+# 1. Installer les dépendances
+npm install
+
+# 2. Insérer les services en base
+npm run seed
+
+# 3. Démarrer le serveur
+npm run dev
+
+# 4. Dans un autre terminal, générer les créneaux horaires
+npm run generate-slots
+```
+
+---
 
 ### 1. Créer les tables dans PostgreSQL
 
 Exécutez le schéma SQL dans votre base de données Vercel Postgres :
-
-```bash
-psql <votre_database_url> < lib/db/schema.sql
-```
-
-Ou utilisez le dashboard Vercel Postgres pour exécuter le contenu de `lib/db/schema.sql`.
+utilisez le dashboard Vercel Postgres pour exécuter le contenu de `lib/db/schema.sql`.
 
 ### 2. Insérer les services
 
@@ -210,27 +227,128 @@ Composant de sélection de créneau avec deux étapes :
 - Empty : aucun créneau disponible
 - Confirmation : affiche le créneau sélectionné avec un checkmark vert
 
-## 🔐 Sécurité
+# 📊 État du Système de Réservation
 
-- Transaction SQL atomique pour éviter les double-réservations
-- Contrainte UNIQUE sur `(service_id, slot_date, slot_time)` au niveau DB
-- Validation des champs requis côté API
-- Status enum pour suivre le cycle de vie des réservations
+**Fonctionnalités** :
+- Insère les 9 services en base
+- Mise à jour automatique si déjà existants (ON CONFLICT)
+- Messages de progression clairs
 
-## 🔮 Améliorations futures
+---
 
-- [ ] Interface admin pour voir et gérer les réservations
-- [ ] Notifications par email (confirmation, rappel 24h avant)
-- [ ] Système d'annulation avec remise en disponibilité du créneau
-- [ ] Paiement en ligne (Stripe)
-- [ ] Gestion des jours fériés
-- [ ] Créneaux récurrents (générer automatiquement chaque semaine)
-- [ ] Multi-langue
-- [ ] Export des réservations (CSV, PDF)
+## 🎯 Fonctionnement du Système
 
-## 📝 Notes importantes
+### Architecture
 
-- Les créneaux sont générés manuellement ou via script
-- Un créneau réservé devient `is_available = false` de manière **définitive** (pas de système d'expiration)
-- Les prix sont calculés côté client mais stockés en DB pour référence
-- Le champ `form_responses` stocke toutes les réponses au format JSON
+```
+┌─────────────────┐
+│  Client (Web)   │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────────────────────┐
+│   /reserver/[serviceSlug]       │
+│   - Formulaire multi-étapes     │
+│   - TimeSlotSelector            │
+│   - Calcul prix en temps réel   │
+└────────┬────────────────────────┘
+         │
+         ▼
+┌─────────────────────────────────┐
+│   API Routes                    │
+│   ├─ /api/slots/available       │ ← Charge créneaux disponibles
+│   ├─ /api/slots/generate        │ ← Génère nouveaux créneaux
+│   └─ /api/bookings              │ ← Crée réservation
+└────────┬────────────────────────┘
+         │
+         ▼
+┌─────────────────────────────────┐
+│   Base de Données (Neon)        │
+│   ├─ services                   │
+│   ├─ time_slots                 │
+│   └─ bookings                   │
+└─────────────────────────────────┘
+```
+
+### Flux de Réservation
+
+```
+1. Page de réservation (/reserver/toilettage)
+   │
+   ├─ Étape 1-3 : Questions spécifiques au service
+   │  └─ Calcul prix en temps réel
+   │
+   ├─ Étape finale : Coordonnées + Créneau
+   │  │
+   │  ├─ TimeSlotSelector charge les créneaux
+   │  │  └─ GET /api/slots/available?service=toilettage
+   │  │
+   │  └─ Utilisateur sélectionne date + heure
+   │
+   ├─ Confirmation
+   │  └─ POST /api/bookings
+   │     ├─ Vérifie disponibilité du créneau
+   │     ├─ Crée la réservation
+   │     └─ Marque le créneau comme indisponible
+   │
+   └─ Redirection → /confirmation?bookingId=XXX
+```
+
+
+
+
+## 🔍 Debug
+
+### Le TimeSlotSelector ne s'affiche pas
+
+**Problème** : Aucun créneau disponible
+
+**Solution** :
+```powershell
+# Vérifier que les créneaux ont été générés
+npm run generate-slots
+```
+
+### Erreur "Service not found"
+
+**Problème** : Les services ne sont pas en base
+
+**Solution** :
+```powershell
+# Ré-exécuter le seed
+npm run seed
+```
+
+### Les créneaux ne se chargent pas
+
+**Vérifications** :
+1. Ouvrir la console du navigateur (F12)
+2. Vérifier les erreurs réseau dans l'onglet "Network"
+3. Tester l'API directement : http://localhost:3000/api/slots/available?service=toilettage
+
+---
+
+
+## 🛠️ Maintenance
+
+### Ajouter de nouveaux créneaux
+
+```powershell
+# Régénérer les créneaux pour les 60 prochains jours
+npm run generate-slots
+```
+
+### Ajouter un nouveau service
+
+1. Modifier `/lib/db/seed.js` pour ajouter le service
+2. Créer le formulaire dans `/app/data/serviceForm.js`
+3. Exécuter `npm run seed`
+4. Générer les créneaux avec `npm run generate-slots`
+
+---
+
+## 📝 Notes Importantes
+
+- Les créneaux générés excluent les dimanches par défaut
+- Un créneau réservé devient automatiquement `is_available = false`
+- Le prix est calculé côté client ET stocké en base pour référence
