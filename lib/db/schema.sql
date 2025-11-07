@@ -68,3 +68,23 @@ $$ language 'plpgsql';
 
 CREATE TRIGGER update_bookings_updated_at BEFORE UPDATE ON bookings
 FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Table des administrateurs
+CREATE TABLE IF NOT EXISTS admin_users (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  name VARCHAR(255),
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  last_login TIMESTAMP
+);
+
+-- Index pour améliorer les performances des connexions
+CREATE INDEX idx_admin_users_email ON admin_users(email);
+CREATE INDEX idx_admin_users_active ON admin_users(is_active);
+
+-- Trigger pour mettre à jour updated_at sur admin_users
+CREATE TRIGGER update_admin_users_updated_at BEFORE UPDATE ON admin_users
+FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();

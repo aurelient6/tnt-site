@@ -1,7 +1,16 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db/client';
+import { isAuthenticated } from '@/lib/middleware/adminAuth';
 
 export async function GET(request) {
+  // Vérifier l'authentification
+  if (!isAuthenticated(request)) {
+    return NextResponse.json(
+      { error: 'Non authentifié' },
+      { status: 401 }
+    );
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const serviceSlug = searchParams.get('service');
@@ -43,6 +52,7 @@ export async function GET(request) {
           b.client_phone,
           b.dog_breed,
           b.total_price,
+          b.price_details,
           b.status,
           b.created_at,
           b.form_responses->>'remarques' as form_remarques,
@@ -71,6 +81,7 @@ export async function GET(request) {
           b.client_phone,
           b.dog_breed,
           b.total_price,
+          b.price_details,
           b.status,
           b.created_at,
           b.form_responses->>'remarques' as form_remarques,

@@ -11,10 +11,17 @@
     "db:init": "node lib/db/init.js",
     "seed": "node lib/db/seed.js",
     "generate-slots": "node scripts/generate-slots.js",
-    "clean-slots": "node scripts/clean-slots.js"
+    "clean-slots": "node scripts/clean-slots.js",
+    "create-admin-table": "node scripts/create-admin-table.js",
+    "create-admin": "node scripts/create-admin.js",
+    "change-password": "node scripts/change-admin-password.js",
+    "list-admins": "node scripts/list-admins.js",
+    "generate-secret": "node scripts/generate-secret-key.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^17.2.3",
     "lucide-react": "^0.544.0",
     "next": "15.5.2",
     "react": "19.1.0",

@@ -32,6 +32,16 @@ export default function AdminPage() {
     }
   }, [currentWeekStart, serviceSlug]);
 
+  // Fonction de déconnexion
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/admin/logout', { method: 'POST' });
+      window.location.href = '/admin/login';
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
   // Obtenir le lundi de la semaine pour une date donnée
   const getMonday = (date) => {
     const d = new Date(date);
@@ -147,11 +157,18 @@ export default function AdminPage() {
   return (
     <section className="admin-page">
       <div className="admin-title">
-        <h1>Page Admin - {serviceName}</h1>
-        <p>Tableau des réservations pour le service: {serviceName}</p>
-        <p>Autres services: {
-          allServices.map(service => (<Link key={service.id} href={`/admin/${service.slug}`}>{service.name}</Link>)).reduce((prev, curr) => [prev, ' - ', curr])
-        }</p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <h1>Page Admin - {serviceName}</h1>
+            <p>Tableau des réservations pour le service: {serviceName}</p>
+            <p>Autres services: {
+              allServices.map(service => (<Link key={service.id} href={`/admin/${service.slug}`}>{service.name}</Link>)).reduce((prev, curr) => [prev, ' - ', curr])
+            }</p>
+          </div>
+          <button onClick={handleLogout} className="logout-button">
+            Déconnexion
+          </button>
+        </div>
       </div>
       
       <div className="week-bar">
@@ -240,19 +257,46 @@ export default function AdminPage() {
 
               <div className="booking-detail-group">
                 <h3>Informations Animal</h3>
-                <div className="detail-row">
-                  <span className="detail-label">Nom :</span>
-                  <span className="detail-value">{selectedBooking.dog_name}</span>
-                </div>
+
                 <div className="detail-row">
                   <span className="detail-label">Race :</span>
                   <span className="detail-value">{selectedBooking.dog_breed}</span>
                 </div>
-                <div className="detail-row">
-                  <span className="detail-label">Âge :</span>
-                  <span className="detail-value">{selectedBooking.dog_age} ans</span>
-                </div>
               </div>
+
+              {selectedBooking.price_details && (
+                <div className="booking-detail-group">
+                  <h3>Détails du Service</h3>
+                  {(() => {
+                    try {
+                      // Parser le JSONB si c'est une string, sinon l'utiliser directement
+                      const priceDetails = typeof selectedBooking.price_details === 'string' 
+                        ? JSON.parse(selectedBooking.price_details) 
+                        : selectedBooking.price_details;
+                      
+                      // Vérifier que c'est bien un tableau
+                      if (Array.isArray(priceDetails) && priceDetails.length > 0) {
+                        return priceDetails.map((item, index) => (
+                          <div className="detail-row" key={index}>
+                            <span className="detail-label-service">- {item.label}</span>
+                          </div>
+                        ));
+                      }
+                      return <p style={{ color: '#999', fontStyle: 'italic' }}>Aucun détail disponible</p>;
+                    } catch (error) {
+                      console.error('Error parsing price_details:', error);
+                      return <p style={{ color: '#e74c3c' }}>Erreur lors du chargement des détails</p>;
+                    }
+                  })()}
+                  {selectedBooking.form_remarques && (
+                <div className="booking-detail-group">
+                  <div className="detail-row">
+                    - Remarques : <br className='remarques'/> {selectedBooking.form_remarques}
+                  </div>
+                </div>
+              )}
+                </div>
+              )}
 
               <div className="booking-detail-group">
                 <h3>Informations Réservation</h3>
@@ -268,20 +312,7 @@ export default function AdminPage() {
                   <span className="detail-label">Prix total :</span>
                   <span className="detail-value">{selectedBooking.total_price} €</span>
                 </div>
-                <div className="detail-row">
-                  <span className="detail-label">Statut paiement :</span>
-                  <span className="detail-value payment-status">{selectedBooking.payment_status}</span>
-                </div>
               </div>
-
-              {selectedBooking.additional_info && (
-                <div className="booking-detail-group">
-                  <h3>Informations Complémentaires</h3>
-                  <div className="detail-row">
-                    <p className="additional-info">{selectedBooking.additional_info}</p>
-                  </div>
-                </div>
-              )}
             </div>
 
             <div className="modal-footer">

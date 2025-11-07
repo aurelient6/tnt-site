@@ -47,8 +47,31 @@ body {
 }
 
 .admin-title a:hover {
-  background-color: rgba(var(--principale, 52, 152, 219), 0.1);
+  font-weight: 400;
   text-decoration: underline;
+}
+
+.logout-button {
+  padding: 10px 20px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.logout-button:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.logout-button:active {
+  transform: translateY(0);
 }
 
 .week-bar {
@@ -352,6 +375,10 @@ body {
   }
 }
 
+.remarques {
+  margin: 10px;
+}
+
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -392,12 +419,12 @@ body {
 }
 
 .modal-body {
-  padding: 30px;
+  padding: 20px;
 }
 
 .booking-detail-group {
-  margin-bottom: 30px;
-  padding-bottom: 25px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
   border-bottom: 1px solid #e1e8ed;
 }
 
@@ -411,8 +438,8 @@ body {
   color: var(--principale);
   font-size: 18px;
   font-weight: 700;
-  margin-bottom: 18px;
-  padding-bottom: 10px;
+  margin-bottom: 8px;
+  padding-bottom: 1px;
   border-bottom: 2px solid rgba(var(--principale, 52, 152, 219), 0.2);
 }
 
@@ -437,6 +464,12 @@ body {
   font-size: 15px;
   min-width: 180px;
 }
+.detail-label-service {
+  font-weight: 200;
+  color: #555;
+  font-size: 15px;
+  min-width: 220px;
+}
 
 .detail-value {
   font-size: 15px;
@@ -446,27 +479,13 @@ body {
   word-break: break-word;
 }
 
-.payment-status {
-  display: inline-block;
-  padding: 6px 14px;
-  background-color: #28a745;
-  color: white;
-  border-radius: 20px;
-  font-weight: 600;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
 .additional-info {
-  background-color: #f8f9fa;
   padding: 15px;
   border-radius: 8px;
   color: #555;
   line-height: 1.6;
   font-size: 14px;
   margin: 0;
-  border-left: 4px solid var(--principale);
 }
 
 .modal-footer {
@@ -492,7 +511,9 @@ body {
 }
 
 .modal-btn-close:hover {
-  background: #2980b9;
+  background: white;
+  color: var(--principale);
+  border : 2px solid var(--principale);
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(var(--principale, 52, 152, 219), 0.4);
 }
