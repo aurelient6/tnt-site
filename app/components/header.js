@@ -105,10 +105,10 @@ export default function Header() {
         <nav role="navigation" aria-label="Navigation principale" className={isMenuOpen ? 'active' : ''}>
           <ul className="navList">
             <li className="navItem">
-              <a href={ROUTES.accueil} className="navLink" onClick={closeMenu}>{PAGES.accueil}</a>
+              <a href={ROUTES.services} className="navLink" onClick={closeMenu}>{PAGES.services}</a>
             </li>
             <li className="navItem">
-              <a href={ROUTES.services} className="navLink" onClick={closeMenu}>{PAGES.services}</a>
+              <a href={ROUTES.apropos} className="navLink" onClick={closeMenu}>{PAGES.apropos}</a>
             </li>
             <li className="navItem">
               <a href={ROUTES.boutique} className="navLink" onClick={closeMenu}>{PAGES.boutique}</a>
