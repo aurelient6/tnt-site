@@ -1,5 +1,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.reservation-button-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: var(--principale);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  white-space: nowrap;
+}
+.reservation-button-top:hover {
+  transform: translateY(-7px);
+  box-shadow: var(--shadow-heavy);
+  background: var(--secondaire);
+}
+
+.header-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
 /* Service Detail Styles */
 .service-detail {
   background: var(--background-light);
@@ -400,6 +440,23 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .sticky-reserve-content {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .sticky-service-info h2 {
+    font-size: 1.1rem;
+  }
+  
+  .sticky-reserve-button {
+    width: 100%;
+    justify-content: center;
+    padding: 0.9rem 1.5rem;
+  }
+  
   .service-detail {
     padding: 1rem 0.5rem;
   }
@@ -429,6 +486,23 @@
 }
 
 @media (max-width: 480px) {
+  .sticky-reserve-bar {
+    top: 60px;
+  }
+  
+  .sticky-service-info h2 {
+    font-size: 1rem;
+  }
+  
+  .sticky-price {
+    font-size: 0.85rem;
+  }
+  
+  .sticky-reserve-button {
+    font-size: 0.9rem;
+    padding: 0.85rem 1.2rem;
+  }
+  
   .service-title {
     font-size: 1.75rem;
   }

@@ -21,6 +21,24 @@ export const getServicesByCategory = (category) => {
   return servicesData[category] || [];
 };
 
+export const getServiceBasicInfo = (slug) => {
+  const service = getAllServices().find(s => s.slug === slug);
+  if (!service) return null;
+  return {
+    name: service.name,
+    slug: service.slug,
+    duration: service.duration
+  };
+};
+
+export const getAllServicesBasicInfo = () => {
+  return getAllServices().map(service => ({
+    name: service.name,
+    slug: service.slug,
+    duration: service.duration
+  }));
+};
+
 export const slots = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'];
 
 export const servicesData = {
@@ -30,6 +48,7 @@ export const servicesData = {
       name: "Toilettage",
       slug: "toilettage",
       price: "45€/30'",
+      duration: 60,
       image: "/images/services/toilettage/toilettage.jpg",
       category: "Bien-être",
       description: "Service complet de toilettage pour votre chien incluant bain, séchage, coupe, épilation des poils, nettoyage des oreilles et coupe des griffes.",
@@ -49,6 +68,7 @@ export const servicesData = {
       name: "Massage",
       slug: "massage",
       price: "35€/h",
+      duration: 60,
       image: "/images/services/massage/massage2.jpg",
       category: "Bien-être",
       description: "Massage thérapeutique relaxant pour décontracter les muscles et améliorer la circulation sanguine de votre chien.",
@@ -65,6 +85,7 @@ export const servicesData = {
       name: "Physiothérapie",
       slug: "physiotherapie",
       price: "35€",
+      duration: 60,
       image: "/images/services/physiotherapie/physiotherapie.jpg",
       category: "Bien-être",
       description: "Séances de kinésithérapie canine pour la rééducation après blessure ou pour l'entretien de la condition physique.",
@@ -83,6 +104,7 @@ export const servicesData = {
       name: "Main training",
       slug: "main-training",
       price: "45€",
+      duration: 60,
       image: "/images/services/maintraining/maintraining2.jpg",
       category: "Olfaction",
       description: "Formation à la recherche de personnes, développement des capacités olfactives naturelles de votre chien.",
@@ -99,6 +121,7 @@ export const servicesData = {
       name: "Hooper",
       slug: "hooper",
       price: "35€",
+      duration: 60,
       image: "/images/services/hooper/hooper3.jpg",
       category: "Olfaction",
       description: "Parcours ludiques avec cerceaux et tunnels, activité sans saut parfaite pour tous les chiens.",
@@ -115,6 +138,7 @@ export const servicesData = {
       name: "Agility",
       slug: "agility",
       price: "35€",
+      duration: 60,
       image: "/images/services/agility/agility3.jpg",
       category: "Olfaction",
       description: "Parcours d'obstacles pour développer l'agilité, la coordination et renforcer la complicité.",
@@ -134,6 +158,7 @@ export const servicesData = {
       name: "Hydrothérapie",
       slug: "hydrotherapie",
       price: "45€",
+      duration: 60,
       image: "/images/services/hydrotherapie/hydrotherapie2.jpg",
       category: "Sport",
       description: "Séance sur tapis roulant aquatique pour la rééducation en douceur et le renforcement musculaire.",
@@ -151,6 +176,7 @@ export const servicesData = {
       name: "Tapis de course",
       slug: "tapis-de-course",
       price: "35€",
+      duration: 60,
       image: "/images/services/tapisdecourse/tapisdecourse.jpg",
       category: "Sport",
       description: "Entraînement cardiovasculaire contrôlé sur tapis de course spécialement adapté aux chiens.",
@@ -167,6 +193,7 @@ export const servicesData = {
       name: "Dressage",
       slug: "dressage",
       price: "Voir tableau des prix",
+      duration: 60,
       image: "/images/services/dressage/dressage.jpg",
       category: "Dressage",
       description: "L'apprentissage de comportements et de tâches spécifiques qu'un chien exécute sur un ordre, visant à développer des aptitudes professionnelles ou de loisir",

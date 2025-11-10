@@ -86,6 +86,7 @@ export default function ServiceDetail({ service }) {
 
   return (
     <section className="service-detail">
+
       {/* Breadcrumb */}
       <nav className="breadcrumb">
         <Link href={ROUTES.accueil}>Accueil</Link>
@@ -161,7 +162,12 @@ export default function ServiceDetail({ service }) {
         </div>
         
         <div className="service-info-main">
-          <h1 className="service-title">{service.name}</h1>
+          <div className='header-title'>
+            <h1 className="service-title">{service.name}</h1>
+            <Link href={`${ROUTES.reserver}/${serviceSlug}`} className="reservation-button-top">
+              Réserver maintenant !
+            </Link>
+          </div>
           <p className="service-subtitle">{service.objectif}</p>
           
           <div className="service-meta">

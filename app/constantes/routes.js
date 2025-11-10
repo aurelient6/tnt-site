@@ -16,6 +16,7 @@ export const ROUTES = {
   hydrotherapie: "/hydrotherapie",
   tapisDeCourse: "/tapis-de-course",
   dressage: "/dressage",
+  reserver: "/reserver",
 };
 
 export const PAGES = {
@@ -26,4 +27,5 @@ export const PAGES = {
   equipe: "Notre équipe",
   actualites: "Nos actualités",
   apropos: "À propos",
+  reserver: "Réserver",
 }
