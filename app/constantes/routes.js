@@ -17,6 +17,8 @@ export const ROUTES = {
   tapisDeCourse: "/tapis-de-course",
   dressage: "/dressage",
   reserver: "/reserver",
+  login: "/login",
+  admin: "/admin",
 };
 
 export const PAGES = {
@@ -28,4 +30,6 @@ export const PAGES = {
   actualites: "Nos actualités",
   apropos: "À propos",
   reserver: "Réserver",
+  login: "Connexion",
+  admin: "Admin",
 }

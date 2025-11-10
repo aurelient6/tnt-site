@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import '../../style/login.css';
+import { ROUTES } from '../../constantes/routes';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -28,7 +29,7 @@ export default function LoginPage() {
 
       if (response.ok) {
         // Rediriger vers la page admin après connexion réussie
-        router.push('/admin/toilettage');
+        router.push(ROUTES.admin + ROUTES.toilettage);
       } else {
         setError(data.error || 'Identifiants incorrects');
       }

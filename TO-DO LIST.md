@@ -1,7 +1,7 @@
 # Prochaines étapes
 *Cocher: Alt+C*
 ## Mails:
-- [ ] Ajouter un mail de confirmation après la réservation
+- [ ] Ajouter un mail de confirmation après la réservation: Ajouter informations dans le mail et le numéro de réservation.
 
 ## Messages:
 - [ ] Envoyer un sms de rappel de rendez-vous la veille
@@ -20,7 +20,7 @@
 
 ## Import des données de service
 - [x] `lib/db/seed.js` : import les services data
-- [ ] Vérifier si aucune donnée n'est hardcodée ailleurs
+- [x] Vérifier si aucune donnée n'est hardcodée ailleurs
 
 # Futur
 - [ ] Faire des sessions JWT pour la partie admin?
@@ -32,3 +32,4 @@
 - [ ] Différents rôles avec différentes autorisations
 - [ ] Réserver plusieurs créneaux d'un coup
 - [ ] Pouvoir ajouter/modifier/supprimer les services depuis l'interface admin
+- [ ] Remplacer l'adresse mail d'envoi de mail de confirmation par celle avec le domaine

@@ -11,7 +11,7 @@ import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { shouldExcludeDate, getHolidayName } from '../lib/utils/holidays.js';
-import { slots } from '@/app/data/servicesData.js';
+import { getAllServicesBasicInfo, slots } from '../app/data/servicesData.js';
 
 // Charger manuellement les variables d'environnement depuis .env.local
 const __filename = fileURLToPath(import.meta.url);
@@ -43,53 +43,12 @@ if (!databaseUrl) {
 
 const sql = neon(databaseUrl);
 
-const servicesConfig = [
-  {
-    slug: 'toilettage',
-    duration: 60,
-    slots: slots
-  },
-  {
-    slug: 'massage',
-    duration: 60,
-    slots: slots
-  },
-  {
-    slug: 'physiotherapie',
-    duration: 45,
-    slots: slots
-  },
-  {
-    slug: 'main-training',
-    duration: 60,
-    slots: slots
-  },
-  {
-    slug: 'hooper',
-    duration: 60,
-    slots: slots
-  },
-  {
-    slug: 'agility',
-    duration: 90,
-    slots: slots
-  },
-  {
-    slug: 'hydrotherapie',
-    duration: 45,
-    slots: slots
-  },
-  {
-    slug: 'tapis-de-course',
-    duration: 45,
-    slots: slots
-  },
-  {
-    slug: 'dressage',
-    duration: 60,
-    slots: slots
-  }
-];
+// Générer la configuration des services depuis servicesData.js
+const servicesConfig = getAllServicesBasicInfo().map(service => ({
+  slug: service.slug,
+  duration: service.duration,
+  slots: slots
+}));
 
 async function generateSlots() {
   try {

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { ROUTES, PAGES } from './app/constantes/routes.js';
 
 // Durée de validité de la session : 24 heures
 const SESSION_DURATION = 24 * 60 * 60 * 1000;
@@ -12,7 +13,7 @@ export function middleware(request) {
 
     // Pas de cookie de session
     if (!sessionCookie) {
-      return NextResponse.redirect(new URL('/admin/login', request.url));
+      return NextResponse.redirect(new URL(ROUTES.admin + ROUTES.login, request.url));
     }
 
     try {
@@ -25,20 +26,20 @@ export function middleware(request) {
 
       // Session expirée
       if (sessionAge > SESSION_DURATION) {
-        const response = NextResponse.redirect(new URL('/admin/login', request.url));
+        const response = NextResponse.redirect(new URL(ROUTES.admin + ROUTES.login, request.url));
         response.cookies.delete('admin_session');
         return response;
       }
     } catch (error) {
       console.error('Session validation error:', error);
-      const response = NextResponse.redirect(new URL('/admin/login', request.url));
+      const response = NextResponse.redirect(new URL(ROUTES.admin + ROUTES.login, request.url));
       response.cookies.delete('admin_session');
       return response;
     }
   }
 
   // Si l'utilisateur est déjà connecté et essaie d'accéder à /admin/login
-  if (pathname === '/admin/login') {
+  if (pathname === ROUTES.admin + ROUTES.login) {
     const sessionCookie = request.cookies.get('admin_session');
     
     if (sessionCookie) {
@@ -50,7 +51,7 @@ export function middleware(request) {
 
         // Session valide, rediriger vers la page admin
         if (sessionAge <= SESSION_DURATION) {
-          return NextResponse.redirect(new URL('/admin/toilettage', request.url));
+          return NextResponse.redirect(new URL(ROUTES.admin + ROUTES.toilettage, request.url));
         }
       } catch (error) {
         // Session invalide, continuer vers la page de login

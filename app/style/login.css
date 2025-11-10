@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background:  var(--principale);
+  background:  var(--secondaire);
   position: relative;
   overflow: hidden;
 }

@@ -1,5 +1,6 @@
 ﻿import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db/client';
+import { sendBookingConfirmation } from '@/lib/services/emailService';
 
 export async function POST(request) {
   try {
@@ -39,6 +40,25 @@ export async function POST(request) {
       VALUES (${serviceId}, ${time_slot_id}, ${client_name}, ${client_firstname}, ${client_email}, ${client_phone}, ${dog_breed}, ${slot.slot_date}, ${slot.slot_time}, ${JSON.stringify(form_responses)}, ${total_price}, ${JSON.stringify(price_details)}, 'confirmed')
       RETURNING id, created_at
     `;
+
+    // Récupérer le nom du service pour l'email
+    const serviceNameResult = await sql`SELECT name FROM services WHERE id = ${serviceId}`;
+    const serviceName = serviceNameResult[0]?.name || service_slug;
+
+    // Envoyer l'email de confirmation
+    try {
+      await sendBookingConfirmation({
+        clientEmail: client_email,
+        clientName: `${client_firstname} ${client_name}`,
+        serviceName: serviceName,
+        date: new Date(slot.slot_date).toLocaleDateString('fr-FR'),
+        time: slot.slot_time
+      });
+      console.log('✅ Email de confirmation envoyé à', client_email);
+    } catch (emailError) {
+      console.error('⚠️ Erreur lors de l\'envoi de l\'email:', emailError);
+      // On ne fait pas échouer la réservation si l'email échoue
+    }
 
     return NextResponse.json({ id: bookingResult[0].id, created_at: bookingResult[0].created_at }, { status: 201 });
   } catch (error) {

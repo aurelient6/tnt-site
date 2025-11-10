@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import {ROUTES} from '../constantes/routes';
+import { getAllServices } from '../data/servicesData';
 
 // Wrapper component for SVG images that need to be white
 const WhiteSVGIcon = ({ src, alt }) => (
@@ -20,19 +22,8 @@ const WhiteSVGIcon = ({ src, alt }) => (
   </div>
 );
 
-export const ServiceIcons = {
-  'Toilettage': () => <WhiteSVGIcon src="/icones/toilettage.svg" alt="Toilettage" />,
-  
-  'Massage': () => <WhiteSVGIcon src="/icones/massage.svg" alt="Massage" />,
-  
-  'Physiothérapie': () => <WhiteSVGIcon src="/icones/physiothérapie.svg" alt="Physiothérapie" />,
-  
-  'Main training': () => <WhiteSVGIcon src="/icones/maintraining.svg" alt="Main training" />,
-  
-  'Hooper': () => <WhiteSVGIcon src="/icones/hooper.svg" alt="Hooper" />,
-  
-  'Agility': () => <WhiteSVGIcon src="/icones/agility.svg" alt="Agility" />,
-  
+// Custom SVG icons pour les services sans icône dans servicesData
+const CustomSVGIcons = {
   'Hydrothérapie': () => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M12 2.69L17 7.24V11.5C17 15.09 14.41 18.16 11 18.9C7.59 18.16 5 15.09 5 11.5V7.24L12 2.69Z" 
@@ -56,15 +47,35 @@ export const ServiceIcons = {
             fill="white" stroke="white" strokeWidth="1.5" strokeLinejoin="round"/>
     </svg>
   ),
+};
+
+// Générer dynamiquement ServiceIcons depuis servicesData
+const generateServiceIcons = () => {
+  const services = getAllServices();
+  const icons = {};
+  
+  services.forEach(service => {
+    if (service.icon) {
+      // Service avec icône dans servicesData
+      icons[service.name] = () => <WhiteSVGIcon src={service.icon} alt={service.name} />;
+    } else if (CustomSVGIcons[service.name]) {
+      // Service avec custom SVG
+      icons[service.name] = CustomSVGIcons[service.name];
+    }
+  });
   
   // Default fallback icon
-  'default': () => (
+  icons['default'] = () => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2"/>
       <path d="M12 8V12L15 15" stroke="white" strokeWidth="2" strokeLinecap="round"/>
     </svg>
-  )
+  );
+  
+  return icons;
 };
+
+export const ServiceIcons = generateServiceIcons();
 
 export const getServiceIcon = (serviceName) => {
   const IconComponent = ServiceIcons[serviceName] || ServiceIcons['default'];

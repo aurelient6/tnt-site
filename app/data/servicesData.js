@@ -39,6 +39,20 @@ export const getAllServicesBasicInfo = () => {
   }));
 };
 
+export const getServiceIcon = (serviceName) => {
+  const service = getAllServices().find(s => s.name === serviceName);
+  return service?.icon || null;
+};
+
+export const getAllServicesIcons = () => {
+  return getAllServices().reduce((acc, service) => {
+    if (service.icon) {
+      acc[service.name] = service.icon;
+    }
+    return acc;
+  }, {});
+};
+
 export const slots = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'];
 
 export const servicesData = {
@@ -62,6 +76,7 @@ export const servicesData = {
         "/images/services/toilettage/toilettage3.jpg",
         "/images/services/toilettage/toilettage4.jpg"
       ],
+      icon: "/icones/toilettage.svg"
     },
     {
       id: 2,
@@ -77,8 +92,9 @@ export const servicesData = {
       remarques: "Particulièrement recommandé pour les chiens âgés ou sportifs.",
       equipe: "Lucie Benoit",
       gallery: [
-        "/images/services/massage/massage.jpg"          
-      ]
+        "/images/services/massage/massage.jpg"
+      ],
+      icon: "/icones/massage.svg"
     },
     {
       id: 3,
@@ -95,7 +111,8 @@ export const servicesData = {
       equipe: "Paul Lemoine",
       gallery: [
         "/images/services/physiotherapie/physiotherapie2.jpg"
-      ]
+      ],
+      icon: "/icones/physiotherapie.svg"
     }
   ],
   olfaction: [
@@ -114,7 +131,8 @@ export const servicesData = {
       equipe: "Élise Roux",
       gallery: [
         "/images/services/maintraining/maintraining.jpg"
-      ]
+      ],
+      icon: "/icones/maintraining.svg"
     },
     {
       id: 5,
@@ -131,7 +149,8 @@ export const servicesData = {
       equipe: "Sophie Girard",
       gallery: [
         "/images/services/hooper/hooper2.jpg"
-      ]
+      ],
+      icon: "/icones/hooper.svg"
     },
     {
       id: 6,
@@ -149,7 +168,8 @@ export const servicesData = {
       gallery: [
         "/images/services/agility/agility2.jpg",
         "/images/services/agility/agility.jpg"
-      ]
+      ],
+      icon: "/icones/agility.svg"
     }
   ],
   sport: [

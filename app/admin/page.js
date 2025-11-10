@@ -1,13 +1,14 @@
 'use client';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { ROUTES } from '../../app/constantes/routes';
 
 export default function AdminIndex() {
   const router = useRouter();
 
   useEffect(() => {
     // Rediriger automatiquement vers le premier service
-    router.push('/admin/toilettage');
+    router.push(ROUTES.admin + ROUTES.toilettage);
   }, [router]);
 
   return (
