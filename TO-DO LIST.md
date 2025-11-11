@@ -1,13 +1,15 @@
 # Prochaines étapes
 *Cocher: Alt+C*
 ## Mails:
-- [ ] Ajouter un mail de confirmation après la réservation: Ajouter informations dans le mail et le numéro de réservation.
-
+- [x] Ajouter un mail de confirmation après la réservation
 ## Messages:
 - [ ] Envoyer un sms de rappel de rendez-vous la veille
 
 ## Stripe/moyen de paiement
 - [ ] Ajouter Stripe à la fin de la réservation
+
+## Notifications
+- [ ] Envoyer une notif à chaque nouvelle réservation
 
 ## Boutons réservations
 - [x] Ajouter des boutons de réservations dans la page d'accueil et plus haut dans le service détaillé

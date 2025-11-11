@@ -263,8 +263,8 @@ export default function ReservationPage() {
 
       const booking = await bookingResponse.json();
 
-      // 2. Rediriger vers une page de confirmation
-      router.push(`/confirmation?bookingId=${booking.id}`);
+      // 2. Rediriger vers la page de confirmation avec le token sécurisé
+      router.push(`/confirmation?token=${booking.confirmation_token}`);
 
     } catch (error) {
       console.error('Erreur lors de la finalisation:', error);

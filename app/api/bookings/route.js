@@ -1,6 +1,7 @@
 ﻿import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db/client';
 import { sendBookingConfirmation } from '@/lib/services/emailService';
+import { generateConfirmationToken } from '@/lib/utils/crypto';
 
 export async function POST(request) {
   try {
@@ -34,25 +35,33 @@ export async function POST(request) {
     }
 
     const slot = slotResult[0];
+    
+    // Générer un token de confirmation unique
+    const confirmationToken = generateConfirmationToken();
+    
     const bookingResult = await sql`
       WITH updated_slot AS (UPDATE time_slots SET is_available = false WHERE id = ${time_slot_id} RETURNING id)
-      INSERT INTO bookings (service_id, time_slot_id, client_name, client_firstname, client_email, client_phone, dog_breed, booking_date, booking_time, form_responses, total_price, price_details, status)
-      VALUES (${serviceId}, ${time_slot_id}, ${client_name}, ${client_firstname}, ${client_email}, ${client_phone}, ${dog_breed}, ${slot.slot_date}, ${slot.slot_time}, ${JSON.stringify(form_responses)}, ${total_price}, ${JSON.stringify(price_details)}, 'confirmed')
-      RETURNING id, created_at
+      INSERT INTO bookings (service_id, time_slot_id, client_name, client_firstname, client_email, client_phone, dog_breed, booking_date, booking_time, form_responses, total_price, price_details, status, confirmation_token)
+      VALUES (${serviceId}, ${time_slot_id}, ${client_name}, ${client_firstname}, ${client_email}, ${client_phone}, ${dog_breed}, ${slot.slot_date}, ${slot.slot_time}, ${JSON.stringify(form_responses)}, ${total_price}, ${JSON.stringify(price_details)}, 'confirmed', ${confirmationToken})
+      RETURNING id, created_at, confirmation_token
     `;
 
     // Récupérer le nom du service pour l'email
     const serviceNameResult = await sql`SELECT name FROM services WHERE id = ${serviceId}`;
     const serviceName = serviceNameResult[0]?.name || service_slug;
 
-    // Envoyer l'email de confirmation
+    // Envoyer l'email de confirmation avec toutes les données
     try {
       await sendBookingConfirmation({
         clientEmail: client_email,
         clientName: `${client_firstname} ${client_name}`,
         serviceName: serviceName,
         date: new Date(slot.slot_date).toLocaleDateString('fr-FR'),
-        time: slot.slot_time
+        time: slot.slot_time,
+        bookingId: bookingResult[0].id,
+        clientPhone: client_phone,
+        dogBreed: dog_breed,
+        totalPrice: total_price
       });
       console.log('✅ Email de confirmation envoyé à', client_email);
     } catch (emailError) {
@@ -60,7 +69,11 @@ export async function POST(request) {
       // On ne fait pas échouer la réservation si l'email échoue
     }
 
-    return NextResponse.json({ id: bookingResult[0].id, created_at: bookingResult[0].created_at }, { status: 201 });
+    return NextResponse.json({ 
+      id: bookingResult[0].id, 
+      created_at: bookingResult[0].created_at,
+      confirmation_token: bookingResult[0].confirmation_token 
+    }, { status: 201 });
   } catch (error) {
     console.error('Error creating booking:', error);
     return NextResponse.json({ error: 'Failed to create booking' }, { status: 500 });

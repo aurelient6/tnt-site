@@ -42,6 +42,9 @@ CREATE TABLE IF NOT EXISTS bookings (
   booking_date DATE NOT NULL,
   booking_time TIME NOT NULL,
   
+  -- Token de confirmation sécurisé
+  confirmation_token VARCHAR(64) UNIQUE NOT NULL,
+  
   -- Statut
   status VARCHAR(50) DEFAULT 'pending', -- pending, confirmed, cancelled, completed
   
@@ -56,6 +59,7 @@ CREATE INDEX idx_time_slots_available ON time_slots(is_available);
 CREATE INDEX idx_bookings_service ON bookings(service_id);
 CREATE INDEX idx_bookings_date ON bookings(booking_date);
 CREATE INDEX idx_bookings_status ON bookings(status);
+CREATE INDEX idx_bookings_token ON bookings(confirmation_token);
 
 -- Trigger pour mettre à jour updated_at
 CREATE OR REPLACE FUNCTION update_updated_at_column()

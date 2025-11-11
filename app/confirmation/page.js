@@ -8,20 +8,20 @@ import '../style/confirmation.css';
 
 export default function ConfirmationPage() {
   const searchParams = useSearchParams();
-  const bookingId = searchParams.get('bookingId');
+  const token = searchParams.get('token');
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!bookingId) {
+    if (!token) {
       setError('Aucune réservation trouvée');
       setLoading(false);
       return;
     }
 
-    // Charger les détails de la réservation
-    fetch(`/api/bookings/${bookingId}`)
+    // Charger les détails de la réservation avec le token sécurisé
+    fetch(`/api/bookings/confirm?token=${encodeURIComponent(token)}`)
       .then(res => {
         if (!res.ok) throw new Error('Réservation non trouvée');
         return res.json();
@@ -34,7 +34,7 @@ export default function ConfirmationPage() {
         setError(err.message);
         setLoading(false);
       });
-  }, [bookingId]);
+  }, [token]);
 
   if (loading) {
     return (
