@@ -2,11 +2,12 @@
 *Cocher: Alt+C*
 ## Mails:
 - [x] Ajouter un mail de confirmation après la réservation
-## Messages:
-- [ ] Envoyer un sms de rappel de rendez-vous la veille
 
 ## Stripe/moyen de paiement
 - [ ] Ajouter Stripe à la fin de la réservation
+
+## Télécharger la confirmation
+- [x] Possibilité de télécharger
 
 ## Notifications
 - [ ] Envoyer une notif à chaque nouvelle réservation
@@ -35,3 +36,6 @@
 - [ ] Réserver plusieurs créneaux d'un coup
 - [ ] Pouvoir ajouter/modifier/supprimer les services depuis l'interface admin
 - [ ] Remplacer l'adresse mail d'envoi de mail de confirmation par celle avec le domaine
+
+# Futur lointain
+- [ ] Envoyer un sms de rappel de rendez-vous la veille plus tard

@@ -4,7 +4,9 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ROUTES } from '../constantes/routes';
+import { INFORMATIONS } from '../constantes/infos';
 import '../style/confirmation.css';
+import jsPDF from 'jspdf';
 
 export default function ConfirmationPage() {
   const searchParams = useSearchParams();
@@ -12,6 +14,7 @@ export default function ConfirmationPage() {
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   useEffect(() => {
     if (!token) {
@@ -27,6 +30,9 @@ export default function ConfirmationPage() {
         return res.json();
       })
       .then(data => {
+        console.log('🔍 Données brutes reçues de l\'API:', data);
+        console.log('🔍 booking_date:', data.booking_date);
+        console.log('🔍 Type:', typeof data.booking_date);
         setBooking(data);
         setLoading(false);
       })
@@ -59,18 +65,223 @@ export default function ConfirmationPage() {
   }
 
   const formatDate = (dateStr) => {
-    const [year, month, day] = dateStr.split('T')[0].split('-');
-    const date = new Date(year, month - 1, day);
+    // La date vient en UTC de PostgreSQL: "2025-11-11T23:00:00.000Z"
+    // Quand c'est 23h UTC, c'est en fait le lendemain en heure locale (GMT+1)
+    // Donc on utilise directement l'objet Date qui gère automatiquement la conversion
+    const date = new Date(dateStr);
+    
     return date.toLocaleDateString('fr-FR', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
+      timeZone: 'Europe/Paris' // Forcer le fuseau horaire français
     });
   };
 
   const formatTime = (timeStr) => {
     return timeStr.slice(0, 5); // HH:MM
+  };
+
+  const handleDownloadPDF = async () => {
+    if (isDownloading) return;
+    
+    setIsDownloading(true);
+    console.log('🎬 Génération du PDF professionnel...');
+    
+    try {
+      // Créer le PDF
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+      
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      let yPosition = 20;
+      
+      // Couleur principale
+      const primaryColor = [44, 110, 73]; // ##2c6e49
+      const lightBlue = [240, 247, 255]; // #f0f7ff
+      
+      // === EN-TÊTE ===
+      pdf.setFillColor(...primaryColor);
+      pdf.rect(0, 0, pageWidth, 50, 'F');
+      
+      // Titre
+      pdf.setTextColor(255, 255, 255);
+      pdf.setFontSize(24);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Réservation confirmée', pageWidth / 2, 20, { align: 'center' });
+      
+      // Logo - On va le charger et l'afficher
+      try {
+        // Charger le logo depuis le dossier public
+        const logoPath = '/images/logo/logo.png'; // Ajuste le chemin selon ton logo
+        const img = new Image();
+        img.src = logoPath;
+        
+        // Attendre que l'image soit chargée
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+        
+        // Convertir l'image en base64
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        const logoBase64 = canvas.toDataURL('image/png');
+        
+        // Ajouter le logo au PDF (centré, 30mm de largeur)
+        const logoWidth = 30;
+        const logoHeight = (img.height / img.width) * logoWidth;
+        const logoX = (pageWidth - logoWidth) / 2;
+        pdf.addImage(logoBase64, 'PNG', logoX, 28, logoWidth, logoHeight);
+      } catch (error) {
+        console.warn('Impossible de charger le logo:', error);
+        // Fallback : afficher le nom de l'entreprise
+        pdf.setFontSize(12);
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(INFORMATIONS.name, pageWidth / 2, 35, { align: 'center' });
+      }
+      
+      yPosition = 60;
+      
+      // === INFORMATIONS CLIENT ===
+      pdf.setTextColor(0, 0, 0);
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(`Bonjour ${booking.client_firstname} ${booking.client_name},`, 20, yPosition);
+      yPosition += 7;
+      pdf.text('Votre réservation a été enregistrée avec succès.', 20, yPosition);
+      yPosition += 15;
+      
+      // === DÉTAILS DE LA RÉSERVATION ===
+      pdf.setFillColor(...lightBlue);
+      pdf.roundedRect(15, yPosition, pageWidth - 30, 70, 3, 3, 'F');
+      
+      yPosition += 10;
+      pdf.setFontSize(14);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(...primaryColor);
+      pdf.text('Détails de votre réservation', 20, yPosition);
+      
+      yPosition += 10;
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(0, 0, 0);
+      
+      // Numéro de réservation
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Numéro de réservation :', 20, yPosition);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(`#${booking.id}`, 80, yPosition);
+      yPosition += 7;
+      
+      // Service
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Service :', 20, yPosition);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(booking.service_name, 80, yPosition);
+      yPosition += 7;
+      
+      // Date
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Date :', 20, yPosition);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(formatDate(booking.booking_date), 80, yPosition);
+      yPosition += 7;
+      
+      // Heure
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Heure :', 20, yPosition);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(formatTime(booking.booking_time), 80, yPosition);
+      yPosition += 7;
+      
+      // Race du chien
+      if (booking.dog_breed) {
+        pdf.setFont('helvetica', 'bold');
+        pdf.text('Race du chien :', 20, yPosition);
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(booking.dog_breed, 80, yPosition);
+        yPosition += 7;
+      }
+      
+      // Prix
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Prix total :', 20, yPosition);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(...primaryColor);
+      pdf.setFontSize(12);
+      pdf.text(`${booking.total_price} €`, 80, yPosition);
+      
+      yPosition += 20;
+      
+      // === INFORMATIONS IMPORTANTES ===
+      pdf.setFillColor(255, 243, 205); // Jaune clair
+      pdf.roundedRect(15, yPosition, pageWidth - 30, 35, 3, 3, 'F');
+      
+      yPosition += 8;
+      pdf.setFontSize(11);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(0, 0, 0);
+      pdf.text('Informations importantes', 20, yPosition);
+      
+      yPosition += 7;
+      pdf.setFontSize(9);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text('• Merci d\'arriver 10 minutes avant votre rendez-vous', 22, yPosition);
+      yPosition += 5;
+      pdf.text('• En cas d\'empêchement, prévenez-nous au moins 24h à l\'avance', 22, yPosition);
+      yPosition += 5;
+      pdf.text('• Conservez ce document comme confirmation de réservation', 22, yPosition);
+      
+      yPosition += 15;
+      
+      // === COORDONNÉES ===
+      pdf.setFillColor(248, 249, 250);
+      pdf.roundedRect(15, yPosition, pageWidth - 30, 30, 3, 3, 'F');
+      
+      yPosition += 8;
+      pdf.setFontSize(11);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Besoin de nous contacter ?', 20, yPosition);
+      
+      yPosition += 7;
+      pdf.setFontSize(9);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(`Téléphone : ${INFORMATIONS.phone}`, 20, yPosition);
+      yPosition += 5;
+      pdf.text(`Email : ${INFORMATIONS.email}`, 20, yPosition);
+      yPosition += 5;
+      pdf.text(`Adresse : ${INFORMATIONS.address}`, 20, yPosition);
+      
+      // === FOOTER ===
+      yPosition = pdf.internal.pageSize.getHeight() - 20;
+      pdf.setFontSize(8);
+      pdf.setTextColor(128, 128, 128);
+      pdf.text('Nous avons hâte de vous accueillir !', pageWidth / 2, yPosition, { align: 'center' });
+      yPosition += 5;
+      pdf.text(`L'équipe ${INFORMATIONS.name}`, pageWidth / 2, yPosition, { align: 'center' });
+      yPosition += 5;
+      pdf.text(`Document généré le ${new Date().toLocaleDateString('fr-FR')}`, pageWidth / 2, yPosition, { align: 'center' });
+      
+      // Télécharger le PDF
+      const fileName = `Reservation-${INFORMATIONS.name}-${booking.id}.pdf`;
+      pdf.save(fileName);
+      
+      console.log('🎉 PDF professionnel généré avec succès !');
+      
+    } catch (error) {
+      console.error('❌ Erreur lors de la génération du PDF:', error);
+      alert(`Erreur lors du téléchargement: ${error.message}`);
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   return (
@@ -131,10 +342,14 @@ export default function ConfirmationPage() {
         </div>
 
         <div className="action-buttons">
-          <Link href={ROUTES.accueil} className="btn-secondary">
-            Retour à l&apos;accueil
-          </Link>
-          <Link href={ROUTES.services} className="btn-primary">
+          <button 
+            onClick={handleDownloadPDF} 
+            className="btn-primary"
+            disabled={isDownloading}
+          >
+            {isDownloading ? 'Génération...' : 'Télécharger la confirmation'}
+          </button>
+          <Link href={ROUTES.services} className="btn-secondary">
             Voir nos autres services
           </Link>
         </div>
