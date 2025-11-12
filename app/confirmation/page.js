@@ -11,6 +11,7 @@ import jsPDF from 'jspdf';
 export default function ConfirmationPage() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
+  const paymentStatus = searchParams.get('payment');
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -284,12 +285,51 @@ export default function ConfirmationPage() {
     }
   };
 
+  const handleRetryPayment = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bookingId: booking.id,
+          confirmationToken: token
+        })
+      });
+
+      if (!response.ok) throw new Error('Erreur lors de la création de la session de paiement');
+
+      const { url } = await response.json();
+      window.location.href = url;
+    } catch (error) {
+      alert('Erreur lors de la redirection vers le paiement');
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="confirmation-page">
       <div className="confirmation-card">
-        <div className="success-icon">✓</div>
+        <div className="success-icon">{booking.id}</div>
         
         <h1>Réservation confirmée !</h1>
+        
+        {/* Statut de paiement */}
+        {paymentStatus === 'success' && (
+          <div className="payment-alert success">
+            ✅ Paiement effectué avec succès
+          </div>
+        )}
+        {paymentStatus === 'cancelled' && (
+          <div className="payment-alert warning">
+            ⚠️ Paiement annulé - Votre réservation est en attente
+          </div>
+        )}
+        {booking.payment_status === 'pending' && !paymentStatus && (
+          <div className="payment-alert info">
+            ⏳ En attente de paiement
+          </div>
+        )}
         
         <p className="confirmation-message">
           Merci <strong>{booking.client_firstname} {booking.client_name}</strong>,<br />
@@ -315,8 +355,9 @@ export default function ConfirmationPage() {
           </div>
 
           <div className="detail-row">
-            <span className="label">Race du chien :</span>
-            <span className="value">{booking.dog_breed}</span>
+            <span className="label">Numéro de réservation :</span>
+            <span className="value">#{booking.id}
+            </span>
           </div>
 
           {booking.form_responses?.remarques && (
@@ -333,15 +374,38 @@ export default function ConfirmationPage() {
         </div>
 
         <div className="confirmation-info">
-          <p>
-            Un email de confirmation a été envoyé à <strong>{booking.client_email}</strong>
-          </p>
-          <p className="small-text">
-            Numéro de réservation : <strong>#{booking.id}</strong>
-          </p>
+          {booking.payment_status === 'paid' ? (
+            <p>
+              ✅ Un email de confirmation a été envoyé à <strong>{booking.client_email}</strong>
+            </p>
+          ) : booking.payment_status === 'pending' && paymentStatus === 'success' ? (
+            <p>
+              ⏳ Votre paiement a été effectué. Un email de confirmation vous sera envoyé sous peu à <strong>{booking.client_email}</strong>
+            </p>
+          ) : booking.payment_status === 'pending' ? (
+            <p>
+              ⏳ Un email de confirmation vous sera envoyé après le paiement à <strong>{booking.client_email}</strong>
+            </p>
+          ) : (
+            <p>
+              📧 Vous recevrez un email de confirmation à <strong>{booking.client_email}</strong>
+            </p>
+          )}
         </div>
 
         <div className="action-buttons">
+          {/* Bouton de paiement si en attente ET pas de payment=success */}
+          {booking.payment_status === 'pending' && paymentStatus !== 'success' && (
+            <button 
+              onClick={handleRetryPayment} 
+              className="btn-primary"
+              disabled={loading}
+            >
+              {loading ? 'Chargement...' : 'Procéder au paiement'}
+            </button>
+          )}
+          
+          {/* Bouton PDF toujours disponible */}
           <button 
             onClick={handleDownloadPDF} 
             className="btn-primary"
@@ -349,6 +413,7 @@ export default function ConfirmationPage() {
           >
             {isDownloading ? 'Génération...' : 'Télécharger la confirmation'}
           </button>
+          
           <Link href={ROUTES.services} className="btn-secondary">
             Voir nos autres services
           </Link>

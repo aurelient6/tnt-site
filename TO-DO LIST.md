@@ -4,7 +4,9 @@
 - [x] Ajouter un mail de confirmation après la réservation
 
 ## Stripe/moyen de paiement
-- [ ] Ajouter Stripe à la fin de la réservation
+- [ ] Ajouter Stripe à la fin de la réservation:
+- [ ] Tester si paiement refusé
+- [ ] Tester si abandon du paiement
 
 ## Télécharger la confirmation
 - [x] Possibilité de télécharger

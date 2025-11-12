@@ -45,6 +45,11 @@ CREATE TABLE IF NOT EXISTS bookings (
   -- Token de confirmation sécurisé
   confirmation_token VARCHAR(64) UNIQUE NOT NULL,
   
+  -- Paiement Stripe
+  stripe_session_id VARCHAR(255),
+  stripe_payment_intent VARCHAR(255),
+  payment_status VARCHAR(50) DEFAULT 'pending', -- pending, paid, failed, refunded
+  
   -- Statut
   status VARCHAR(50) DEFAULT 'pending', -- pending, confirmed, cancelled, completed
   

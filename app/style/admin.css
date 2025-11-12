@@ -511,15 +511,9 @@ body {
 }
 
 .modal-btn-close:hover {
-  background: white;
-  color: var(--principale);
-  border : 2px solid var(--principale);
-  transform: translateY(-2px);
+  background: var(--secondaire);
+  color: white;
   box-shadow: 0 6px 16px rgba(var(--principale, 52, 152, 219), 0.4);
-}
-
-.modal-btn-close:active {
-  transform: translateY(0);
 }
 
 /* Responsive modal */

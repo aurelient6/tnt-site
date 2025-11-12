@@ -263,8 +263,24 @@ export default function ReservationPage() {
 
       const booking = await bookingResponse.json();
 
-      // 2. Rediriger vers la page de confirmation avec le token sécurisé
-      router.push(`/confirmation?token=${booking.confirmation_token}`);
+      // 2. Créer la session de paiement Stripe
+      const checkoutResponse = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bookingId: booking.id,
+          confirmationToken: booking.confirmation_token
+        })
+      });
+
+      if (!checkoutResponse.ok) {
+        throw new Error('Erreur lors de la création de la session de paiement');
+      }
+
+      const { url } = await checkoutResponse.json();
+
+      // 3. Rediriger vers Stripe pour le paiement
+      window.location.href = url;
 
     } catch (error) {
       console.error('Erreur lors de la finalisation:', error);
