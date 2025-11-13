@@ -4,9 +4,9 @@
 - [x] Ajouter un mail de confirmation après la réservation
 
 ## Stripe/moyen de paiement
-- [ ] Ajouter Stripe à la fin de la réservation:
-- [ ] Tester si paiement refusé
-- [ ] Tester si abandon du paiement
+- [x] Ajouter Stripe à la fin de la réservation:
+- [x] Tester si paiement refusé
+- [x] Tester si abandon du paiement puis payé
 
 ## Télécharger la confirmation
 - [x] Possibilité de télécharger
@@ -26,6 +26,10 @@
 ## Import des données de service
 - [x] `lib/db/seed.js` : import les services data
 - [x] Vérifier si aucune donnée n'est hardcodée ailleurs
+
+## Finitions
+- [ ] Audit de sécurité
+- [ ] Vérifier si du code/fichiers inutilisés ne sont pas présents
 
 # Futur
 - [ ] Faire des sessions JWT pour la partie admin?

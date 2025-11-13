@@ -129,12 +129,28 @@ export default function AdminPage() {
   const getBookingForSlot = (date, time) => {
     const dateStr = date.toISOString().split('T')[0];
     
-    return bookings.find(booking => {
+    // Filtrer toutes les réservations pour ce créneau
+    const matchingBookings = bookings.filter(booking => {
       const bookingDate = booking.slot_date.split('T')[0];
       const bookingTime = booking.slot_time.substring(0, 5); // HH:MM
       
       return bookingDate === dateStr && bookingTime === time;
     });
+
+    // S'il n'y a aucune réservation, retourner undefined
+    if (matchingBookings.length === 0) return undefined;
+
+    // Prioriser les réservations par statut de paiement
+    // 1. Priorité aux réservations payées
+    const paidBooking = matchingBookings.find(b => b.payment_status === 'paid');
+    if (paidBooking) return paidBooking;
+
+    // 2. Ensuite les réservations en attente
+    const pendingBooking = matchingBookings.find(b => b.payment_status === 'pending');
+    if (pendingBooking) return pendingBooking;
+
+    // 3. Sinon retourner la première (failed ou cancelled)
+    return matchingBookings[0];
   };
 
   // Ouvrir le modal avec les détails de la réservation
@@ -252,6 +268,20 @@ export default function AdminPage() {
                 <div className="detail-row">
                   <span className="detail-label">Téléphone :</span>
                   <span className="detail-value">{selectedBooking.client_phone}</span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">Statut de paiement :</span>
+                  <span className="detail-value">
+                    {(() => {
+                      switch (selectedBooking.payment_status) {
+                        case 'paid': return 'Payé';
+                        case 'pending': return 'En attente';
+                        case 'failed': return 'Échoué';
+                        case 'cancelled': return 'Annulé';
+                        default: return 'Non spécifié';
+                      }
+                    })()}
+                  </span>
                 </div>
               </div>
 

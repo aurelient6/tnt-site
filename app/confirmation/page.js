@@ -31,9 +31,9 @@ export default function ConfirmationPage() {
         return res.json();
       })
       .then(data => {
-        console.log('🔍 Données brutes reçues de l\'API:', data);
-        console.log('🔍 booking_date:', data.booking_date);
-        console.log('🔍 Type:', typeof data.booking_date);
+        console.log('Données brutes reçues de l\'API:', data);
+        console.log('booking_date:', data.booking_date);
+        console.log('Type:', typeof data.booking_date);
         setBooking(data);
         setLoading(false);
       })
@@ -297,12 +297,24 @@ export default function ConfirmationPage() {
         })
       });
 
-      if (!response.ok) throw new Error('Erreur lors de la création de la session de paiement');
+      const data = await response.json();
 
-      const { url } = await response.json();
-      window.location.href = url;
+      // Vérifier si le créneau n'est plus disponible
+      if (!response.ok) {
+        if (response.status === 409 || data.code === 'SLOT_UNAVAILABLE') {
+          // Créneau déjà pris
+          alert('⏰ Désolé, le délai pour effectuer le paiement a été dépassé.\n\nCe créneau a été réservé par quelqu\'un d\'autre.\n\nVeuillez effectuer une nouvelle réservation.');
+          // Rediriger vers la page des services
+          window.location.href = ROUTES.services;
+          return;
+        }
+        throw new Error(data.error || 'Erreur lors de la création de la session de paiement');
+      }
+
+      // Redirection vers Stripe
+      window.location.href = data.url;
     } catch (error) {
-      alert('Erreur lors de la redirection vers le paiement');
+      alert('Erreur lors de la redirection vers le paiement: ' + error.message);
       setLoading(false);
     }
   };
@@ -310,30 +322,68 @@ export default function ConfirmationPage() {
   return (
     <div className="confirmation-page">
       <div className="confirmation-card">
-        <div className="success-icon">{booking.id}</div>
-        
-        <h1>Réservation confirmée !</h1>
+        {/* Bouton PDF en haut à droite (seulement si payé) */}
+        {(booking.payment_status === 'paid' || paymentStatus === 'success') && paymentStatus !== 'cancelled' && (
+          <button 
+            onClick={handleDownloadPDF} 
+            className="btn-download-pdf"
+            disabled={isDownloading}
+            title="Télécharger la confirmation"
+          >
+            <img src="/icones/download-icon.svg" alt="Télécharger" />
+          </button>
+        )}
+
+        {/* Icône et titre différents selon le statut */}
+        {booking.payment_status === 'paid' || paymentStatus === 'success' ? (
+          <>
+            <div className="success-icon">
+              <img src="/images/logo/logo.png" alt="Logo" />
+            </div>
+            <h1>Réservation confirmée !</h1>
+          </>
+        ) : (
+          <>
+            <div className="pending-icon">⏳</div>
+            <h1>Réservation en attente de paiement</h1>
+          </>
+        )}
         
         {/* Statut de paiement */}
-        {paymentStatus === 'success' && (
+        {paymentStatus === 'success' && booking.payment_status === 'paid' && (
           <div className="payment-alert success">
-            ✅ Paiement effectué avec succès
+            Paiement effectué avec succès !
           </div>
         )}
         {paymentStatus === 'cancelled' && (
           <div className="payment-alert warning">
-            ⚠️ Paiement annulé - Votre réservation est en attente
+            !! Paiement annulé - Votre réservation est en attente !!
           </div>
         )}
         {booking.payment_status === 'pending' && !paymentStatus && (
           <div className="payment-alert info">
-            ⏳ En attente de paiement
+            En attente de paiement
+          </div>
+        )}
+        {booking.payment_status === 'failed' && (
+          <div className="payment-alert error">
+           Le paiement a échoué
           </div>
         )}
         
         <p className="confirmation-message">
-          Merci <strong>{booking.client_firstname} {booking.client_name}</strong>,<br />
-          votre réservation a été enregistrée avec succès.
+          {booking.payment_status === 'paid' || paymentStatus === 'success' ? (
+            <>
+              Merci <strong>{booking.client_firstname} {booking.client_name}</strong>,<br />
+              votre réservation a été confirmée avec succès.<br />
+              Merci de vous présenter avec cette confirmation le jour de votre rendez-vous.
+            </>
+          ) : (
+            <>
+              Bonjour <strong>{booking.client_firstname} {booking.client_name}</strong>,<br />
+              votre réservation est enregistrée mais nécessite un paiement pour être confirmée.
+            </>
+          )}
         </p>
 
         <div className="booking-details">
@@ -376,43 +426,47 @@ export default function ConfirmationPage() {
         <div className="confirmation-info">
           {booking.payment_status === 'paid' ? (
             <p>
-              ✅ Un email de confirmation a été envoyé à <strong>{booking.client_email}</strong>
+              Un email de confirmation a été envoyé à <strong>{booking.client_email}</strong>
             </p>
           ) : booking.payment_status === 'pending' && paymentStatus === 'success' ? (
             <p>
-              ⏳ Votre paiement a été effectué. Un email de confirmation vous sera envoyé sous peu à <strong>{booking.client_email}</strong>
+              Votre paiement a été effectué. Un email de confirmation vous sera envoyé sous peu à <strong>{booking.client_email}</strong>
             </p>
           ) : booking.payment_status === 'pending' ? (
             <p>
-              ⏳ Un email de confirmation vous sera envoyé après le paiement à <strong>{booking.client_email}</strong>
+              Un email de confirmation vous sera envoyé après le paiement à <strong>{booking.client_email}</strong>
             </p>
           ) : (
             <p>
-              📧 Vous recevrez un email de confirmation à <strong>{booking.client_email}</strong>
+              Vous recevrez un email de confirmation à <strong>{booking.client_email}</strong>
             </p>
           )}
         </div>
 
         <div className="action-buttons">
-          {/* Bouton de paiement si en attente ET pas de payment=success */}
-          {booking.payment_status === 'pending' && paymentStatus !== 'success' && (
+          {/* Bouton de paiement si pending, failed ou cancelled */}
+          {(booking.payment_status === 'pending' || 
+            booking.payment_status === 'failed' || 
+            paymentStatus === 'cancelled') && (
             <button 
               onClick={handleRetryPayment} 
-              className="btn-primary"
+              className="btn-primary btn-pay"
               disabled={loading}
             >
               {loading ? 'Chargement...' : 'Procéder au paiement'}
             </button>
           )}
           
-          {/* Bouton PDF toujours disponible */}
-          <button 
-            onClick={handleDownloadPDF} 
-            className="btn-primary"
-            disabled={isDownloading}
-          >
-            {isDownloading ? 'Génération...' : 'Télécharger la confirmation'}
-          </button>
+          {/* Bouton PDF seulement si payé */}
+          {(booking.payment_status === 'paid' || paymentStatus === 'success') && paymentStatus !== 'cancelled' && (
+            <button 
+              onClick={handleDownloadPDF} 
+              className="btn-primary"
+              disabled={isDownloading}
+            >
+              {isDownloading ? 'Génération...' : 'Télécharger la confirmation'}
+            </button>
+          )}
           
           <Link href={ROUTES.services} className="btn-secondary">
             Voir nos autres services

@@ -21,6 +21,7 @@ export async function POST(request) {
         b.total_price,
         b.confirmation_token,
         b.payment_status,
+        b.time_slot_id,
         s.name as service_name
        FROM bookings b
        JOIN services s ON b.service_id = s.id
@@ -43,6 +44,24 @@ export async function POST(request) {
         { status: 400 }
       );
     }
+
+    // ✨ NOUVEAU : Vérifier que le créneau est toujours disponible
+    const slotCheck = await sql`
+      SELECT is_available FROM time_slots WHERE id = ${booking.time_slot_id}
+    `;
+
+    if (slotCheck.length === 0 || !slotCheck[0].is_available) {
+      console.log('❌ Créneau déjà réservé - Impossible de créer session de paiement');
+      return NextResponse.json(
+        { 
+          error: 'Ce créneau a déjà été réservé par quelqu\'un d\'autre',
+          code: 'SLOT_UNAVAILABLE'
+        },
+        { status: 409 }
+      );
+    }
+
+    console.log('✅ Créneau disponible - Création de la session Stripe');
 
     // Créer la session Stripe
     const sessionUrl = await createCheckoutSession({

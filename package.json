@@ -13,6 +13,8 @@
     "seed": "node lib/db/seed.js",
     "generate-slots": "node scripts/generate-slots.js",
     "clean-slots": "node scripts/clean-slots.js",
+    "cleanup-unpaid": "node scripts/cleanup-unpaid-bookings.js",
+    "fix-slots": "node scripts/fix-blocked-slots.js",
     "create-admin-table": "node scripts/create-admin-table.js",
     "create-admin": "node scripts/create-admin.js",
     "change-password": "node scripts/change-admin-password.js",

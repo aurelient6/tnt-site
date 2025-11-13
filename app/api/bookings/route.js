@@ -38,8 +38,8 @@ export async function POST(request) {
     // Générer un token de confirmation unique
     const confirmationToken = generateConfirmationToken();
     
+    // NE PLUS BLOQUER LE CRÉNEAU - Il sera bloqué après le paiement
     const bookingResult = await sql`
-      WITH updated_slot AS (UPDATE time_slots SET is_available = false WHERE id = ${time_slot_id} RETURNING id)
       INSERT INTO bookings (service_id, time_slot_id, client_name, client_firstname, client_email, client_phone, dog_breed, booking_date, booking_time, form_responses, total_price, price_details, status, confirmation_token, payment_status)
       VALUES (${serviceId}, ${time_slot_id}, ${client_name}, ${client_firstname}, ${client_email}, ${client_phone}, ${dog_breed}, ${slot.slot_date}, ${slot.slot_time}, ${JSON.stringify(form_responses)}, ${total_price}, ${JSON.stringify(price_details)}, 'pending', ${confirmationToken}, 'pending')
       RETURNING id, created_at, confirmation_token

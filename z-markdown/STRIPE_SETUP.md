@@ -183,3 +183,10 @@ Votre système de paiement est maintenant complètement intégré :
 - C'est probablement le webhook qui ne fonctionne pas
 - Vérifiez les logs du serveur
 - En production, vérifiez que l'URL du webhook est correcte dans Stripe Dashboard
+
+
+Action	Créneau bloqué ?	Réservation en DB
+Client crée réservation	❌ NON	✅ OUI (pending)
+Client paie	✅ OUI	✅ OUI (paid)
+Client annule	❌ NON	✅ OUI (pending)
+Après 30 min (cleanup)	❌ NON	❌ NON (supprimée)
