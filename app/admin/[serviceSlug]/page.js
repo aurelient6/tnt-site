@@ -191,7 +191,7 @@ export default function AdminPage() {
         <p>Semaine du {formatFullDate(currentWeekStart)}</p>
         <div className='week-navigation'>
           <button onClick={goToPreviousWeek}>Précédente</button>
-          <button onClick={goToCurrentWeek}>Aujourd'hui</button>
+          <button onClick={goToCurrentWeek}>Aujourd&apos;hui</button>
           <button onClick={goToNextWeek}>Suivante</button>
         </div>
       </div>

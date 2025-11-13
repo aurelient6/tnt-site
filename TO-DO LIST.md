@@ -11,8 +11,15 @@
 ## Télécharger la confirmation
 - [x] Possibilité de télécharger
 
+## Déploiement
+- [ ] Résoudre probleme de déploiement
+
 ## Notifications
 - [ ] Envoyer une notif à chaque nouvelle réservation
+
+## Nouveau service:
+- [ ] Ajouter dog-sitting
+- Améliorer système: plus automatisé d'ajouter des services, cela se répercutera partout dsur le sit
 
 ## Boutons réservations
 - [x] Ajouter des boutons de réservations dans la page d'accueil et plus haut dans le service détaillé
