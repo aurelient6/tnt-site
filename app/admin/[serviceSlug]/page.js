@@ -127,14 +127,26 @@ export default function AdminPage() {
 
   // Trouver une réservation pour un jour et une heure donnés
   const getBookingForSlot = (date, time) => {
-    const dateStr = date.toISOString().split('T')[0];
+    // Convertir la date locale en format YYYY-MM-DD
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const dateStr = `${year}-${month}-${day}`;
     
     // Filtrer toutes les réservations pour ce créneau
     const matchingBookings = bookings.filter(booking => {
-      const bookingDate = booking.slot_date.split('T')[0];
+      // PostgreSQL retourne une date UTC (ex: "2025-11-11T23:00:00.000Z")
+      // qui représente minuit le 12 en Europe/Paris
+      // On doit la parser en Europe/Paris pour obtenir la bonne date
+      const bookingDateObj = new Date(booking.slot_date);
+      const bookingYear = bookingDateObj.getFullYear();
+      const bookingMonth = String(bookingDateObj.getMonth() + 1).padStart(2, '0');
+      const bookingDay = String(bookingDateObj.getDate()).padStart(2, '0');
+      const bookingDateStr = `${bookingYear}-${bookingMonth}-${bookingDay}`;
+      
       const bookingTime = booking.slot_time.substring(0, 5); // HH:MM
       
-      return bookingDate === dateStr && bookingTime === time;
+      return bookingDateStr === dateStr && bookingTime === time;
     });
 
     // S'il n'y a aucune réservation, retourner undefined
@@ -332,7 +344,7 @@ export default function AdminPage() {
                 <h3>Informations Réservation</h3>
                 <div className="detail-row">
                   <span className="detail-label">Date :</span>
-                  <span className="detail-value">{new Date(selectedBooking.slot_date).toLocaleDateString('fr-FR')}</span>
+                  <span className="detail-value">{new Date(selectedBooking.slot_date).toLocaleDateString('fr-FR', { timeZone: 'Europe/Paris' })}</span>
                 </div>
                 <div className="detail-row">
                   <span className="detail-label">Heure :</span>

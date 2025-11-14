@@ -12,7 +12,7 @@
 - [x] Possibilité de télécharger
 
 ## Déploiement
-- [ ] Résoudre probleme de déploiement
+- [x] Résoudre probleme de déploiement
 
 ## Notifications
 - [ ] Envoyer une notif à chaque nouvelle réservation
