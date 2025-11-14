@@ -22,15 +22,11 @@ export default function ReservationPage() {
   const forms = serviceForms[servicesSlug] || [];
 
   // Calculer le prix en temps réel
-  useEffect(() => {
-    calculerPrix();
-  }, [reponses]);
-
   const calculerPrix = () => {
-  let total = 0;
-  const details = [];
+    let total = 0;
+    const details = [];
 
-  forms.forEach((step) => {
+    forms.forEach((step) => {
     // Si c'est une étape avec plusieurs questions
     if (step.questions) {
       // Parcourir chaque question dans l'étape
@@ -110,6 +106,11 @@ export default function ReservationPage() {
   setPrixTotal(total);
   setDetailPrix(details);
 };
+
+  // Appel de calculerPrix quand les réponses changent
+  useEffect(() => {
+    calculerPrix();
+  }, [reponses]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!service) {
     return (
