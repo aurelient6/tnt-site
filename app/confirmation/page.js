@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ROUTES } from '../constantes/routes';
@@ -8,7 +8,7 @@ import { INFORMATIONS } from '../constantes/infos';
 import '../style/confirmation.css';
 import jsPDF from 'jspdf';
 
-export default function ConfirmationPage() {
+function ConfirmationContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
   const paymentStatus = searchParams.get('payment');
@@ -474,5 +474,17 @@ export default function ConfirmationPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ConfirmationPage() {
+  return (
+    <Suspense fallback={
+      <div className="confirmation-page">
+        <div className="loading">Chargement...</div>
+      </div>
+    }>
+      <ConfirmationContent />
+    </Suspense>
   );
 }
