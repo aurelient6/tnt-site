@@ -8,6 +8,9 @@ import { INFORMATIONS } from '../constantes/infos';
 import '../style/confirmation.css';
 import jsPDF from 'jspdf';
 
+// Force cette page à être rendue dynamiquement (pas en static)
+export const dynamic = 'force-dynamic';
+
 function ConfirmationContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
