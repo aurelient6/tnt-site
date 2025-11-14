@@ -38,7 +38,7 @@ export default function AdminPage() {
       await fetch('/api/admin/logout', { method: 'POST' });
       window.location.href = '/admin/login';
     } catch (error) {
-      console.error('Logout error:', error);
+      // Erreur silencieuse, rediriger quand même
     }
   };
 
@@ -101,7 +101,6 @@ export default function AdminPage() {
       const data = await response.json();
       setBookings(data.bookings || []);
     } catch (error) {
-      console.error('Error fetching bookings:', error);
       setBookings([]);
     } finally {
       setLoading(false);
@@ -326,7 +325,6 @@ export default function AdminPage() {
                       }
                       return <p style={{ color: '#999', fontStyle: 'italic' }}>Aucun détail disponible</p>;
                     } catch (error) {
-                      console.error('Error parsing price_details:', error);
                       return <p style={{ color: '#e74c3c' }}>Erreur lors du chargement des détails</p>;
                     }
                   })()}

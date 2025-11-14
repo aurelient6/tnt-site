@@ -34,9 +34,6 @@ function ConfirmationContent() {
         return res.json();
       })
       .then(data => {
-        console.log('Données brutes reçues de l\'API:', data);
-        console.log('booking_date:', data.booking_date);
-        console.log('Type:', typeof data.booking_date);
         setBooking(data);
         setLoading(false);
       })
@@ -91,7 +88,6 @@ function ConfirmationContent() {
     if (isDownloading) return;
     
     setIsDownloading(true);
-    console.log('🎬 Génération du PDF professionnel...');
     
     try {
       // Créer le PDF
@@ -145,8 +141,7 @@ function ConfirmationContent() {
         const logoX = (pageWidth - logoWidth) / 2;
         pdf.addImage(logoBase64, 'PNG', logoX, 28, logoWidth, logoHeight);
       } catch (error) {
-        console.warn('Impossible de charger le logo:', error);
-        // Fallback : afficher le nom de l'entreprise
+        // Logo non disponible, utiliser fallback
         pdf.setFontSize(12);
         pdf.setFont('helvetica', 'normal');
         pdf.text(INFORMATIONS.name, pageWidth / 2, 35, { align: 'center' });
@@ -278,10 +273,7 @@ function ConfirmationContent() {
       const fileName = `Reservation-${INFORMATIONS.name}-${booking.id}.pdf`;
       pdf.save(fileName);
       
-      console.log('🎉 PDF professionnel généré avec succès !');
-      
     } catch (error) {
-      console.error('❌ Erreur lors de la génération du PDF:', error);
       alert(`Erreur lors du téléchargement: ${error.message}`);
     } finally {
       setIsDownloading(false);

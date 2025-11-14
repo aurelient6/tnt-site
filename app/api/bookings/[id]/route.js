@@ -27,7 +27,6 @@ export async function GET(request, { params }) {
 
     return NextResponse.json(result[0]);
   } catch (error) {
-    console.error('Erreur lors de la récupération de la réservation:', error);
     return NextResponse.json(
       { error: 'Erreur serveur' },
       { status: 500 }

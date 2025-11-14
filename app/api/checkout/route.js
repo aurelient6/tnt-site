@@ -51,7 +51,6 @@ export async function POST(request) {
     `;
 
     if (slotCheck.length === 0 || !slotCheck[0].is_available) {
-      console.log('❌ Créneau déjà réservé - Impossible de créer session de paiement');
       return NextResponse.json(
         { 
           error: 'Ce créneau a déjà été réservé par quelqu\'un d\'autre',
@@ -60,8 +59,6 @@ export async function POST(request) {
         { status: 409 }
       );
     }
-
-    console.log('✅ Créneau disponible - Création de la session Stripe');
 
     // Créer la session Stripe
     const sessionUrl = await createCheckoutSession({
@@ -74,7 +71,6 @@ export async function POST(request) {
 
     return NextResponse.json({ url: sessionUrl });
   } catch (error) {
-    console.error('Erreur création session checkout:', error);
     return NextResponse.json(
       { error: 'Erreur lors de la création de la session de paiement' },
       { status: 500 }

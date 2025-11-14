@@ -27,8 +27,6 @@ export async function POST(request) {
         const bookingId = session.metadata.bookingId;
         const confirmationToken = session.metadata.confirmationToken;
 
-        console.log('✅ Paiement réussi pour la réservation:', bookingId);
-
         // Récupérer les détails de la réservation AVANT la mise à jour
         const bookingCheck = await sql`
           SELECT b.*, s.name as service_name
@@ -38,7 +36,6 @@ export async function POST(request) {
         `;
 
         if (bookingCheck.length === 0) {
-          console.log('❌ Réservation non trouvée:', bookingId);
           return NextResponse.json({ error: 'Booking not found' }, { status: 404 });
         }
 
@@ -50,7 +47,6 @@ export async function POST(request) {
         `;
 
         if (slotCheck.length === 0 || !slotCheck[0].is_available) {
-          console.log('❌ Créneau déjà réservé par quelqu\'un d\'autre');
           // TODO: Rembourser le client automatiquement via Stripe
           return NextResponse.json({ 
             error: 'Time slot no longer available',
@@ -81,12 +77,8 @@ export async function POST(request) {
 
         // Si aucune ligne mise à jour, c'est que c'était déjà traité ou créneau plus disponible
         if (updateResult.length === 0) {
-          console.log('⚠️ Paiement déjà traité ou créneau indisponible, skip');
           return NextResponse.json({ received: true, message: 'Already processed or slot unavailable' });
         }
-
-        console.log('🔒 Créneau bloqué et paiement confirmé');
-        console.log('✉️ Envoi de l\'email de confirmation...');
 
         // Formater la date correctement
         const formattedDate = new Date(bookingData.booking_date).toLocaleDateString('fr-FR', {
@@ -114,16 +106,12 @@ export async function POST(request) {
           confirmationToken: bookingData.confirmation_token,
         });
 
-        console.log('📧 Email de confirmation envoyé');
-
         break;
       }
 
       case 'checkout.session.expired': {
         const session = event.data.object;
         const bookingId = session.metadata.bookingId;
-
-        console.log('⏰ Session expirée pour la réservation:', bookingId);
 
         // Marquer le paiement comme échoué
         await sql`
@@ -137,8 +125,6 @@ export async function POST(request) {
 
       case 'payment_intent.payment_failed': {
         const paymentIntent = event.data.object;
-        
-        console.log('❌ Paiement échoué:', paymentIntent.id);
 
         // Marquer le paiement comme échoué
         await sql`
@@ -151,12 +137,12 @@ export async function POST(request) {
       }
 
       default:
-        console.log('ℹ️ Événement non géré:', event.type);
+        // Événement non géré
+        break;
     }
 
     return NextResponse.json({ received: true });
   } catch (error) {
-    console.error('❌ Erreur webhook Stripe:', error);
     return NextResponse.json(
       { error: 'Erreur traitement webhook' },
       { status: 400 }

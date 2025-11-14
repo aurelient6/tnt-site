@@ -110,7 +110,6 @@ export async function GET(request) {
     });
 
   } catch (error) {
-    console.error('Error fetching admin bookings:', error);
     return NextResponse.json(
       { error: 'Failed to fetch bookings' },
       { status: 500 }

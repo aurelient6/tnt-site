@@ -110,7 +110,7 @@ export default function ReservationPage() {
   // Appel de calculerPrix quand les réponses changent
   useEffect(() => {
     calculerPrix();
-  }, [reponses]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [reponses]);
 
   if (!service) {
     return (
@@ -284,7 +284,6 @@ export default function ReservationPage() {
       window.location.href = url;
 
     } catch (error) {
-      console.error('Erreur lors de la finalisation:', error);
       alert(error.message || 'Une erreur est survenue. Veuillez réessayer.');
       setIsSubmitting(false);
     }

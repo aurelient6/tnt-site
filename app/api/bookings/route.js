@@ -46,7 +46,6 @@ export async function POST(request) {
     `;
 
     // L'email de confirmation sera envoyé APRÈS le paiement via le webhook Stripe
-    console.log('✅ Réservation créée (en attente de paiement):', bookingResult[0].id);
 
     return NextResponse.json({ 
       id: bookingResult[0].id, 
@@ -54,7 +53,6 @@ export async function POST(request) {
       confirmation_token: bookingResult[0].confirmation_token 
     }, { status: 201 });
   } catch (error) {
-    console.error('Error creating booking:', error);
     return NextResponse.json({ error: 'Failed to create booking' }, { status: 500 });
   }
 }
@@ -68,7 +66,6 @@ export async function GET() {
     `;
     return NextResponse.json(bookings);
   } catch (error) {
-    console.error('Error fetching bookings:', error);
     return NextResponse.json({ error: 'Failed to fetch bookings' }, { status: 500 });
   }
 }

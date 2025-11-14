@@ -34,7 +34,6 @@ export default function LoginPage() {
         setError(data.error || 'Identifiants incorrects');
       }
     } catch (err) {
-      console.error('Login error:', err);
       setError('Erreur de connexion. Veuillez réessayer.');
     } finally {
       setLoading(false);

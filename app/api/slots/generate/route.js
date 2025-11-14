@@ -60,7 +60,7 @@ export async function POST(request) {
             slotsCreated++;
           }
         } catch (error) {
-          console.error(`Error creating slot for ${dateStr} ${time}:`, error);
+          // Erreur silencieuse pour les créneaux déjà existants
         }
       }
     }
@@ -71,7 +71,6 @@ export async function POST(request) {
     });
 
   } catch (error) {
-    console.error('Error generating slots:', error);
     return NextResponse.json(
       { error: 'Failed to generate slots' },
       { status: 500 }
