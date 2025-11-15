@@ -382,6 +382,56 @@ const serviceFormsBase = {
         { label: "Perfectionnement", value: "perfectionnement", prix: 0 },
       ]
     },
+  ],
+
+  dogsitting: [
+    {
+      id: 1,
+      type: "select",
+      required: true,
+      question: "Type de garde ?",
+      reponses: [
+        { label: "Journée complète (9h-17h)", value: "journee", prix: 40 },
+        { label: "Demi-journée matin (9h-13h)", value: "demi_matin", prix: 25 },
+        { label: "Demi-journée après-midi (13h-17h)", value: "demi_aprem", prix: 25 },
+        { label: "Soirée week-end (17h-23h)", value: "soiree", prix: 30 },
+      ]
+    },
+    {
+      id: 2,
+      type: "select",
+      required: true,
+      question: "Taille du chien",
+      reponses: [
+        { label: "Petit (< 10 kg)", value: "petit", prix: 0 },
+        { label: "Moyen (10-25 kg)", value: "moyen", prix: 5 },
+        { label: "Grand (> 25 kg)", value: "grand", prix: 10 },
+      ]
+    },
+    {
+      id: 3,
+      type: "select",
+      required: true,
+      question: "Tempérament du chien",
+      reponses: [
+        { label: "Calme/sociable", value: "calme", prix: 0 },
+        { label: "Actif/joueur", value: "actif", prix: 0 },
+        { label: "Craintif/timide", value: "craintif", prix: 0 },
+        { label: "Réactif/dominant", value: "reactif", prix: 5 },
+      ]
+    },
+    {
+      id: 4,
+      type: "checkbox",
+      required: false,
+      question: "Besoins spécifiques ?",
+      reponses: [
+        { label: "Médicaments à administrer", value: "medicaments", prix: 5 },
+        { label: "Régime alimentaire spécial", value: "regime", prix: 3 },
+        { label: "Surveillance médicale", value: "surveillance", prix: 10 },
+        { label: "Promenades supplémentaires", value: "promenades", prix: 8 },
+      ]
+    }
   ]
 
   

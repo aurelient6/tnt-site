@@ -189,7 +189,10 @@ export default function AdminPage() {
             <h1>Page Admin - {serviceName}</h1>
             <p>Tableau des réservations pour le service: {serviceName}</p>
             <p>Autres services: {
-              allServices.map(service => (<Link key={service.id} href={`/admin/${service.slug}`}>{service.name}</Link>)).reduce((prev, curr) => [prev, ' - ', curr])
+              allServices
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map(service => (<Link key={service.id} href={`/admin/${service.slug}`}>{service.name}</Link>))
+                .reduce((prev, curr) => [prev, ' - ', curr])
             }</p>
           </div>
           <button onClick={handleLogout} className="logout-button">

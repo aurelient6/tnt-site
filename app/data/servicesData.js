@@ -226,6 +226,26 @@ export const servicesData = {
         "/images/services/dressage/dressage3.jpg"
       ]
     }
+  ],
+  dogsitting: [
+    {
+      id: 10,
+      name: "Dogsitting",
+      slug: "dogsitting",
+      price: "Voir tableau des prix",
+      duration: 480, // 8h pour journée complète
+      image: "/images/services/dogsitting/dogsitting.jpg",
+      category: "Dog Sitting",
+      description: "Garde de votre chien dans un environnement sécurisé et adapté, avec différentes formules selon vos besoins.",
+      objectif: "Offrir à votre chien une garde de qualité avec attention et soins personnalisés.",
+      duree: "Journée (9h-17h), demi-journée (9h-13h ou 13h-17h), ou soirée vendredi/samedi/dimanche (17h-23h)",
+      remarques: "Réservation recommandée. Les soirées sont disponibles uniquement les vendredis, samedis et dimanches.",
+      equipe: "Julien Martin",
+      gallery: [
+        "/images/services/dogsitting/dogsitting.jpg",
+        "/images/services/dogsitting/dogsitting2.jpg"
+      ]
+    }
   ]
 };
 
@@ -242,4 +262,5 @@ export const SERVICES_SECONDARY = [
   { label: getServiceNameBySlug('hydrotherapie'), href: `${ROUTES.services}/hydrotherapie` },
   { label: getServiceNameBySlug('tapis-de-course'), href: `${ROUTES.services}/tapis-de-course` },
   { label: getServiceNameBySlug('dressage'), href: `${ROUTES.services}/dressage` },
+  { label: getServiceNameBySlug('dogsitting'), href: `${ROUTES.services}/dogsitting` },
 ];
