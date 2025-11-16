@@ -21,13 +21,22 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const serviceResult = await sql`SELECT id FROM services WHERE slug = ${service_slug}`;
+    const serviceResult = await sql`SELECT id, capacity FROM services WHERE slug = ${service_slug}`;
     if (serviceResult.length === 0) {
       return NextResponse.json({ error: 'Service not found' }, { status: 404 });
     }
 
-    const serviceId = serviceResult[0].id;
-    const slotResult = await sql`SELECT id, slot_date, slot_time, is_available FROM time_slots WHERE id = ${time_slot_id} AND service_id = ${serviceId} AND is_available = true`;
+    const service = serviceResult[0];
+    const serviceId = service.id;
+    
+    // Vérifier la disponibilité du créneau avec le système de capacité
+    const slotResult = await sql`
+      SELECT id, slot_date, slot_time, is_available, capacity, booked_count 
+      FROM time_slots 
+      WHERE id = ${time_slot_id} 
+        AND service_id = ${serviceId} 
+        AND booked_count < capacity
+    `;
     
     if (slotResult.length === 0) {
       return NextResponse.json({ error: 'Time slot not available' }, { status: 400 });
@@ -35,10 +44,16 @@ export async function POST(request) {
 
     const slot = slotResult[0];
     
+    // Vérifier qu'on ne dépasse pas la capacité
+    if (slot.booked_count >= slot.capacity) {
+      return NextResponse.json({ error: 'Time slot is full' }, { status: 400 });
+    }
+    
     // Générer un token de confirmation unique
     const confirmationToken = generateConfirmationToken();
     
-    // NE PLUS BLOQUER LE CRÉNEAU - Il sera bloqué après le paiement
+    // NE PLUS BLOQUER LE CRÉNEAU AVEC is_available - Incrémenter booked_count après le paiement
+    // La réservation est créée en pending, le créneau sera mis à jour via le webhook Stripe
     const bookingResult = await sql`
       INSERT INTO bookings (service_id, time_slot_id, client_name, client_firstname, client_email, client_phone, dog_breed, booking_date, booking_time, form_responses, total_price, price_details, status, confirmation_token, payment_status)
       VALUES (${serviceId}, ${time_slot_id}, ${client_name}, ${client_firstname}, ${client_email}, ${client_phone}, ${dog_breed}, ${slot.slot_date}, ${slot.slot_time}, ${JSON.stringify(form_responses)}, ${total_price}, ${JSON.stringify(price_details)}, 'pending', ${confirmationToken}, 'pending')

@@ -17,7 +17,7 @@ export async function GET(request) {
 
     // Récupérer le service
     const serviceResult = await sql`
-      SELECT id, slug, name, duration FROM services WHERE slug = ${serviceSlug}
+      SELECT id, slug, name, duration, capacity FROM services WHERE slug = ${serviceSlug}
     `;
 
     if (serviceResult.length === 0) {
@@ -36,11 +36,14 @@ export async function GET(request) {
           id,
           slot_date,
           slot_time,
-          is_available
+          is_available,
+          capacity,
+          booked_count,
+          slot_type
         FROM time_slots
         WHERE service_id = ${service.id}
           AND slot_date = ${date}
-          AND is_available = true
+          AND booked_count < capacity
           AND slot_date >= CURRENT_DATE
         ORDER BY slot_time ASC
       `;
@@ -58,10 +61,13 @@ export async function GET(request) {
         slot_date,
         slot_time,
         id,
-        is_available
+        is_available,
+        capacity,
+        booked_count,
+        slot_type
       FROM time_slots
       WHERE service_id = ${service.id}
-        AND is_available = true
+        AND booked_count < capacity
         AND slot_date >= CURRENT_DATE
         AND slot_date <= CURRENT_DATE + INTERVAL '30 days'
       ORDER BY slot_date ASC, slot_time ASC

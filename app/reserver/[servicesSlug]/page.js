@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { getServiceBySlug } from '../../data/servicesData';
 import { serviceForms } from '../../data/serviceForm';
 import TimeSlotSelector from '../../components/TimeSlotSelector';
+import DogsittingDateSelector from '../../components/DogsittingDateSelector';
 import Link from 'next/link';
 import { ROUTES } from '../../constantes/routes';
 import '../../style/reservationPage.css';
@@ -298,6 +299,36 @@ export default function ReservationPage() {
 
     // Time slot selector
     if (type === 'timeslot') {
+      // Pour dogsitting, utiliser le sélecteur de date uniquement
+      if (servicesSlug === 'dogsitting') {
+        // Récupérer le type de garde choisi à la question 1
+        const slotType = reponses[1]; // journee, demi_matin, demi_aprem, soiree
+        
+        if (!slotType) {
+          return (
+            <div className="question-block" key={questionId}>
+              <p className="info-message">
+                ⚠️ Veuillez d'abord choisir un type de garde
+              </p>
+            </div>
+          );
+        }
+        
+        return (
+          <div className="question-block" key={questionId}>
+            <DogsittingDateSelector
+              serviceSlug={servicesSlug}
+              slotType={slotType}
+              onSlotSelect={(slotData) => {
+                handleChange(questionId, slotData);
+              }}
+              selectedSlot={reponses[questionId]}
+            />
+          </div>
+        );
+      }
+      
+      // Pour les autres services, utiliser le sélecteur normal
       return (
         <div className="question-block" key={questionId}>
           <TimeSlotSelector

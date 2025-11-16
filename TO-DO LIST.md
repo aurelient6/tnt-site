@@ -19,14 +19,13 @@
 
 ## Nouveau service:
 - [x] Ajouter dog-sitting
-- [ ] Gestion des créneaux plus longs, sachant qu'on peut avoir plusiuers heures et plusieurs chiens ensemble
+- [x] Gestion des créneaux plus longs, sachant qu'on peut avoir plusiuers heures et plusieurs chiens ensemble
 
 ## Boutons réservations
 - [x] Ajouter des boutons de réservations dans la page d'accueil et plus haut dans le service détaillé
 
 ## Créneaux horaires
 - [ ] Masquer les propositions des heures passées
-- [ ] Bloquer les créneaux hors weekend si l'utilisateur choisit un créneau soirée
 
 ## A propos
 - [x] Ajouter la page d'à propos

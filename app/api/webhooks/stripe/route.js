@@ -41,27 +41,33 @@ export async function POST(request) {
 
         const bookingData = bookingCheck[0];
 
-        // Vérifier que le créneau est toujours disponible
+        // Vérifier que le créneau a encore de la place
         const slotCheck = await sql`
-          SELECT is_available FROM time_slots WHERE id = ${bookingData.time_slot_id}
+          SELECT capacity, booked_count 
+          FROM time_slots 
+          WHERE id = ${bookingData.time_slot_id}
         `;
 
-        if (slotCheck.length === 0 || !slotCheck[0].is_available) {
+        if (slotCheck.length === 0 || slotCheck[0].booked_count >= slotCheck[0].capacity) {
           // TODO: Rembourser le client automatiquement via Stripe
           return NextResponse.json({ 
-            error: 'Time slot no longer available',
-            message: 'Le créneau a été réservé par quelqu\'un d\'autre pendant votre paiement'
+            error: 'Time slot is full',
+            message: 'Le créneau est complet'
           }, { status: 409 });
         }
 
         // Mise à jour conditionnelle : SEULEMENT si payment_status est 'pending'
-        // ET bloquer le créneau en même temps (transaction atomique)
+        // ET incrémenter booked_count en même temps (transaction atomique)
         const updateResult = await sql`
           WITH slot_update AS (
             UPDATE time_slots 
-            SET is_available = false 
+            SET booked_count = booked_count + 1,
+                is_available = CASE 
+                  WHEN booked_count + 1 >= capacity THEN false 
+                  ELSE true 
+                END
             WHERE id = ${bookingData.time_slot_id} 
-              AND is_available = true
+              AND booked_count < capacity
             RETURNING id
           )
           UPDATE bookings 

@@ -47,6 +47,7 @@ const sql = neon(databaseUrl);
 const servicesConfig = getAllServicesBasicInfo().map(service => ({
   slug: service.slug,
   duration: service.duration,
+  capacity: service.capacity || 1,
   slots: slots
 }));
 
@@ -81,47 +82,91 @@ async function generateSlots() {
         let daysExcluded = 0;
         let excludedReasons = { sundays: 0, holidays: 0 };
 
+        // Définir les créneaux spécifiques pour dogsitting
+        // Pour dogsitting : UN SEUL créneau par jour (la date)
+        // L'horaire exact sera déterminé par le choix de l'utilisateur dans le formulaire
+        const dogsittingSlots = {
+          daily: [
+            { time: '00:00:00', type: null }  // Créneau "journée entière" - l'heure exacte dépend du formulaire
+          ]
+        };
+
         // Générer les créneaux
         const totalDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
         for (let i = 0; i <= totalDays; i++) {
           const currentDate = new Date(startDate);
           currentDate.setDate(startDate.getDate() + i);
           
-          // Vérifier si la date doit être exclue (dimanche ou jour férié)
-          if (shouldExcludeDate(currentDate)) {
+          const dayOfWeek = currentDate.getDay(); // 0=dimanche, 1=lundi, ..., 5=vendredi, 6=samedi
+          
+          // Pour dogsitting : ne pas exclure le dimanche pour les créneaux soirée
+          // Mais exclure les jours fériés et dimanche pour les créneaux journée/demi-journée
+          const isWeekendDay = dayOfWeek === 5 || dayOfWeek === 6 || dayOfWeek === 0; // vendredi, samedi, dimanche
+          const holidayName = getHolidayName(currentDate);
+          
+          // Pour les services normaux (non dogsitting), exclure dimanches et jours fériés
+          if (serviceConfig.slug !== 'dogsitting' && shouldExcludeDate(currentDate)) {
             daysExcluded++;
             
-            // Tracker la raison de l'exclusion
-            const dayOfWeek = currentDate.getDay();
             if (dayOfWeek === 0) {
               excludedReasons.sundays++;
-            } else {
+            } else if (holidayName) {
               excludedReasons.holidays++;
-              const holidayName = getHolidayName(currentDate);
-              if (holidayName) {
-                console.log(`   ⏭️  ${currentDate.toLocaleDateString('fr-FR')} - ${holidayName}`);
-              }
+              console.log(`   ⏭️  ${currentDate.toLocaleDateString('fr-FR')} - ${holidayName}`);
             }
             
-            continue; // Skip cette date
+            continue;
+          }
+
+          // Pour dogsitting, exclure les jours fériés seulement
+          if (serviceConfig.slug === 'dogsitting' && holidayName) {
+            daysExcluded++;
+            excludedReasons.holidays++;
+            console.log(`   ⏭️  ${currentDate.toLocaleDateString('fr-FR')} - ${holidayName}`);
+            continue;
           }
 
           const dateStr = currentDate.toISOString().split('T')[0];
 
-          for (const time of serviceConfig.slots) {
-            try {
-              const result = await sql`
-                INSERT INTO time_slots (service_id, slot_date, slot_time, is_available)
-                VALUES (${serviceId}, ${dateStr}, ${time}, true)
-                ON CONFLICT (service_id, slot_date, slot_time) DO NOTHING
-                RETURNING id
-              `;
+          // Logique spécifique pour dogsitting
+          if (serviceConfig.slug === 'dogsitting') {
+            // Pour dogsitting : créer UN SEUL créneau par jour disponible
+            // Les jours fériés sont déjà exclus ci-dessus
+            // Les dimanches sont autorisés (pour soirée weekend)
+            
+            for (const slot of dogsittingSlots.daily) {
+              try {
+                const result = await sql`
+                  INSERT INTO time_slots (service_id, slot_date, slot_time, is_available, capacity, booked_count, slot_type)
+                  VALUES (${serviceId}, ${dateStr}, ${slot.time}, true, ${serviceConfig.capacity}, 0, ${slot.type})
+                  ON CONFLICT (service_id, slot_date, slot_time) DO NOTHING
+                  RETURNING id
+                `;
 
-              if (result.length > 0) {
-                slotsCreated++;
+                if (result.length > 0) {
+                  slotsCreated++;
+                }
+              } catch (error) {
+                // Ignorer les erreurs de conflit
               }
-            } catch (error) {
-              // Ignorer les erreurs de conflit
+            }
+          } else {
+            // Logique pour les autres services (inchangée)
+            for (const time of serviceConfig.slots) {
+              try {
+                const result = await sql`
+                  INSERT INTO time_slots (service_id, slot_date, slot_time, is_available, capacity, booked_count)
+                  VALUES (${serviceId}, ${dateStr}, ${time}, true, ${serviceConfig.capacity}, 0)
+                  ON CONFLICT (service_id, slot_date, slot_time) DO NOTHING
+                  RETURNING id
+                `;
+
+                if (result.length > 0) {
+                  slotsCreated++;
+                }
+              } catch (error) {
+                // Ignorer les erreurs de conflit
+              }
             }
           }
         }

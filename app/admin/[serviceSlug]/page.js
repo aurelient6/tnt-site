@@ -124,44 +124,86 @@ export default function AdminPage() {
     setCurrentWeekStart(newWeekStart);
   };
 
-  // Trouver une réservation pour un jour et une heure donnés
-  const getBookingForSlot = (date, time) => {
+  // Générer une couleur cohérente pour chaque client
+  const getClientColor = (clientName) => {
+    // Hash simple du nom pour générer une couleur
+    let hash = 0;
+    for (let i = 0; i < clientName.length; i++) {
+      hash = clientName.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    
+    // Générer des couleurs pastel agréables
+    const hue = Math.abs(hash % 360);
+    return `hsl(${hue}, 70%, 85%)`;
+  };
+
+  // Trouver les réservations pour un jour et une heure donnés
+  const getBookingsForSlot = (date, time) => {
     // Convertir la date locale en format YYYY-MM-DD
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     const dateStr = `${year}-${month}-${day}`;
     
-    // Filtrer toutes les réservations pour ce créneau
+    // Convertir l'heure du slot en nombre (ex: "09:00:00" -> 9)
+    const slotHour = parseInt(time.split(':')[0]);
+    
+    // Filtrer toutes les réservations pour ce jour
     const matchingBookings = bookings.filter(booking => {
-      // PostgreSQL retourne une date UTC (ex: "2025-11-11T23:00:00.000Z")
-      // qui représente minuit le 12 en Europe/Paris
-      // On doit la parser en Europe/Paris pour obtenir la bonne date
       const bookingDateObj = new Date(booking.slot_date);
       const bookingYear = bookingDateObj.getFullYear();
       const bookingMonth = String(bookingDateObj.getMonth() + 1).padStart(2, '0');
       const bookingDay = String(bookingDateObj.getDate()).padStart(2, '0');
       const bookingDateStr = `${bookingYear}-${bookingMonth}-${bookingDay}`;
       
-      const bookingTime = booking.slot_time.substring(0, 5); // HH:MM
+      // Si les dates ne correspondent pas, skip
+      if (bookingDateStr !== dateStr) return false;
       
-      return bookingDateStr === dateStr && bookingTime === time;
+      // Pour dogsitting, vérifier si l'heure du slot est dans la plage de la réservation
+      if (serviceSlug === 'dogsitting') {
+        try {
+          const formResponses = typeof booking.form_responses === 'string' 
+            ? JSON.parse(booking.form_responses) 
+            : booking.form_responses;
+          
+          const slotType = formResponses['1']; // Question 1 = type de garde
+          
+          // Définir les plages horaires selon le type
+          let startHour, endHour;
+          switch(slotType) {
+            case 'journee':
+              startHour = 9;
+              endHour = 17;
+              break;
+            case 'demi_matin':
+              startHour = 9;
+              endHour = 13;
+              break;
+            case 'demi_aprem':
+              startHour = 13;
+              endHour = 17;
+              break;
+            case 'soiree':
+              startHour = 17;
+              endHour = 23;
+              break;
+            default:
+              return false;
+          }
+          
+          // Vérifier si l'heure du slot est dans la plage
+          return slotHour >= startHour && slotHour < endHour;
+        } catch (error) {
+          return false;
+        }
+      }
+      
+      // Pour les autres services, correspondance exacte de l'heure
+      const bookingTime = booking.slot_time.substring(0, 5); // HH:MM
+      return bookingTime === time;
     });
 
-    // S'il n'y a aucune réservation, retourner undefined
-    if (matchingBookings.length === 0) return undefined;
-
-    // Prioriser les réservations par statut de paiement
-    // 1. Priorité aux réservations payées
-    const paidBooking = matchingBookings.find(b => b.payment_status === 'paid');
-    if (paidBooking) return paidBooking;
-
-    // 2. Ensuite les réservations en attente
-    const pendingBooking = matchingBookings.find(b => b.payment_status === 'pending');
-    if (pendingBooking) return pendingBooking;
-
-    // 3. Sinon retourner la première (failed ou cancelled)
-    return matchingBookings[0];
+    return matchingBookings;
   };
 
   // Ouvrir le modal avec les détails de la réservation
@@ -234,17 +276,47 @@ export default function AdminPage() {
                 <tr key={hour}>
                   <td>{hour.substring(0, 2)}h</td>
                   {weekDays.map((day, dayIndex) => {
-                    const booking = getBookingForSlot(day, hour);
+                    const bookingsForSlot = getBookingsForSlot(day, hour);
                     const isWeekend = day.getDay() === 0; // Dimanche
+                    const hasBookings = bookingsForSlot.length > 0;
                     
                     return (
                       <td 
                         key={dayIndex}
-                        className={booking ? 'reserved' : isWeekend ? 'closed' : 'available'}
-                        title={booking ? `${booking.client_firstname} ${booking.client_name}` : ''}
-                        onClick={() => booking && openBookingDetails(booking)}
+                        className={hasBookings ? 'reserved' : isWeekend ? 'closed' : 'available'}
                       >
-                        {booking && `${booking.client_firstname} ${booking.client_name}`}
+                        {hasBookings && (
+                          <div style={{ display: 'flex', gap: '2px', height: '100%' }}>
+                            {bookingsForSlot.map((booking, index) => {
+                              const clientFullName = `${booking.client_firstname} ${booking.client_name}`;
+                              const backgroundColor = getClientColor(clientFullName);
+                              
+                              return (
+                                <div
+                                  key={booking.id}
+                                  style={{
+                                    flex: 1,
+                                    cursor: 'pointer',
+                                    padding: '4px',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    backgroundColor: backgroundColor,
+                                    borderRadius: '3px',
+                                    border: '1px solid rgba(0,0,0,0.1)'
+                                  }}
+                                  title={clientFullName}
+                                  onClick={() => openBookingDetails(booking)}
+                                >
+                                  {bookingsForSlot.length === 1 
+                                    ? clientFullName
+                                    : `${booking.client_firstname} ${booking.client_name.charAt(0)}.`
+                                  }
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
                       </td>
                     );
                   })}

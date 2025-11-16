@@ -35,7 +35,8 @@ export const getAllServicesBasicInfo = () => {
   return getAllServices().map(service => ({
     name: service.name,
     slug: service.slug,
-    duration: service.duration
+    duration: service.duration,
+    capacity: service.capacity || 1
   }));
 };
 
@@ -53,7 +54,7 @@ export const getAllServicesIcons = () => {
   }, {});
 };
 
-export const slots = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'];
+export const slots = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
 
 export const servicesData = {
   bienEtre: [
@@ -207,7 +208,7 @@ export const servicesData = {
       gallery: []
     }
   ],
-  dressage: [
+  autres: [
     {
       id: 9,
       name: "Dressage",
@@ -215,7 +216,7 @@ export const servicesData = {
       price: "Voir tableau des prix",
       duration: 60,
       image: "/images/services/dressage/dressage.jpg",
-      category: "Dressage",
+      category: "Autres",
       description: "L'apprentissage de comportements et de tâches spécifiques qu'un chien exécute sur un ordre, visant à développer des aptitudes professionnelles ou de loisir",
       objectif: "Améliorer l'obéissance et l'éducation de votre chien.",
       duree: "30' à 2h",
@@ -225,21 +226,20 @@ export const servicesData = {
         "/images/services/dressage/dressage2.jpg",
         "/images/services/dressage/dressage3.jpg"
       ]
-    }
-  ],
-  dogsitting: [
+    },
     {
       id: 10,
       name: "Dogsitting",
       slug: "dogsitting",
       price: "Voir tableau des prix",
       duration: 480, // 8h pour journée complète
+      capacity: 5, // Maximum 5 chiens en même temps
       image: "/images/services/dogsitting/dogsitting.jpg",
-      category: "Dog Sitting",
+      category: "Autres",
       description: "Garde de votre chien dans un environnement sécurisé et adapté, avec différentes formules selon vos besoins.",
       objectif: "Offrir à votre chien une garde de qualité avec attention et soins personnalisés.",
       duree: "Journée (9h-17h), demi-journée (9h-13h ou 13h-17h), ou soirée vendredi/samedi/dimanche (17h-23h)",
-      remarques: "Réservation recommandée. Les soirées sont disponibles uniquement les vendredis, samedis et dimanches.",
+      remarques: "Réservation recommandée. Les soirées sont disponibles uniquement les vendredis, samedis et dimanches. Maximum 5 chiens par créneau.",
       equipe: "Julien Martin",
       gallery: [
         "/images/services/dogsitting/dogsitting.jpg",

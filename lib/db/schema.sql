@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS services (
   slug VARCHAR(100) UNIQUE NOT NULL,
   name VARCHAR(255) NOT NULL,
   duration INTEGER NOT NULL, -- Durée en minutes
+  capacity INTEGER DEFAULT 1, -- Nombre max de clients simultanés (5 pour dogsitting, 1 pour les autres)
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -14,6 +15,9 @@ CREATE TABLE IF NOT EXISTS time_slots (
   slot_date DATE NOT NULL,
   slot_time TIME NOT NULL,
   is_available BOOLEAN DEFAULT true,
+  capacity INTEGER DEFAULT 1, -- Nombre max de clients simultanés (5 pour dogsitting, 1 pour les autres)
+  booked_count INTEGER DEFAULT 0, -- Nombre de réservations actuelles
+  slot_type VARCHAR(50), -- Type de créneau (journee, demi_matin, demi_aprem, soiree) pour dogsitting
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   UNIQUE(service_id, slot_date, slot_time)
 );
