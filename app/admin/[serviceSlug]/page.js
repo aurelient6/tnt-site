@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link.js';
+import NotificationBell from '../../components/NotificationBell';
 import '../../style/admin.css'
 import { getServiceNameBySlug, getAllServices} from '../../data/servicesData.js'
 import {slots} from '../../data/servicesData.js';
@@ -237,9 +238,12 @@ export default function AdminPage() {
                 .reduce((prev, curr) => [prev, ' - ', curr])
             }</p>
           </div>
-          <button onClick={handleLogout} className="logout-button">
-            Déconnexion
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <NotificationBell />
+            <button onClick={handleLogout} className="logout-button">
+              Déconnexion
+            </button>
+          </div>
         </div>
       </div>
       

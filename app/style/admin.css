@@ -237,7 +237,7 @@ body {
 
 /* Indicateur de créneau réservé */
 .reservations-table tbody td.reserved {
-  background-color: #b8c8fd;
+  background-color: lightgray;
   cursor: pointer;
   font-weight: 600;
   color: #ffffff;
@@ -247,7 +247,7 @@ body {
 }
 
 .reservations-table tbody td.reserved:hover {
-  background-color: #90a9fc;
+  background-color: grey;
 }
 
 /* Indicateur de jour fermé (dimanche) */

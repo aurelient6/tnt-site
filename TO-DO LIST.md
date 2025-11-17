@@ -20,6 +20,7 @@
 ## Nouveau service:
 - [x] Ajouter dog-sitting
 - [x] Gestion des créneaux plus longs, sachant qu'on peut avoir plusiuers heures et plusieurs chiens ensemble
+- [x] Afficher la bonne heure dans la confirmation de réservation
 
 ## Boutons réservations
 - [x] Ajouter des boutons de réservations dans la page d'accueil et plus haut dans le service détaillé

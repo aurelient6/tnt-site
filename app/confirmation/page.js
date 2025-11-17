@@ -84,6 +84,30 @@ function ConfirmationContent() {
     return timeStr.slice(0, 5); // HH:MM
   };
 
+  const getDogsittingTimeRange = () => {
+    if (booking.service_name !== 'Dog Sitting') return null;
+    
+    try {
+      const formResponses = booking.form_responses;
+      const slotType = formResponses['1']; // Question 1 = type de garde
+      
+      switch(slotType) {
+        case 'journee':
+          return '9h00 - 17h00';
+        case 'demi_matin':
+          return '9h00 - 13h00';
+        case 'demi_aprem':
+          return '13h00 - 17h00';
+        case 'soiree':
+          return '17h00 - 23h00';
+        default:
+          return formatTime(booking.booking_time);
+      }
+    } catch (error) {
+      return formatTime(booking.booking_time);
+    }
+  };
+
   const handleDownloadPDF = async () => {
     if (isDownloading) return;
     
@@ -198,7 +222,10 @@ function ConfirmationContent() {
       pdf.setFont('helvetica', 'bold');
       pdf.text('Heure :', 20, yPosition);
       pdf.setFont('helvetica', 'normal');
-      pdf.text(formatTime(booking.booking_time), 80, yPosition);
+      const timeDisplay = booking.service_name === 'Dog Sitting' 
+        ? getDogsittingTimeRange() 
+        : formatTime(booking.booking_time);
+      pdf.text(timeDisplay, 80, yPosition);
       yPosition += 7;
       
       // Race du chien
@@ -395,8 +422,16 @@ function ConfirmationContent() {
           </div>
 
           <div className="detail-row">
-            <span className="label">Heure :</span>
-            <span className="value">{formatTime(booking.booking_time)}</span>
+            <span className="label"> {booking.service_name === 'Dog Sitting' 
+                ? "Heures :"
+                : "Heure :"
+              }</span>
+            <span className="value">
+              {booking.service_name === 'Dog Sitting' 
+                ? getDogsittingTimeRange() 
+                : formatTime(booking.booking_time)
+              }
+            </span>
           </div>
 
           <div className="detail-row">
