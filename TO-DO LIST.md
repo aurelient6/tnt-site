@@ -15,7 +15,7 @@
 - [x] Résoudre probleme de déploiement
 
 ## Notifications
-- [ ] Envoyer une notif à chaque nouvelle réservation
+- [x] Envoyer une notif à chaque nouvelle réservation
 
 ## Nouveau service:
 - [x] Ajouter dog-sitting
@@ -38,6 +38,7 @@
 ## Finitions
 - [ ] Audit de sécurité
 - [x] Vérifier si du code/fichiers inutilisés ne sont pas présents
+- [ ] Responsive + tester tout
 
 # A discuter
 - [ ] catégorie "Autres" reprenant les derniers services?

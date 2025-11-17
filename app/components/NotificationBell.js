@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import './notificationBell.css';
+import '../style/notificationBell.css';
 
 export default function NotificationBell() {
   const router = useRouter();
@@ -97,10 +97,7 @@ export default function NotificationBell() {
     setShowDropdown(!showDropdown);
     
     if (!showDropdown) {
-      // Marquer comme lu quand on ouvre le dropdown
-      const now = new Date();
-      localStorage.setItem('lastNotificationCheck', now.toISOString());
-      setLastCheckTime(now);
+      // Réinitialiser le compteur de non-lus (visuellement)
       setUnreadCount(0);
     }
   };
@@ -176,10 +173,10 @@ export default function NotificationBell() {
                 >
                   <div className="notification-content">
                     <div className="notification-title">
-                      <strong>{notif.client_firstname} {notif.client_name}</strong>
+                      <strong>{notif.client_firstname} {notif.service_name}</strong>
                       {getStatusBadge(notif.payment_status)}
                     </div>
-                    <div className="notification-service">{notif.service_name}</div>
+                    <div className="notification-service">{notif.client_firstname}</div>
                     <div className="notification-meta">
                       <span className="notification-time">{formatTimeSince(notif.created_at)}</span>
                       <span className="notification-price">{notif.total_price}€</span>

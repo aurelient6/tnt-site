@@ -303,12 +303,12 @@ export default function ReservationPage() {
       if (servicesSlug === 'dogsitting') {
         // Récupérer le type de garde choisi à la question 1
         const slotType = reponses[1]; // journee, demi_matin, demi_aprem, soiree
-        
+
         if (!slotType) {
           return (
             <div className="question-block" key={questionId}>
               <p className="info-message">
-                ⚠️ Veuillez d'abord choisir un type de garde
+                ⚠️ Veuillez d&apos;abord choisir un type de garde
               </p>
             </div>
           );
