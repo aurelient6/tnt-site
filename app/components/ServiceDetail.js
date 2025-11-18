@@ -65,12 +65,6 @@ export default function ServiceDetail({ service }) {
     </svg>
   );
 
-  const InfoIcon = () => (
-    <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  );
-
   const BookIcon = () => (
     <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -221,11 +215,11 @@ export default function ServiceDetail({ service }) {
                   loading="lazy"
                 />
               </div>
+              <h3 className="member-name">
+                {responsablePerson.firstName} {responsablePerson.name}
+              </h3>
+              <p className="member-job">{responsablePerson.job}</p>
               <div className="member-info">
-                <h3 className="member-name">
-                  {responsablePerson.firstName} {responsablePerson.name}
-                </h3>
-                <p className="member-job">{responsablePerson.job}</p>
                 <p className="member-description">{responsablePerson.description}</p>
               </div>
             </div>
@@ -234,23 +228,12 @@ export default function ServiceDetail({ service }) {
           )}
         </div>
 
-        <div className="cta-cards">
-          <div className="cta-card">
-            <div className="cta-card-content">
-              <InfoIcon className="cta-card-icon" />
-              <h4>Plus d&apos;informations</h4>
-              <p>Besoin de détails supplémentaires ? Contactez notre équipe.</p>
-            </div>
-            <Link href={ROUTES.contact} className="cta-card-button">
-              En savoir plus
-            </Link>
-          </div>
-          
+        <div className="cta-cards">         
           <div className="cta-card">
             <div className="cta-card-content">
               <BookIcon className="cta-card-icon" />
               <h4>Réserver une séance</h4>
-              <p>Planifiez votre rendez-vous en nous contactant par mail ou par téléphone.</p>
+              <p>Planifiez votre rendez-vous via notre système de réservation ou par téléphone.</p>
             </div>
             <Link href={`${ROUTES.reserver}/${serviceSlug}`} className="cta-card-button">
               Réserver maintenant
