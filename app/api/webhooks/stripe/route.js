@@ -3,12 +3,26 @@ import { headers } from 'next/headers';
 import { verifyWebhookSignature } from '@/lib/services/stripeService';
 import { sql } from '@/lib/db/client';
 import { sendBookingConfirmation } from '@/lib/services/emailService';
+import { checkWebhookRateLimit } from '@/lib/middleware/rateLimiter';
 
 export async function POST(request) {
   try {
-    const body = await request.text();
     const headersList = await headers();
     const signature = headersList.get('stripe-signature');
+    
+    // Rate limiting par IP (protection DoS)
+    const forwardedFor = headersList.get('x-forwarded-for');
+    const ip = forwardedFor ? forwardedFor.split(',')[0] : 'unknown';
+    
+    const rateLimit = await checkWebhookRateLimit(ip);
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: 'Too many requests' },
+        { status: 429 }
+      );
+    }
+
+    const body = await request.text();
 
     if (!signature) {
       return NextResponse.json(

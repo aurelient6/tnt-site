@@ -1,11 +1,57 @@
 import { NextResponse } from 'next/server';
 import { ROUTES, PAGES } from './app/constantes/routes.js';
+import { verifyToken } from './lib/utils/jwt.js';
+
+// Forcer l'utilisation du Node.js runtime au lieu de Edge Runtime
+export const config = {
+  runtime: 'nodejs',
+  matcher: [
+    /*
+     * Match toutes les routes sauf:
+     * - api (routes API)
+     * - _next/static (fichiers statiques)
+     * - _next/image (images optimisées)
+     * - favicon.ico, images publiques
+     */
+    '/((?!_next/static|_next/image|favicon.ico|images|icones).*)',
+  ],
+};
 
 // Durée de validité de la session : 24 heures
 const SESSION_DURATION = 24 * 60 * 60 * 1000;
 
 export function middleware(request) {
   const { pathname } = request.nextUrl;
+  const response = NextResponse.next();
+  
+  // Headers de sécurité pour toutes les pages (sauf API)
+  if (!pathname.startsWith('/api')) {
+    // Content Security Policy
+    response.headers.set('Content-Security-Policy', 
+      "default-src 'self'; " +
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' js.stripe.com; " +
+      "style-src 'self' 'unsafe-inline'; " +
+      "img-src 'self' data: https:; " +
+      "font-src 'self' data:; " +
+      "connect-src 'self' https://api.stripe.com; " +
+      "frame-src js.stripe.com https://www.openstreetmap.org;"
+    );
+    
+    // Protection contre le clickjacking
+    response.headers.set('X-Frame-Options', 'DENY');
+    
+    // Empêcher le MIME-type sniffing
+    response.headers.set('X-Content-Type-Options', 'nosniff');
+    
+    // Contrôle du référent
+    response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+    
+    // Permissions restreintes
+    response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    
+    // XSS Protection (pour les anciens navigateurs)
+    response.headers.set('X-XSS-Protection', '1; mode=block');
+  }
 
   // Si l'utilisateur essaie d'accéder à /admin/* (sauf /admin/login)
   if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
@@ -16,25 +62,14 @@ export function middleware(request) {
       return NextResponse.redirect(new URL(ROUTES.admin + ROUTES.login, request.url));
     }
 
-    try {
-      // Vérifier la validité de la session
-      const sessionData = JSON.parse(
-        Buffer.from(sessionCookie.value, 'base64').toString('utf-8')
-      );
-
-      const sessionAge = Date.now() - sessionData.timestamp;
-
-      // Session expirée
-      if (sessionAge > SESSION_DURATION) {
-        const response = NextResponse.redirect(new URL(ROUTES.admin + ROUTES.login, request.url));
-        response.cookies.delete('admin_session');
-        return response;
-      }
-    } catch (error) {
-      console.error('Session validation error:', error);
-      const response = NextResponse.redirect(new URL(ROUTES.admin + ROUTES.login, request.url));
-      response.cookies.delete('admin_session');
-      return response;
+    // Vérifier le JWT signé
+    const payload = verifyToken(sessionCookie.value);
+    
+    if (!payload) {
+      // Token invalide ou expiré
+      const redirectResponse = NextResponse.redirect(new URL(ROUTES.admin + ROUTES.login, request.url));
+      redirectResponse.cookies.delete('admin_session');
+      return redirectResponse;
     }
   }
 
@@ -43,25 +78,14 @@ export function middleware(request) {
     const sessionCookie = request.cookies.get('admin_session');
     
     if (sessionCookie) {
-      try {
-        const sessionData = JSON.parse(
-          Buffer.from(sessionCookie.value, 'base64').toString('utf-8')
-        );
-        const sessionAge = Date.now() - sessionData.timestamp;
-
-        // Session valide, rediriger vers la page admin
-        if (sessionAge <= SESSION_DURATION) {
-          return NextResponse.redirect(new URL(ROUTES.admin + ROUTES.toilettage, request.url));
-        }
-      } catch (error) {
-        // Session invalide, continuer vers la page de login
+      const payload = verifyToken(sessionCookie.value);
+      
+      // Session valide, rediriger vers la page admin
+      if (payload) {
+        return NextResponse.redirect(new URL(ROUTES.admin + ROUTES.toilettage, request.url));
       }
     }
   }
 
-  return NextResponse.next();
+  return response;
 }
-
-export const config = {
-  matcher: '/admin/:path*',
-};

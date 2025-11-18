@@ -22,20 +22,23 @@ export default function LoginPage() {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // Rediriger vers la page admin après connexion réussie
-        router.push(ROUTES.admin + ROUTES.toilettage);
+        // Attendre 100ms pour que le cookie soit bien enregistré
+        await new Promise(resolve => setTimeout(resolve, 100));
+        // Navigation complète pour recharger le middleware avec le cookie
+        window.location.href = ROUTES.admin + ROUTES.toilettage;
       } else {
         setError(data.error || 'Identifiants incorrects');
+        setLoading(false);
       }
     } catch (err) {
       setError('Erreur de connexion. Veuillez réessayer.');
-    } finally {
       setLoading(false);
     }
   };

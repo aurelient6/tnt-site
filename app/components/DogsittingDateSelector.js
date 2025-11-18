@@ -26,7 +26,8 @@ export default function DogsittingDateSelector({ serviceSlug, onSlotSelect, sele
 
       const data = await response.json();
       
-      // Filtrer les dates passées côté client
+      // Filtrer les dates passées et les créneaux non disponibles aujourd'hui
+      const now = new Date();
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       
@@ -39,6 +40,30 @@ export default function DogsittingDateSelector({ serviceSlug, onSlotSelect, sele
         // Filtrer selon le type de garde choisi
         if (slotDate >= today) {
           const dayOfWeek = slotDate.getDay(); // 0 = dimanche, 5 = vendredi, 6 = samedi
+          const isToday = slotDate.getTime() === today.getTime();
+          
+          // Vérifier si le créneau est encore disponible aujourd'hui
+          let canBook = true;
+          if (isToday) {
+            // Vérifier selon le type de garde si l'heure de début est passée
+            const currentHour = now.getHours();
+            switch(slotType) {
+              case 'journee':
+                canBook = currentHour < 9; // Doit réserver avant 9h
+                break;
+              case 'demi_matin':
+                canBook = currentHour < 9; // Doit réserver avant 9h
+                break;
+              case 'demi_aprem':
+                canBook = currentHour < 13; // Doit réserver avant 13h
+                break;
+              case 'soiree':
+                canBook = currentHour < 17; // Doit réserver avant 17h
+                break;
+            }
+          }
+          
+          if (!canBook) return; // Ne pas ajouter si l'heure est passée
           
           // Soirée weekend : uniquement vendredi/samedi/dimanche
           if (slotType === 'soiree') {

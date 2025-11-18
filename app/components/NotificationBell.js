@@ -8,23 +8,29 @@ export default function NotificationBell() {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [lastCheckTime, setLastCheckTime] = useState(null);
+  const lastCheckTimeRef = useRef(null);
+  const notificationsRef = useRef([]);
   const dropdownRef = useRef(null);
+
+  // Synchroniser la ref avec le state
+  useEffect(() => {
+    notificationsRef.current = notifications;
+  }, [notifications]);
 
   useEffect(() => {
     // Récupérer le dernier timestamp de vérification depuis localStorage
     const stored = localStorage.getItem('lastNotificationCheck');
     const initialTime = stored ? new Date(stored) : new Date(Date.now() - 5 * 60 * 1000); // 5 min par défaut
-    setLastCheckTime(initialTime);
+    lastCheckTimeRef.current = initialTime;
   }, []);
 
   useEffect(() => {
-    if (!lastCheckTime) return;
-
     // Fonction pour vérifier les nouvelles notifications
     const checkNotifications = async () => {
+      if (!lastCheckTimeRef.current) return;
+
       try {
-        const response = await fetch(`/api/admin/notifications?since=${lastCheckTime.toISOString()}`);
+        const response = await fetch(`/api/admin/notifications?since=${lastCheckTimeRef.current.toISOString()}`);
         
         if (!response.ok) {
           if (response.status === 401) {
@@ -38,7 +44,7 @@ export default function NotificationBell() {
         
         // Détecter les NOUVELLES notifications (pas encore vues)
         const newNotifs = data.notifications.filter(notif => {
-          return !notifications.some(existing => existing.id === notif.id);
+          return !notificationsRef.current.some(existing => existing.id === notif.id);
         });
 
         // Afficher notification native uniquement pour les NOUVELLES
@@ -60,6 +66,11 @@ export default function NotificationBell() {
           setNotifications([]);
           setUnreadCount(0);
         }
+
+        // Mettre à jour le timestamp pour la prochaine requête
+        const now = new Date();
+        lastCheckTimeRef.current = now;
+        localStorage.setItem('lastNotificationCheck', now.toISOString());
       } catch (error) {
         // Erreur silencieuse
       }
@@ -68,11 +79,11 @@ export default function NotificationBell() {
     // Vérifier immédiatement
     checkNotifications();
 
-    // Puis toutes les 30 secondes
-    const interval = setInterval(checkNotifications, 30000);
+    // Puis toutes les 60 secondes (1 minute)
+    const interval = setInterval(checkNotifications, 60000);
 
     return () => clearInterval(interval);
-  }, [lastCheckTime, router, notifications]);
+  }, [router]); // UNIQUEMENT router dans les dépendances
 
   useEffect(() => {
     // Demander la permission pour les notifications natives
@@ -121,22 +132,6 @@ export default function NotificationBell() {
     }
   };
 
-  const formatTimeSince = (dateStr) => {
-    const date = new Date(dateStr);
-    const now = new Date();
-    const diffMs = now - date;
-    const diffMins = Math.floor(diffMs / 60000);
-    
-    if (diffMins < 1) return 'À l\'instant';
-    if (diffMins < 60) return `Il y a ${diffMins} min`;
-    
-    const diffHours = Math.floor(diffMins / 60);
-    if (diffHours < 24) return `Il y a ${diffHours}h`;
-    
-    const diffDays = Math.floor(diffHours / 24);
-    return `Il y a ${diffDays}j`;
-  };
-
   return (
     <div className="notification-bell" ref={dropdownRef}>
       <button 
@@ -173,12 +168,11 @@ export default function NotificationBell() {
                 >
                   <div className="notification-content">
                     <div className="notification-title">
-                      <strong>{notif.client_firstname} {notif.service_name}</strong>
+                      <strong>{notif.service_name}</strong>
                       {getStatusBadge(notif.payment_status)}
                     </div>
-                    <div className="notification-service">{notif.client_firstname}</div>
+                    <div className="notification-service">{notif.client_firstname} {notif.client_name}</div>
                     <div className="notification-meta">
-                      <span className="notification-time">{formatTimeSince(notif.created_at)}</span>
                       <span className="notification-price">{notif.total_price}€</span>
                     </div>
                   </div>
@@ -193,7 +187,7 @@ export default function NotificationBell() {
                 onClick={() => {
                   const now = new Date();
                   localStorage.setItem('lastNotificationCheck', now.toISOString());
-                  setLastCheckTime(now);
+                  lastCheckTimeRef.current = now;
                   setNotifications([]);
                   setUnreadCount(0);
                   setShowDropdown(false);

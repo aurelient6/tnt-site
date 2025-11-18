@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 import { sql } from '@/lib/db/client';
 import bcrypt from 'bcryptjs';
-
-// Durée de la session : 24 heures
-const SESSION_DURATION = 24 * 60 * 60 * 1000;
+import { generateToken } from '@/lib/utils/jwt';
+import { checkLoginRateLimit } from '@/lib/middleware/rateLimiter';
 
 export async function POST(request) {
   try {
@@ -15,6 +13,15 @@ export async function POST(request) {
       return NextResponse.json(
         { error: 'Email et mot de passe requis' },
         { status: 400 }
+      );
+    }
+
+    // Rate limiting par email
+    const rateLimit = await checkLoginRateLimit(email);
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: `Trop de tentatives. Réessayez dans ${rateLimit.retryAfter} secondes` },
+        { status: 429 }
       );
     }
 
@@ -59,17 +66,14 @@ export async function POST(request) {
       WHERE id = ${user.id}
     `;
 
-    // Créer un token de session
-    const sessionToken = Buffer.from(
-      JSON.stringify({
-        userId: user.id,
-        email: user.email,
-        name: user.name,
-        timestamp: Date.now(),
-      })
-    ).toString('base64');
+    // Créer un JWT signé
+    const sessionToken = generateToken({
+      userId: user.id,
+      email: user.email,
+      name: user.name,
+    });
 
-    // Créer la réponse avec le cookie de session
+    // Créer la réponse JSON
     const response = NextResponse.json(
       { 
         success: true, 
@@ -82,18 +86,18 @@ export async function POST(request) {
       { status: 200 }
     );
 
-    // Définir le cookie de session
-    const cookieStore = await cookies();
-    cookieStore.set('admin_session', sessionToken, {
+    // Définir le cookie de session dans la réponse
+    response.cookies.set('admin_session', sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: SESSION_DURATION / 1000, // en secondes
+      maxAge: 24 * 60 * 60, // 24 heures
       path: '/',
     });
 
     return response;
   } catch (error) {
+    console.error('Login error:', error);
     return NextResponse.json(
       { error: 'Erreur serveur' },
       { status: 500 }

@@ -26,7 +26,7 @@
 - [x] Ajouter des boutons de réservations dans la page d'accueil et plus haut dans le service détaillé
 
 ## Créneaux horaires
-- [ ] Masquer les propositions des heures passées
+- [x] Masquer les propositions des heures passées
 
 ## A propos
 - [x] Ajouter la page d'à propos
@@ -36,18 +36,19 @@
 - [x] Vérifier si aucune donnée n'est hardcodée ailleurs
 
 ## Finitions
-- [ ] Audit de sécurité
+- [x] Audit de sécurité
 - [x] Vérifier si du code/fichiers inutilisés ne sont pas présents
-- [ ] Responsive + tester tout
+- [ ] Responsive + **tester tout**
+- [ ] couleur réservations admin
 
 # A discuter
 - [ ] catégorie "Autres" reprenant les derniers services?
 
 # Futur
-- [ ] Faire des sessions JWT pour la partie admin?
+- [x] Faire des sessions JWT pour la partie admin?
 - [ ] Faire des logs d'audit?
 - [ ] Possibilité de gérer les créneaux disponibles, en supprimant certains jours,.. depuis le panel admin
-- [ ] Rate limiting: bloquer les connexions après 5 échecs
+- [x] Rate limiting: bloquer les connexions après 5 échecs
 - [ ] Modifier les réservations
 - [ ] Exporter les réservations en excel/ pdf?
 - [ ] Revoir le système de génération de créneaux? Pouvoir ajouter via l'interface admin et avec un rôle déterminé
@@ -55,6 +56,7 @@
 - [ ] Réserver plusieurs créneaux d'un coup
 - [ ] Pouvoir ajouter/modifier/supprimer les services depuis l'interface admin
 - [ ] Remplacer l'adresse mail d'envoi de mail de confirmation par celle avec le domaine
+- [ ] Créer compte Brevo avec l'adresse mail T&T
 
 # Futur lointain
 - [ ] Envoyer un sms de rappel de rendez-vous la veille plus tard

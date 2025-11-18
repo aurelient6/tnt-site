@@ -26,7 +26,8 @@ export default function TimeSlotSelector({ serviceSlug, onSlotSelect, selectedSl
 
       const data = await response.json();
       
-      // Filtrer les dates passées côté client
+      // Filtrer les dates passées et les horaires passés du jour même
+      const now = new Date();
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       
@@ -37,7 +38,26 @@ export default function TimeSlotSelector({ serviceSlug, onSlotSelect, selectedSl
         slotDate.setHours(0, 0, 0, 0);
         
         if (slotDate >= today) {
-          filteredSlots[dateStr] = data.slotsByDate[dateStr];
+          // Filtrer les horaires passés pour aujourd'hui
+          const isToday = slotDate.getTime() === today.getTime();
+          
+          if (isToday) {
+            // Ne garder que les créneaux futurs (avec au moins 1h de marge)
+            const futureSlots = data.slotsByDate[dateStr].filter(slot => {
+              const [hours, minutes] = slot.slot_time.split(':').map(Number);
+              const slotDateTime = new Date(year, month - 1, day, hours, minutes);
+              // Ajouter 1h de marge minimum pour permettre la réservation
+              return slotDateTime > now;
+            });
+            
+            // Ajouter seulement si des créneaux futurs existent
+            if (futureSlots.length > 0) {
+              filteredSlots[dateStr] = futureSlots;
+            }
+          } else {
+            // Pour les dates futures, garder tous les créneaux
+            filteredSlots[dateStr] = data.slotsByDate[dateStr];
+          }
         }
       });
       
