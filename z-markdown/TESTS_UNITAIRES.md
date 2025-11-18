@@ -55,6 +55,9 @@
 * Vérifier le login et logout
 * Vérifier boutons "autres services
 * Vérifier la navigation entre semaine
+* Session reste active pendant 24h
+* Déconnexion après 24h automatique
+* 6ème tentative de login bloquée pendant 15 min
 
 ## Header
 * Vérifier si les navlinks pointent vers le bon endroit
@@ -70,3 +73,6 @@
 * Vérifier le lien facebok
 * Vérifier le lien vers twister bedbug
 * Vérifier si l'adresse renvoie vers maps
+
+## Autres
+- Vérifier si les paiements ont bien été reçus sur Stripe

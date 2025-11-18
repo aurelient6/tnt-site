@@ -385,6 +385,8 @@ h2::after {
 .services-preview {
   background-color: #f8f9fa;
   padding: 40px 20px;
+  padding-bottom: 0;
+  padding-top: 0;
   margin-left: -50vw;
   margin-right: -50vw;
   left: 50%;
@@ -397,6 +399,8 @@ h2::after {
   max-width: 1200px;
   margin: 0 auto;
   text-align: center;
+  padding: 60px;
+  box-sizing: border-box;
 }
 
 .services-intro {
@@ -411,7 +415,7 @@ h2::after {
 
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 30px;
   margin-bottom: 3rem;
 }
@@ -605,10 +609,15 @@ h2::after {
     background-attachment: scroll;
   }
 
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+
   .description-content {
     grid-template-columns: 1.5fr 1fr;
     gap: 40px;
-    padding: 20px 30px;
+    padding: 0px 30px 0px 50px;
   }
   
   .description-image img {
