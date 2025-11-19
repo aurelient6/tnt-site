@@ -30,9 +30,9 @@ export function middleware(request) {
     response.headers.set('Content-Security-Policy', 
       "default-src 'self'; " +
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' js.stripe.com; " +
-      "style-src 'self' 'unsafe-inline'; " +
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
       "img-src 'self' data: https:; " +
-      "font-src 'self' data:; " +
+      "font-src 'self' data: https://fonts.gstatic.com; " +
       "connect-src 'self' https://api.stripe.com; " +
       "frame-src js.stripe.com https://www.openstreetmap.org;"
     );

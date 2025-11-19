@@ -17,6 +17,90 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
+.admin-title-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.admin-title-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-title-actions {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.logout-button-text {
+  display: inline;
+}
+
+.logout-button-icon {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .admin-page {
+    padding: 20px 10px;
+  }
+  
+  .admin-title {
+    padding: 15px;
+  }
+  
+  .admin-title-header {
+    gap: 12px;
+  }
+  
+  .admin-title h1 {
+    font-size: 20px;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  
+  .admin-title p {
+    font-size: 13px;
+    margin: 6px 0;
+    line-height: 1.5;
+  }
+  
+  .admin-title p:last-child {
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+  
+  .admin-title a {
+    display: inline-block;
+    padding: 1px 3px;
+    font-size: 13px;
+  }
+  
+  .admin-title-actions {
+    gap: 8px;
+  }
+  
+  .logout-button-text {
+    display: none;
+  }
+  
+  .logout-button-icon {
+    display: inline;
+    font-size: 20px;
+    line-height: 1;
+  }
+  
+  .logout-button {
+    padding: 8px 10px;
+    min-width: auto;
+    font-size: 20px;
+  }
+}
+
 .admin-title h1 {
   font-size: 32px;
   color: var(--principale);
@@ -163,6 +247,19 @@ body {
   padding: 12px 10px;
   border-bottom: 2px solid var(--principale);
   font-size: 20px;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+
+.reservations-table thead tr:nth-child(2) th::after {
+  content: attr(data-full-date);
+}
+
+@media (max-width: 768px) {
+  .reservations-table thead tr:nth-child(2) th::after {
+    content: attr(data-day-only);
+  }
 }
 
 .reservations-table tbody tr {

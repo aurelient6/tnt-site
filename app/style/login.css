@@ -184,21 +184,48 @@
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 580px) {
+  .login-container {
+    padding: 15px;
+  }
+  
   .login-box {
-    padding: 30px 24px;
-    margin: 20px;
+    padding: 25px 20px;
+    margin: 0;
+    max-width: 100%;
+    border-radius: 16px;
   }
 
   .login-box h1 {
-    font-size: 26px;
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+
+  .admin-logo {
+    margin-bottom: 15px;
   }
 
   .admin-logo img {
-    width: 100px;
+    width: 80px;
   }
 
   .login-subtitle {
+    font-size: 13px;
+    margin-bottom: 25px;
+  }
+  
+  .login-form {
+    gap: 18px;
+  }
+  
+  .form-group input {
+    padding: 12px 14px;
     font-size: 14px;
+  }
+  
+  .login-button {
+    padding: 12px 20px;
+    font-size: 15px;
+    margin-top: 5px;
   }
 }

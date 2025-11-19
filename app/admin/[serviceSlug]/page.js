@@ -227,8 +227,8 @@ export default function AdminPage() {
   return (
     <section className="admin-page">
       <div className="admin-title">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
+        <div className="admin-title-header">
+          <div className="admin-title-content">
             <h1>Page Admin - {serviceName}</h1>
             <p>Tableau des réservations pour le service: {serviceName}</p>
             <p>Autres services: {
@@ -238,10 +238,11 @@ export default function AdminPage() {
                 .reduce((prev, curr) => [prev, ' - ', curr])
             }</p>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div className="admin-title-actions">
             <NotificationBell />
             <button onClick={handleLogout} className="logout-button">
-              Déconnexion
+              <span className="logout-button-text">Déconnexion</span>
+              <span className="logout-button-icon">×</span>
             </button>
           </div>
         </div>
@@ -269,9 +270,16 @@ export default function AdminPage() {
                 ))}
               </tr>
               <tr>
-                <th>Heures</th>
+                <th 
+                  data-full-date="Heures"
+                  data-day-only="H"
+                ></th>
                 {weekDays.map((day, index) => (
-                  <th key={index}>{formatDate(day)}</th>
+                  <th 
+                    key={index}
+                    data-full-date={formatDate(day)}
+                    data-day-only={String(day.getDate()).padStart(2, '0')}
+                  ></th>
                 ))}
               </tr>
             </thead>
