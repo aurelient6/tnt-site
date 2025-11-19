@@ -35,7 +35,7 @@ const SOCIAL_LINKS = [
 const QUICK_LINKS = [
   { label: PAGES.boutique, href: ROUTES.boutique },
   { label: PAGES.contact, href: ROUTES.contact },
-  { label: PAGES.equipe, href: ROUTES.equipe },
+  { label: PAGES.apropos, href: ROUTES.apropos },
   { label: PAGES.actualites, href: ROUTES.actualites },
 ];
 

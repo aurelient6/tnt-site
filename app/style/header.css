@@ -39,6 +39,7 @@ body {
   font-size: 24px;
   font-weight: bold;
   z-index: 1001;
+  padding-left: 40px;;
 }
 
 .logoText {
@@ -139,6 +140,17 @@ body.menu-open {
   overflow: hidden;
 }
 
+@media(max-width: 900px) {
+ .logo {
+    font-size: 20px;
+    padding-left: 35px;
+  }
+
+  .navLink {
+    font-size: 17px;
+  }
+}
+
 /* Mobile responsiveness */
 @media (max-width: 795px) {
   body {
@@ -154,6 +166,7 @@ body.menu-open {
   
   .logo {
     font-size: 20px;
+    padding-left: 30px;
   }
   
   .logo img {

@@ -443,6 +443,7 @@ body {
 .breadcrumb {
   max-width: 1200px;
   margin: 0 auto 1rem;
+  padding: 0 20px;
   display: flex;
   align-items: center;
   gap: 0.5rem;

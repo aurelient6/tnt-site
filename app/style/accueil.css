@@ -649,8 +649,7 @@ h2::after {
   .title-cta {
     flex-direction: column;
     gap: 1rem;
-    padding-left: 25%;  
-    padding-right: 25%;
+    align-items: center;
   }
 
   .btn {

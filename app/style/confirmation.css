@@ -220,6 +220,7 @@
   justify-content: center;
   gap: 0.5rem;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
 }
 
 
@@ -363,12 +364,14 @@
 
   .action-buttons {
     flex-direction: column;
+    width: 100%;
   }
 
   .btn-primary,
   .btn-secondary,
   .btn-download {
     width: 100%;
+    max-width: 100%;
   }
 
   .btn-download-pdf {

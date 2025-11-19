@@ -19,6 +19,7 @@ export const ROUTES = {
   reserver: "/reserver",
   login: "/login",
   admin: "/admin",
+  apropos: "/apropos",
 };
 
 export const PAGES = {

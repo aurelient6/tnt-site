@@ -52,6 +52,7 @@
 .breadcrumb {
   max-width: 1200px;
   margin: 0 auto 1rem;
+  padding: 0 20px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -505,23 +506,18 @@
     padding: 0.9rem 1.5rem;
   }
   
-  .service-detail {
-    padding: 1rem 0.5rem;
-  }
   
   .service-header {
     grid-template-columns: 1fr;
     gap: 2rem;
-    padding: 2rem;
+ 
   }
   
   .service-title {
     font-size: 2rem;
   }
   
-  .service-section {
-    padding: 1.5rem;
-  }
+  
   
   .carousel-button {
     width: 40px;
@@ -530,6 +526,13 @@
   
   .cta-cards {
     grid-template-columns: 1fr;
+  }
+}
+
+@media(max-width: 795px) {
+  
+  .service-detail {
+    padding: 2rem 1.5rem;
   }
 }
 

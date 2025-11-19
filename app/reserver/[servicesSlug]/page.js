@@ -445,12 +445,12 @@ export default function ReservationPage() {
 return (
   <section className="reservation-page">
     <nav className="breadcrumb">
-        <Link href={ROUTES.services}>Services</Link>
-        <span>›</span>
-        <Link href={`${ROUTES.services}/${servicesSlug}`}>{servicesSlug}</Link>
-        <span>›</span>
-        <span>Réservation</span>
-      </nav>
+      <Link href={ROUTES.services}>Services</Link>
+      <span>›</span>
+      <Link href={`${ROUTES.services}/${servicesSlug}`}>{servicesSlug}</Link>
+      <span>›</span>
+      <span>Réservation</span>
+    </nav>
 
       {/* Back Button */}
       <div className="back-button-container">
