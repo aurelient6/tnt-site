@@ -488,11 +488,16 @@ h2::after {
   height: 100%;
 }
 
-/* Forcer les icônes SVG en blanc sur tous les navigateurs */
+/* Forcer les icônes SVG en blanc - Compatible tous navigateurs (iOS, Android, Desktop) */
 .service-icon-img {
-  filter: brightness(0) saturate(100%) invert(100%);
-  /* Méthode alternative pour une meilleure compatibilité */
-  -webkit-filter: brightness(0) saturate(100%) invert(100%);
+  /* Méthode qui fonctionne sur TOUS les navigateurs */
+  filter: brightness(0) invert(1);
+  -webkit-filter: brightness(0) invert(1);
+  /* Assurer un rendu net */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  /* Forcer l'affichage en mode couleur pour le filtre */
+  color-scheme: light;
 }
 
 .service-card-mini:hover .service-icon {

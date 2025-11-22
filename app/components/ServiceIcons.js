@@ -6,13 +6,13 @@ const serviceIconFiles = {
   'Toilettage': '/icones/toilettage.svg',
   'Massage': '/icones/massage.svg',
   'Physiothérapie': '/icones/physiotherapie.svg',
-  'Main Training': '/icones/maintraining.svg',
+  'Main training': '/icones/maintraining.svg',
   'Hooper': '/icones/hooper.svg',
   'Agility': '/icones/agility.svg',
-  'Hydrothérapie': '/icones/physiotherapie.svg', // ou créer un nouveau fichier
-  'Tapis de course': '/icones/physiotherapie.svg', // ou créer un nouveau fichier
-  'Dressage': '/icones/maintraining.svg', // ou créer un nouveau fichier
-  'Dog Sitting': '/icones/maintraining.svg', // ou créer un nouveau fichier
+  'Hydrothérapie': '/icones/physiotherapie.svg',
+  'Tapis de course': '/icones/physiotherapie.svg',
+  'Dressage': '/icones/maintraining.svg',
+  'Dog Sitting': '/icones/maintraining.svg',
 };
 
 // Générer dynamiquement ServiceIcons depuis servicesData
@@ -29,6 +29,8 @@ const generateServiceIcons = () => {
         width={45}
         height={45}
         className="service-icon-img"
+        priority={false}
+        unoptimized
       />
     );
   });
@@ -36,11 +38,12 @@ const generateServiceIcons = () => {
   // Default fallback icon
   icons['default'] = () => (
     <Image 
-      src="/icones/download-icon.svg"
+      src="/icones/massage.svg"
       alt="Service"
       width={45}
       height={45}
       className="service-icon-img"
+      unoptimized
     />
   );
   
