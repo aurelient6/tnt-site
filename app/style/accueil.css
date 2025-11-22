@@ -488,6 +488,13 @@ h2::after {
   height: 100%;
 }
 
+/* Forcer les icônes SVG en blanc sur tous les navigateurs */
+.service-icon-img {
+  filter: brightness(0) saturate(100%) invert(100%);
+  /* Méthode alternative pour une meilleure compatibilité */
+  -webkit-filter: brightness(0) saturate(100%) invert(100%);
+}
+
 .service-card-mini:hover .service-icon {
   transform: scale(1.1) rotate(5deg);
 }
