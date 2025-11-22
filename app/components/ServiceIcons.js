@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import {ROUTES} from '../constantes/routes';
 import { getAllServices } from '../data/servicesData';
 
@@ -12,11 +11,9 @@ const WhiteSVGIcon = ({ src, alt }) => (
     justifyContent: 'center',
     filter: 'brightness(0) invert(1)' // Makes any color white
   }}>
-    <Image 
+    <img 
       src={src}
       alt={alt}
-      width={45}
-      height={45}
       style={{ width: '100%', height: '100%', objectFit: 'contain' }}
     />
   </div>
